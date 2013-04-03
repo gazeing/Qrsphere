@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+ 
+            <item android:id="@+id/go_to_web"  
+                  android:title="@string/go_to_web" />  
+             <item android:id="@+id/send_out"  
+                  android:title="@string/send_out" />
+             <item android:id="@+id/scan_detail"  
+                  android:title="@string/scan_detail" />
+             <item android:id="@+id/delete_item"  
+                  android:title="@string/delete_item" />
+         
+
+</menu>
