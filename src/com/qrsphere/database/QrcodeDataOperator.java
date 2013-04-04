@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import com.qrsphere.userinfo.StringTransfer;
+
+
 
 
 
@@ -173,30 +176,45 @@ public class QrcodeDataOperator {
         return count;  
     } 
     
-    public void storeUserInfo(String info){
-    	
+    public void storeUserInfo(String macAddress,String info){
+    	String cipher="";
         SQLiteDatabase db = helper.getWritableDatabase();     
         
         ContentValues values = new ContentValues();
-        
-        values.put("infodata", info);
+       
+		
+        try {
+        	cipher = StringTransfer.encrypt(macAddress, info);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        values.put("infodata", cipher);
         
         db.insert("userinfo", "id", values);        
           
         db.close();  
     }
     
-    public String withdrawUserInfo(){
-        SQLiteDatabase db = helper.getReadableDatabase();  
+    public String withdrawUserInfo(String macAddress){
+    	String info = "";  
+    	try {
+        	 SQLiteDatabase db = helper.getReadableDatabase();  
         
         // query all record  
-        Cursor c = db.query(false, "userinfo", new String[]{"id","infodata"}, null, null, null, null, "id ASC", null);  
-          
-        String info = "";  
-        while (c.moveToNext())  
-        	info = c.getString(1);  
-        c.close();  
-        db.close();  
-        return info; 
+	        Cursor c = db.query(false, "userinfo", new String[]{"id","infodata"}, null, null, null, null, "id ASC", null);  
+	          
+	        String cipher ="";
+	        while (c.moveToNext())  
+	        	 cipher = c.getString(1);  
+	        c.close();  
+	        db.close(); 
+	       
+				info = StringTransfer.decrypt(macAddress, cipher);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	      return info; 
     }
 }

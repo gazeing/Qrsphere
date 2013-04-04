@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">QrSphere Demo</string>
+    <string name="app_name">QrSphere</string>
     <string name="action_settings">Settings</string>
     <string name="choose_action">Please choose your action:</string>
     <string name="go_to_web">Go to the web site</string>

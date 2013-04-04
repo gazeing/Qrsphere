@@ -44,7 +44,7 @@ public class MainActivity extends TabActivity {
               
         TabSpec historySpec=tabHost.newTabSpec("History");  
         historySpec.setIndicator(view);  
-        Intent historyIntent = new Intent(this, tabone.class);  
+        Intent historyIntent = new Intent(this, HistoryActivity.class);  
         historySpec.setContent(historyIntent);  
           
         view = new TabView(this, R.drawable.gear_icon, R.drawable.gear_icon,"More");  
@@ -52,7 +52,7 @@ public class MainActivity extends TabActivity {
           
         TabSpec moreSpec=tabHost.newTabSpec("More");  
         moreSpec.setIndicator(view);  
-        Intent moreIntent = new Intent(this,tabtwo.class);  
+        Intent moreIntent = new Intent(this,MoreActivity.class);  
         moreSpec.setContent(moreIntent);  
           
           
@@ -61,7 +61,7 @@ public class MainActivity extends TabActivity {
           
         TabSpec favoriteSpec = tabHost.newTabSpec("Favorite");  
         favoriteSpec.setIndicator(view);  
-        Intent favoriteIntent = new Intent(this, tabthree.class);  
+        Intent favoriteIntent = new Intent(this, FavoriteActivity.class);  
         favoriteSpec.setContent(favoriteIntent); 
         
         view = new TabView(this, R.drawable.scan_icon, R.drawable.scan_icon,"Scan");    
@@ -69,7 +69,7 @@ public class MainActivity extends TabActivity {
           
         TabSpec scanSpec = tabHost.newTabSpec("Scan");  
         scanSpec.setIndicator(view);  
-        Intent scanIntent = new Intent(this, tabscan.class);  
+        Intent scanIntent = new Intent(this, ScanActivity.class);  
         scanSpec.setContent(scanIntent);
           
   

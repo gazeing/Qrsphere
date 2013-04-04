@@ -10,7 +10,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-public class tabscan extends Activity {
+public class ScanActivity extends Activity {
 
 	private List<String> data = new ArrayList<String>();
 	protected List<String> getData() {

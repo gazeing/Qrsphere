@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget32"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="5sp"
+    android:background="@color/transparent"
+    android:orientation="vertical" >
+
+<TextView
+    android:id="@+id/TextView01"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="38dp"
+    android:layout_y="315dp"
+    android:text="Name" />
+
+<TextView
+    android:id="@+id/widget48"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="36dp"
+    android:layout_y="349dp"
+    android:text="Account" />
+
+<TextView
+    android:id="@+id/widget51"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="37dp"
+    android:layout_y="386dp"
+    android:text="Password" />
+
+<Button
+    android:id="@+id/btn_login"
+    android:layout_width="89dp"
+    android:layout_height="34dp"
+    android:layout_x="51dp"
+    android:layout_y="454dp"
+    android:text="Login"
+    android:textSize="12sp" />
+
+<Button
+    android:id="@+id/btn_later"
+    android:layout_width="90dp"
+    android:layout_height="35dp"
+    android:layout_marginTop="38dp"
+    android:layout_x="201dp"
+    android:layout_y="452dp"
+    android:text="Later"
+    android:textSize="12sp" />
+
+<EditText
+    android:id="@+id/nameEdit"
+    android:layout_width="187dp"
+    android:layout_height="wrap_content"
+    android:layout_x="119dp"
+    android:layout_y="299dp"
+    android:ems="10"
+    android:hint="John"
+    android:textSize="18sp" />
+
+<ImageView
+    android:id="@+id/widget34"
+    android:layout_width="wrap_content"
+    android:layout_height="245dp"
+    android:layout_x="39dp"
+    android:layout_y="27dp"
+    android:src="@drawable/q_logo" />
+
+<EditText
+    android:id="@+id/accountEdit"
+    android:layout_width="187dp"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="66dp"
+    android:layout_x="122dp"
+    android:layout_y="335dp"
+    android:ems="10"
+    android:hint="John@qr.com"
+    android:inputType="textEmailAddress"
+    android:textSize="18sp" >
+
+    <requestFocus />
+</EditText>
+
+<CheckBox
+    android:id="@+id/checkBox1"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_x="64dp"
+    android:layout_y="411dp"
+    android:text="Keep me logged" />
+
+<EditText
+    android:id="@+id/passwordEdit"
+    android:layout_width="184dp"
+    android:layout_height="wrap_content"
+    android:layout_x="123dp"
+    android:layout_y="374dp"
+    android:ems="10"
+    android:hint="password"
+    android:inputType="textVisiblePassword"
+    android:password="true"
+    android:textSize="18sp" />
+
+</AbsoluteLayout>

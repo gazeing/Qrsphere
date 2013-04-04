@@ -17,7 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class tabtwo extends Activity {
+public class MoreActivity extends Activity {
 	private List<String> data = new ArrayList<String>();
 	protected List<String> getData() {
 		return data;
