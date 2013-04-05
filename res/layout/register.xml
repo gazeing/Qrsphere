@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	android:id="@+id/widget32"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+<TextView
+	android:id="@+id/widget59"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Account"
+	android:layout_alignBaseline="@+id/widget57"
+	android:layout_alignLeft="@+id/widget60" />
+<Button
+	android:id="@+id/widget62"
+	android:layout_width="137dp"
+	android:layout_height="wrap_content"
+	android:text="Submit!"
+	android:layout_centerVertical="true"
+	android:layout_alignLeft="@+id/widget58" />
+<TextView
+	android:id="@+id/widget60"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:text="Password"
+	android:layout_alignBaseline="@+id/widget56"
+	android:layout_alignLeft="@+id/widget61" />
+<TextView
+	android:id="@+id/widget61"
+	android:layout_width="62dp"
+	android:layout_height="wrap_content"
+	android:text="Repeat  Password"
+	android:layout_alignTop="@+id/widget58"
+	android:layout_toLeftOf="@+id/widget58" />
+
+<EditText
+    android:id="@+id/widget58"
+    android:layout_width="143dp"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/widget56"
+    android:layout_below="@+id/widget56"
+    android:text="EditText"
+    android:textSize="18sp" />
+
+<EditText
+	android:id="@+id/widget56"
+	android:layout_width="143dp"
+	android:layout_height="wrap_content"
+	android:text="EditText"
+	android:textSize="18sp"
+	android:layout_below="@+id/widget57"
+	android:layout_alignLeft="@+id/widget57" />
+<EditText
+	android:id="@+id/widget57"
+	android:layout_width="140dp"
+	android:layout_height="wrap_content"
+	android:text="EditText"
+	android:textSize="18sp"
+	android:layout_alignParentTop="true"
+	android:layout_centerHorizontal="true" />
+</RelativeLayout>

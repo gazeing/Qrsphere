@@ -49,10 +49,7 @@
             android:name="com.qrsphere.ScanDetailActivity"
             android:label="@string/app_name" >
         </activity>
-        <activity
-            android:name="com.qrsphere.HistoryActivity"
-            android:label="@string/app_name" >
-        </activity>
+
                 <activity
             android:name="com.qrsphere.MoreActivity"
             android:label="@string/app_name" >
@@ -66,6 +63,27 @@
             android:name="com.qrsphere.ScanActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name="com.qrsphere.MainViewActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.qrsphere.MainViewActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
+            <activity
+            android:name="com.qrsphere.HistoryActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.qrsphere.HistoryActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+        </activity>
+        
         <uses-library android:name="com.google.android.maps" /> 
     </application>
 

@@ -9,9 +9,9 @@ import com.qrsphere.network.SendDataToServer;
 public class LoginProcess {
 
 	public static boolean Login(JSONObject loginfo){
-		SendDataToServer sd = new SendDataToServer("http://49.156.19.75");
+		SendDataToServer sd = new SendDataToServer("http://192.168.15.141/RestTest.svc");
 		Log.i("LoginPostData",loginfo.toString());
-		String res = sd.doPost(loginfo.toString(), "application/json");
+		String res = sd.doPost(loginfo.toString(), "/json/100"/*"application/json"*/);
 		
 
 		
