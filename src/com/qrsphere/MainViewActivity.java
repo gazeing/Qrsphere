@@ -31,14 +31,7 @@ public class MainViewActivity extends Activity{
             R.drawable.fav_icon,  
             R.drawable.gear_icon, 
             
-            R.drawable.scan_icon,  
-            R.drawable.history_icon,  
-            R.drawable.fav_icon,  
-            R.drawable.gear_icon,             
-            R.drawable.scan_icon,  
-            R.drawable.history_icon,  
-            R.drawable.fav_icon,  
-            R.drawable.gear_icon, 
+
 
   
     }; 
@@ -49,14 +42,7 @@ public class MainViewActivity extends Activity{
     		"Favorite",
     		"More",
     		
-    		"Scan",
-    		"History",
-    		"Favorite",
-    		"More",    		
-    		"Scan",
-    		"History",
-    		"Favorite",
-    		"More",
+
     		
     };
     GridView mGridView;

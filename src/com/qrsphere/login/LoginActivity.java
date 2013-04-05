@@ -45,7 +45,7 @@ public class LoginActivity extends Activity {
 	        if (msg.what == 11) {
 				if (isLoginOK){
 					LoginActivity.this.finish();
-					startActivity(new Intent("com.qrsphere.MainActivity"));
+					startActivity(new Intent("com.qrsphere.MainViewActivity"));
 				}
 				else{
 					Toast.makeText(getBaseContext(), "Account dosen't exist or password is incorrect.", Toast.LENGTH_SHORT).show();

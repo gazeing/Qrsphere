@@ -81,7 +81,7 @@ public class SplashScreen extends Activity {
   	if(!isLoginOK)
 		strIntent =  "com.qrsphere.login.LoginActivity";
 	else
-		strIntent = "com.qrsphere.MainActivity";
+		strIntent = "com.qrsphere.MainViewActivity";
   	
   	return strIntent;
   }
