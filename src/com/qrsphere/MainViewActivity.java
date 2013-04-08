@@ -91,9 +91,9 @@ public class MainViewActivity extends Activity{
                 toast.show();  
                 
                 if (position == 1){
-                	 startActivity(new Intent("com.example.clienttest.HistoryActivity"));
+                	 startActivity(new Intent("com.qrsphere.HistoryActivity"));
                 }else if (position == 2){
-                	 startActivity(new Intent("com.example.clienttest.FavoriteActivity"));
+                	 startActivity(new Intent("com.qrsphere.FavoriteActivity"));
                 }
             }  
               

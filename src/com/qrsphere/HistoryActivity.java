@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.database.QrcodeDataOperator;
-
 
 
 
@@ -18,12 +16,15 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -58,9 +59,6 @@ public class HistoryActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		qdo = new QrcodeDataOperator(this);
-		
-		
-
 		
 		
 
@@ -111,10 +109,10 @@ public class HistoryActivity extends Activity {
             public void onItemClick(AdapterView<?> parentView, View childView, int position, long id) {  
                 
 
-            	showPopup(childView);
+            	
             	positionGlobal = position;
             	qrDataGlobal = getDataElement(position);
-            	
+            	showPopup(childView);
             }  
         }); 
 	}
@@ -175,13 +173,65 @@ public class HistoryActivity extends Activity {
     		onResume();
     	}
     }
-    public void addToFavorite(){
-    	QrcodeDataOperator qdo = getQdo();
-    	Qrcode qc = qdo.query(qrDataGlobal);
-    	if (qc!=null){
-    		qdo.insertToFavorite(qc);
+    @SuppressWarnings("unused")
+	public void addToFavorite(){
+
+    	ComboBox cb= new ComboBox(this);
+    	ArrayAdapter<String> adp = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line);
+    	int i = 4;
+    	while(i-->0){
+
+    		adp.add("Suggest"+i);
     	}
+
+    	InstructionsDialog("You have chose "+ qrDataGlobal +". " +
+    			"\nPlease give a description of it. Or you can chose " +
+    			"from the past list. ","Please input category",adp);
+       	;
     }
+    
+	protected void InstructionsDialog(String text,String title,
+							ArrayAdapter<String> list){
+
+		  AlertDialog.Builder ad = new AlertDialog.Builder(this);
+		  ad.setIcon(R.drawable.ic_launcher);
+		  ad.setTitle(title);
+		  LayoutInflater linf = LayoutInflater.from(this);
+		  final View inflator = linf.inflate(R.layout.dialog, null);
+		  ad.setView(inflator);
+
+		  ad.setPositiveButton("OK", 
+		    new android.content.DialogInterface.OnClickListener() {
+		     public void onClick(DialogInterface dialog, int arg1) {
+		      // OK, go back to Main menu
+		    	 sendDataToFavorList();
+		     }
+
+
+		    }
+		   );
+
+		   ad.setOnCancelListener(new DialogInterface.OnCancelListener(){
+		    public void onCancel(DialogInterface dialog) {
+		     // OK, go back to Main menu   
+		    }}
+		   );
+		   
+			  TextView tv =(TextView)(inflator.findViewById(R.id.TextView01));
+			  if (tv!=null)
+				tv.setText(text);
+			  ComboBox cb = (ComboBox) (inflator.findViewById(R.id.Combo01));
+			  if (cb!= null)
+				  cb.setSuggestionSource(list);
+
+		  ad.show();
+
+		 }
+	
+	private void sendDataToFavorList() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	public void showScanDetails(){
     	String text = "";
@@ -254,13 +304,9 @@ public class HistoryActivity extends Activity {
 	        	hashlist4.add(map);
 	        else
 	        	hashlist1.add(map);
+	        hashlist.add(map);
 		}
 	}
 
-//	public void addList(String contents){
-//		data.add(contents);
-////		ArrayAdapter<String> adp = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1,getData());
-////		lView.setAdapter(adp);
-//		
-//	}
+
 }
