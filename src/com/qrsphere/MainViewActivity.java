@@ -92,6 +92,8 @@ public class MainViewActivity extends Activity{
                 
                 if (position == 1){
                 	 startActivity(new Intent("com.example.clienttest.HistoryActivity"));
+                }else if (position == 2){
+                	 startActivity(new Intent("com.example.clienttest.FavoriteActivity"));
                 }
             }  
               

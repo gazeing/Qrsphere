@@ -33,6 +33,11 @@ public class Qrcode {
 		return hashcode;
 	}
 	
+	public QrcodeJSONData getQrcodeJSONData(){
+		QrcodeJSONData q = new QrcodeJSONData(rawdata);
+		return q;
+	}
+	
 	
 
 }

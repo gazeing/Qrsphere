@@ -24,6 +24,10 @@ public class SeparatedListAdapter extends BaseAdapter {
         this.sections.put(section, adapter);  
     }  
       
+    public void clear(){
+    	sections.clear();
+    	headers.clear();
+    }
     public Object getItem(int position) {  
         for(Object section : this.sections.keySet()) {  
             Adapter adapter = sections.get(section);  
@@ -101,6 +105,18 @@ public class SeparatedListAdapter extends BaseAdapter {
     @Override  
     public long getItemId(int position) {  
         return position;  
-    }  
+    }
+
+    public Adapter findAdapterBySection(String sec){
+    	for (String section : this.sections.keySet()){
+    		Adapter adapter = sections.get(section);
+    		if (section== sec){
+    			return adapter;
+    		}
+    	}
+    	
+    	return null;
+    }
+       
   
 }  
