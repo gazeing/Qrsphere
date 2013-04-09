@@ -10,6 +10,8 @@ public class QrcodeJSONData {
 	boolean isFavorite = false;
 	String url = "www.qrsphere.com";
 	String catalogue = "";
+	double longitude;
+	double latitude;
 	
 	
 	public QrcodeJSONData(String rawData) {
@@ -21,6 +23,8 @@ public class QrcodeJSONData {
 			this.url = json.getString("URL");
 			this.catalogue = json.getString("Catalogue");
 			this.isFavorite = json.getBoolean("IsFavorite");
+			this.latitude = json.getDouble("Latitude");
+			this.longitude = json.getDouble("Longitude");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -46,6 +50,16 @@ public class QrcodeJSONData {
 
 	public String getCatalogue() {
 		return catalogue;
+	}
+
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+
+	public double getLatitude() {
+		return latitude;
 	}
 	
 	

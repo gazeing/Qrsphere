@@ -9,14 +9,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.qrsphere.database.Qrcode;
-import com.qrsphere.database.QrcodeDataOperator;
 import com.qrsphere.database.QrcodeJSONData;
+import com.qrsphere.userinfo.CollectLocation;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
+import android.content.DialogInterface;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,17 +39,18 @@ public class FavoriteActivity extends Activity {
 	protected List<String> getData() {
 		return data;
 	}
-	protected String getDataElement(int index){
-		return data.get(index);
-	}
+//	protected String getDataElement(int index){
+//		return data.get(index);
+//	}
 	String qrDataGlobal = "";
+	Qrcode qrcodeGlobal = null;
 	
 	
-	QrcodeDataOperator qdo;
-	
-	private QrcodeDataOperator getQdo() {
-		return qdo;
-	}
+//	QrcodeDataOperator qdo;
+//	
+//	private QrcodeDataOperator getQdo() {
+//		return qdo;
+//	}
 	
 	ArrayList<SeparatedList> lists = new ArrayList<SeparatedList>();
 	
@@ -59,7 +63,7 @@ public class FavoriteActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		qdo = new QrcodeDataOperator(this);
+		//qdo = new QrcodeDataOperator(this);
 		
 		
 		
@@ -111,12 +115,14 @@ public class FavoriteActivity extends Activity {
 		lView.setBackgroundResource(R.drawable.background);
 		lView.setOnItemClickListener(new OnItemClickListener() {  
 	      	  
-            @Override  
+            @SuppressWarnings("unchecked")
+			@Override  
             public void onItemClick(AdapterView<?> parentView, View childView, int position, long id) {  
                 
 
             	showPopup(childView);
-              	qrDataGlobal = getDataElement(position);
+               	qrDataGlobal = (String) ((HashMap<String, Object>)adapter.getItem(position)).get("ItemTitle");
+            	qrcodeGlobal =  (Qrcode) ((HashMap<String, Object>)adapter.getItem(position)).get("Qrcode");
             	
             }  
         });
@@ -137,6 +143,11 @@ public class FavoriteActivity extends Activity {
                 case R.id.go_to_web:
                 	goToTheWeb();
                 	break;
+                	
+                case R.id.feedback:
+
+                	;
+                	break;
                 case R.id.scan_detail:
 
                 	showScanDetails();
@@ -156,8 +167,8 @@ public class FavoriteActivity extends Activity {
         popup.show();  
 	}
     public void goToTheWeb(){
-    	QrcodeDataOperator qdo = getQdo();
-    	Qrcode qc = qdo.queryFromFavor(qrDataGlobal);
+    	
+    	Qrcode qc = qrcodeGlobal;
     	if (qc!=null){
     		StartBrowser sb = new StartBrowser(qc.getRawdata(),this);
     		sb.startBrowse();
@@ -165,28 +176,71 @@ public class FavoriteActivity extends Activity {
     }
 
     public void deleteSelectedRecord(){
-    	QrcodeDataOperator qdo = getQdo();
-    	Qrcode qc = qdo.queryFromFavor(qrDataGlobal);
-    	if (qc!=null){
-    		qdo.deleteFromFavorite(qrDataGlobal);
-    		onResume();
-    	}
+//    	QrcodeDataOperator qdo = getQdo();
+//    	Qrcode qc = qdo.queryFromFavor(qrDataGlobal);
+//    	if (qc!=null){
+//    		qdo.deleteFromFavorite(qrDataGlobal);
+//    		onResume();
+//    	}
     }
 
     @SuppressLint("SimpleDateFormat")
 	public void showScanDetails(){
-    	String text = "";
-    	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
-   
-    	QrcodeDataOperator qdo = getQdo();
-    	Qrcode qc = qdo.queryFromFavor(qrDataGlobal);
+
+    	Qrcode qc = qrcodeGlobal;
     	if (qc!=null)
-    		text = "Rawdata: \n"+qc.getRawdata()+"\nHashcode: \n"+qc.getHashcode()+"\nTime: \n"+sdf.format(new Date(qc.getTimeStamp()));
-    	Dialog dialog = new AlertDialog.Builder(this).setIcon(R.drawable.ic_launcher)
-    				.setView(new ScanDetail(this,text))
-    				.setTitle("Scan Details").show();
-    	dialog.show();
+    		ScanDetailDialog(qc);
     }
+    
+    private void ScanDetailDialog(Qrcode qc) {
+    	AlertDialog.Builder ad = new AlertDialog.Builder(this);
+		  ad.setIcon(R.drawable.ic_launcher);
+		  ad.setTitle("Scan Detail");
+		  LayoutInflater linf = LayoutInflater.from(this);
+		  final View inflator = linf.inflate(R.layout.scan_detail, null);
+		  ad.setView(inflator);
+
+		  ad.setPositiveButton("OK", 
+		    new android.content.DialogInterface.OnClickListener() {
+		     public void onClick(DialogInterface dialog, int arg1) {
+		      // OK, go back to Main menu
+		    	 //sendDataToFavorList();
+		     }
+
+
+		    }
+		   );
+
+		   ad.setOnCancelListener(new DialogInterface.OnCancelListener(){
+		    public void onCancel(DialogInterface dialog) {
+		     // OK, go back to Main menu   
+		    }}
+		   );
+		   
+		   //fill the content to scan detail page
+			  TextView tv =(TextView)(inflator.findViewById(R.id.ScanDetailUrl));
+			  if (tv!=null)
+				tv.setText("URL: ");
+			  TextView tv1 =(TextView)(inflator.findViewById(R.id.ScanDetailUrlText));
+			  if (tv1!=null)
+				tv1.setText(qc.getQrcodeJSONData().getUrl());
+			  TextView tv2 =(TextView)(inflator.findViewById(R.id.ScanDetailTime));
+			  if (tv2!=null)
+				tv2.setText("Scan Time: ");
+			  TextView tv3 =(TextView)(inflator.findViewById(R.id.ScanDetailTimeText));
+			  if (tv3!=null)
+				tv3.setText(TransferTimeFormat(qc.getTimeStamp()));
+			  TextView tv4 =(TextView)(inflator.findViewById(R.id.ScanDetailLocation));
+			  if (tv4!=null)
+				tv4.setText("Location: ");
+			  TextView tv5 =(TextView)(inflator.findViewById(R.id.ScanDetailLocationText));
+			  if (tv5!=null)
+				tv5.setText(qc.getQrcodeJSONData().getLatitude()+", "+qc.getQrcodeJSONData().getLongitude());
+
+
+		  ad.show();
+		
+	}
 	protected void onResume() {
 		
 		super.onResume();
@@ -197,7 +251,7 @@ public class FavoriteActivity extends Activity {
 	
 
     @SuppressLint("SimpleDateFormat")
-	public String TransferTimeFormat(long time){
+	public static String TransferTimeFormat(long time){
     	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
     	return sdf.format(new Date(time));
     }
@@ -216,36 +270,90 @@ public class FavoriteActivity extends Activity {
 		return adapter;
     }
 
-	protected List<Qrcode> getQrcodeList(){
+	public List<Qrcode> generateTestQrcode(){
 		List<Qrcode> qrs = new ArrayList<Qrcode>();
+		LocationListener ll = new LocationListener(){
+
+			@Override
+			public void onLocationChanged(Location location) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onProviderDisabled(String provider) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onProviderEnabled(String provider) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onStatusChanged(String provider, int status,
+					Bundle extras) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		};
+		CollectLocation cl = new CollectLocation(this,ll);
+		long now = System.currentTimeMillis();
+		final long oneDay = 1000*60*60*24;
 		for (int i =0; i<5;i++){
 			JSONObject json = new JSONObject();
 			try {		
 				json.put("Catalogue", "test");
-				json.put("URL", "test");
+				json.put("URL", "www.facebook.com");
 				json.put("IsFavorite", true);
+				json.put("Latitude", cl.getLatitude());
+				json.put("Longitude", cl.getLongitude());
 			} catch (JSONException e) {
 				
 				e.printStackTrace();
 			}
-			Qrcode q1 = new Qrcode(json.toString());
+			Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i,"testHashCode");
 			qrs.add(q1);
 		}
 		for (int i =0; i<5;i++){
 			JSONObject json = new JSONObject();
 			try {		
 				json.put("Catalogue", "test2");
-				json.put("URL", "test");
+				json.put("URL", "www.hoopchina.com");
 				json.put("IsFavorite", true);
+				json.put("Latitude", cl.getLatitude());
+				json.put("Longitude", cl.getLongitude());
 			} catch (JSONException e) {
 				
 				e.printStackTrace();
 			}
-			Qrcode q1 = new Qrcode(json.toString());
+			Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i*32,"testHashCode");
 			qrs.add(q1);
 		}
 
+		for (int i =0; i<5;i++){
+			JSONObject json = new JSONObject();
+			try {		
+				json.put("Catalogue", "My Best Codes");
+				json.put("URL", "www.weibo.com");
+				json.put("IsFavorite", true);
+				json.put("Latitude", cl.getLatitude());
+				json.put("Longitude", cl.getLongitude());
+			} catch (JSONException e) {
+				
+				e.printStackTrace();
+			}
+			Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i*12,"testHashCode");
+			qrs.add(q1);
+		}
 		return qrs;
+	}
+	protected List<Qrcode> getQrcodeList(){
+		
+		return generateTestQrcode();
 	}
 	
 
@@ -262,14 +370,14 @@ public class FavoriteActivity extends Activity {
 			boolean isfound = false; //it is the flag show if the catalog exists now.
 			for (SeparatedList sl:lists){
 				if (catalogue.compareTo(sl.getCatalogue())==0){// if exist add the item to the list.
-					sl.addItem(q.getQrcodeJSONData().getUrl(), TransferTimeFormat(q.getTimeStamp()));
+					sl.addItem(q);
 					isfound = true;
 				}
 
 			}
 			if (isfound == false){// is not exist create a new list and add item to the list.
 				SeparatedList newsl = new SeparatedList(catalogue);
-				newsl.addItem(q.getQrcodeJSONData().getUrl(), TransferTimeFormat(q.getTimeStamp()));
+				newsl.addItem(q);
 				lists.add(newsl);
 			}
 			
@@ -281,26 +389,27 @@ public class FavoriteActivity extends Activity {
 }
 
 class SeparatedList{
-	ArrayList<HashMap<String,String>> list;
+	ArrayList<HashMap<String,Object>> list;
 	String catalogue = "";
 	
 	
 	
 	public SeparatedList(String catalogue) {
 		super();
-		list = new ArrayList<HashMap<String,String>>();
+		list = new ArrayList<HashMap<String,Object>>();
 		this.catalogue = catalogue;
 	}
 
-	public void addItem(String title,String time)
+	public void addItem(Qrcode q)
 	{				
-		HashMap<String, String> map = new HashMap<String, String>();  
-		map.put("ItemTitle", title);  
-		map.put("Time", time);
+		HashMap<String, Object> map = new HashMap<String, Object>();  
+        map.put("Qrcode",q);  
+        map.put("ItemTitle", q.getQrcodeJSONData().getUrl());  
+        map.put("Time", FavoriteActivity.TransferTimeFormat(q.getTimeStamp()));
 		list.add(map);
 	}
 
-	public ArrayList<HashMap<String, String>> getList() {
+	public ArrayList<HashMap<String, Object>> getList() {
 		return list;
 	}
 

@@ -5,8 +5,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.database.QrcodeDataOperator;
+import com.qrsphere.userinfo.CollectLocation;
 
 
 
@@ -15,8 +20,9 @@ import com.qrsphere.database.QrcodeDataOperator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
+import android.location.Location;
+import android.location.LocationListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -36,23 +42,23 @@ import android.widget.PopupMenu;
 public class HistoryActivity extends Activity {
 
 
-	ArrayList<HashMap<String, String>> hashlist = new ArrayList<HashMap<String, String>>(); 
+	//ArrayList<HashMap<String, String>> hashlist = new ArrayList<HashMap<String, String>>(); 
 	//for test
-	ArrayList<HashMap<String, String>> hashlist1 = new ArrayList<HashMap<String, String>>(); 
-	ArrayList<HashMap<String, String>> hashlist2 = new ArrayList<HashMap<String, String>>();
-	ArrayList<HashMap<String, String>> hashlist3 = new ArrayList<HashMap<String, String>>(); 
-	ArrayList<HashMap<String, String>> hashlist4 = new ArrayList<HashMap<String, String>>(); 
-	protected String getDataElement(int index){
-		return hashlist.get(index).get("ItemTitle");
-	}
+	ArrayList<HashMap<String, Object>> hashlist1 = new ArrayList<HashMap<String, Object>>(); 
+	ArrayList<HashMap<String, Object>> hashlist2 = new ArrayList<HashMap<String, Object>>();
+	ArrayList<HashMap<String, Object>> hashlist3 = new ArrayList<HashMap<String, Object>>(); 
+	ArrayList<HashMap<String, Object>> hashlist4 = new ArrayList<HashMap<String, Object>>(); 
+//	protected String getDataElement(int index){
+//		return hashlist.get(index).get("ItemTitle");
+//	}
 	private ListView lView;
 	int positionGlobal = 0;
 	String qrDataGlobal = "";
+	Qrcode qrcodeGlobal = null;
 	QrcodeDataOperator qdo;
+	SeparatedListAdapter adapter;
 	
-	private QrcodeDataOperator getQdo() {
-		return qdo;
-	}
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +66,57 @@ public class HistoryActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		qdo = new QrcodeDataOperator(this);
 		
+		//for test
+//		LocationListener ll = new LocationListener(){
+//
+//			@Override
+//			public void onLocationChanged(Location location) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void onProviderDisabled(String provider) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void onProviderEnabled(String provider) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void onStatusChanged(String provider, int status,
+//					Bundle extras) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//		};
+//		CollectLocation cl = new CollectLocation(this,ll);
+//		
+//		for (int i = 0;i<20;i++){
+//			JSONObject json = new JSONObject();
+//			try {		
+//				json.put("Catalogue", "test");
+//				json.put("URL", "www.facebook.com");
+//				json.put("IsFavorite", true);
+//				json.put("Latitude", cl.getLatitude());
+//				json.put("Longitude", cl.getLongitude());
+//			} catch (JSONException e) {
+//				
+//				e.printStackTrace();
+//			}
+//			Qrcode q1 = new Qrcode(json.toString());
+//			qdo.insert(q1);
+//		}
+//		
+//		
+
+		
+		//test end
 		
 
 		setContentView(R.layout.history);
@@ -70,29 +127,30 @@ public class HistoryActivity extends Activity {
 
 		
 		SimpleAdapter simpAdp1 = new SimpleAdapter(this,
-													hashlist1,R.layout.listitem,
-	                                                new String[] {"ItemTitle", "ItemText"},   
-	                                                new int[] {R.id.ItemTitle,R.id.ItemText});
+						hashlist1,R.layout.listitem,
+		                new String[] {"ItemTitle", "ItemText"},   
+		                new int[] {R.id.ItemTitle,R.id.ItemText});
 		SimpleAdapter simpAdp2 = new SimpleAdapter(this,
-													hashlist2,R.layout.listitem,
-									                new String[] {"ItemTitle", "ItemText"},   
-									                new int[] {R.id.ItemTitle,R.id.ItemText});
+						hashlist2,R.layout.listitem,
+		                new String[] {"ItemTitle", "ItemText"},   
+		                new int[] {R.id.ItemTitle,R.id.ItemText});
 		SimpleAdapter simpAdp3 = new SimpleAdapter(this,
-													hashlist3,R.layout.listitem,
-									                new String[] {"ItemTitle", "ItemText"},   
-									                new int[] {R.id.ItemTitle,R.id.ItemText});
+						hashlist3,R.layout.listitem,
+		                new String[] {"ItemTitle", "ItemText"},   
+		                new int[] {R.id.ItemTitle,R.id.ItemText});
 		SimpleAdapter simpAdp4 = new SimpleAdapter(this,
-													hashlist4,R.layout.listitem,
-									                new String[] {"ItemTitle", "ItemText"},   
-									                new int[] {R.id.ItemTitle,R.id.ItemText});
-		
+						hashlist4,R.layout.listitem,
+		                new String[] {"ItemTitle", "ItemText"},   
+		                new int[] {R.id.ItemTitle,R.id.ItemText});
+
+
 		
 
 		
 		
 		
 		
-		SeparatedListAdapter adapter = new SeparatedListAdapter(this);  
+		adapter = new SeparatedListAdapter(this);  
         adapter.addSection("Today", simpAdp1); 
         adapter.addSection("Past week", simpAdp2); 
         adapter.addSection("Past month", simpAdp3);
@@ -105,13 +163,15 @@ public class HistoryActivity extends Activity {
 		
 		lView.setOnItemClickListener(new OnItemClickListener() {  
 	      	  
-            @Override  
+            @SuppressWarnings("unchecked")
+			@Override  
             public void onItemClick(AdapterView<?> parentView, View childView, int position, long id) {  
                 
 
             	
-            	positionGlobal = position;
-            	qrDataGlobal = getDataElement(position);
+            	positionGlobal = (int) adapter.getItemId(position);
+            	qrDataGlobal = (String) ((HashMap<String, Object>)adapter.getItem(position)).get("ItemTitle");
+            	qrcodeGlobal =  (Qrcode) ((HashMap<String, Object>)adapter.getItem(position)).get("Qrcode");
             	showPopup(childView);
             }  
         }); 
@@ -157,8 +217,8 @@ public class HistoryActivity extends Activity {
 
     
     public void goToTheWeb(){
-    	QrcodeDataOperator qdo = getQdo();
-    	Qrcode qc = qdo.query(qrDataGlobal);
+    	
+    	Qrcode qc = qrcodeGlobal;
     	if (qc!=null){
     		StartBrowser sb = new StartBrowser(qc.getRawdata(),this);
     		sb.startBrowse();
@@ -166,29 +226,26 @@ public class HistoryActivity extends Activity {
     }
 
     public void deleteSelectedRecord(){
-    	QrcodeDataOperator qdo = getQdo();
-    	Qrcode qc = qdo.query(qrDataGlobal);
-    	if (qc!=null){
-    		qdo.delete(qrDataGlobal);
-    		onResume();
-    	}
+    	
+//    	Qrcode qc = qrcodeGlobal;
+//    	if (qc!=null){
+//    		qdo.delete(qrDataGlobal);
+//    		onResume();
+//    	}
     }
-    @SuppressWarnings("unused")
+
 	public void addToFavorite(){
 
-    	ComboBox cb= new ComboBox(this);
-    	ArrayAdapter<String> adp = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line);
-    	int i = 4;
-    	while(i-->0){
-
-    		adp.add("Suggest"+i);
-    	}
+    	
+    	ArrayAdapter<String> adp = getSuggestion();
 
     	InstructionsDialog("You have chose "+ qrDataGlobal +". " +
     			"\nPlease give a description of it. Or you can chose " +
     			"from the past list. ","Please input category",adp);
        	;
     }
+    
+
     
 	protected void InstructionsDialog(String text,String title,
 							ArrayAdapter<String> list){
@@ -234,19 +291,72 @@ public class HistoryActivity extends Activity {
 	}
 
 	public void showScanDetails(){
-    	String text = "";
+//    	String text = "";
     	
    
-    	QrcodeDataOperator qdo = getQdo();
-    	Qrcode qc = qdo.query(qrDataGlobal);
+    	
+    	Qrcode qc = qrcodeGlobal;
     	if (qc!=null)
-    		text = "Rawdata: \n"+qc.getRawdata()+"\nHashcode: \n"+qc.getHashcode()+"\nTime: \n"+TransferTimeFormat(qc.getTimeStamp());
-    	Dialog dialog = new AlertDialog.Builder(this).setIcon(R.drawable.ic_launcher)
-    				.setView(new ScanDetail(this,text))
-    				.setTitle("Scan Details").show();
-    	dialog.show();
+    		ScanDetailDialog(qc);
+//    		text = "Rawdata: \n"+qc.getRawdata()+"\nHashcode: \n"+qc.getHashcode()+"\nTime: \n"+TransferTimeFormat(qc.getTimeStamp());
+//    	Dialog dialog = new AlertDialog.Builder(this).setIcon(R.drawable.ic_launcher)
+//    				.setView(new ScanDetail(this,text))
+//    				.setTitle("Scan Details").show();
+//    	dialog.show();
+    	
+    	
     }
-    @SuppressLint("SimpleDateFormat")
+    private void ScanDetailDialog(Qrcode qc) {
+    	AlertDialog.Builder ad = new AlertDialog.Builder(this);
+		  ad.setIcon(R.drawable.ic_launcher);
+		  ad.setTitle("Scan Detail");
+		  LayoutInflater linf = LayoutInflater.from(this);
+		  final View inflator = linf.inflate(R.layout.scan_detail, null);
+		  ad.setView(inflator);
+
+		  ad.setPositiveButton("OK", 
+		    new android.content.DialogInterface.OnClickListener() {
+		     public void onClick(DialogInterface dialog, int arg1) {
+		      // OK, go back to Main menu
+		    	// sendDataToFavorList();
+		     }
+
+
+		    }
+		   );
+
+		   ad.setOnCancelListener(new DialogInterface.OnCancelListener(){
+		    public void onCancel(DialogInterface dialog) {
+		     // OK, go back to Main menu   
+		    }}
+		   );
+		   
+		   //fill the content to scan detail page
+			  TextView tv =(TextView)(inflator.findViewById(R.id.ScanDetailUrl));
+			  if (tv!=null)
+				tv.setText("URL: ");
+			  TextView tv1 =(TextView)(inflator.findViewById(R.id.ScanDetailUrlText));
+			  if (tv1!=null)
+				tv1.setText(qc.getQrcodeJSONData().getUrl());
+			  TextView tv2 =(TextView)(inflator.findViewById(R.id.ScanDetailTime));
+			  if (tv2!=null)
+				tv2.setText("Scan Time: ");
+			  TextView tv3 =(TextView)(inflator.findViewById(R.id.ScanDetailTimeText));
+			  if (tv3!=null)
+				tv3.setText(TransferTimeFormat(qc.getTimeStamp()));
+			  TextView tv4 =(TextView)(inflator.findViewById(R.id.ScanDetailLocation));
+			  if (tv4!=null)
+				tv4.setText("Location: ");
+			  TextView tv5 =(TextView)(inflator.findViewById(R.id.ScanDetailLocationText));
+			  if (tv5!=null)
+				tv5.setText(qc.getQrcodeJSONData().getLatitude()+", "+qc.getQrcodeJSONData().getLongitude());
+
+
+		  ad.show();
+		
+	}
+
+	@SuppressLint("SimpleDateFormat")
 	public String TransferTimeFormat(long time){
     	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
     	return sdf.format(new Date(time));
@@ -276,7 +386,7 @@ public class HistoryActivity extends Activity {
 	
 	protected void classfyListByDate(){
 		
-		QrcodeDataOperator qdo = getQdo();
+		//QrcodeDataOperator qdo = getQdo();
 
 		long longMid = getTodayMidnight();
 		//Log.i("the middlenight is :",TransferTimeFormat(longMid));
@@ -287,12 +397,16 @@ public class HistoryActivity extends Activity {
 		hashlist4.clear();
 
 		
-		List<Qrcode> qrs = qdo.queryAll();
+		//List<Qrcode> qrs = qdo.queryAll();
+		List<Qrcode> qrs = getQrcodes();
+
 		for (Qrcode q : qrs){
 
-	        HashMap<String, String> map = new HashMap<String, String>();  
-	        map.put("ItemTitle", q.getRawdata());  
+	        HashMap<String, Object> map = new HashMap<String, Object>();  
+	        map.put("Qrcode",q);  
+	        map.put("ItemTitle", q.getQrcodeJSONData().getUrl());  
 	        map.put("ItemText", TransferTimeFormat(q.getTimeStamp())); 
+	        
 	        long longTime = q.getTimeStamp();
 	        if (((longTime-longMid)<oneDay)&&((longTime-longMid)>=0))
 	        	hashlist1.add(map);
@@ -304,8 +418,81 @@ public class HistoryActivity extends Activity {
 	        	hashlist4.add(map);
 	        else
 	        	hashlist1.add(map);
-	        hashlist.add(map);
+	       // hashlist.add(map);
 		}
+	}
+	public List<Qrcode> getQrcodes(){
+		return generateTestQrcode();
+	}
+	
+    public ArrayAdapter<String> getSuggestion(){
+    	ArrayAdapter<String> adp = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line);
+    	int i = 4;
+    	while(i-->0){
+
+    		adp.add("Suggest"+i);
+    	}
+    	return adp;
+    }
+	
+	public List<Qrcode> generateTestQrcode()
+	{
+		List<Qrcode> qrs = new ArrayList<Qrcode>();
+		//for test
+		LocationListener ll = new LocationListener(){
+
+			@Override
+			public void onLocationChanged(Location location) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onProviderDisabled(String provider) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onProviderEnabled(String provider) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onStatusChanged(String provider, int status,
+					Bundle extras) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		};
+		CollectLocation cl = new CollectLocation(this,ll);
+		long now = System.currentTimeMillis();
+		final long oneDay = 1000*60*60*24;
+		for (int i = 0;i<20;i++){
+			JSONObject json = new JSONObject();
+			try {		
+				json.put("Catalogue", "test");
+				json.put("URL", "www.facebook.com");
+				json.put("IsFavorite", true);
+				json.put("Latitude", cl.getLatitude());
+				json.put("Longitude", cl.getLongitude());
+			} catch (JSONException e) {
+				
+				e.printStackTrace();
+			}
+			Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i,"testHashCode");
+			//qdo.insert(q1);
+			qrs.add(q1);
+		}
+		
+		
+
+		
+		//test end
+		
+		return qrs;
 	}
 
 

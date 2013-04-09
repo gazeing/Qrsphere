@@ -103,8 +103,21 @@ public class SeparatedListAdapter extends BaseAdapter {
     }  
   
     @Override  
-    public long getItemId(int position) {  
-        return position;  
+    public long getItemId(int position) { 
+    	int base = 0;
+        for(Object section : this.sections.keySet()) {  
+            Adapter adapter = sections.get(section);  
+            int size = adapter.getCount() + 1;  
+              
+            // check if position inside this section   
+            if(position == 0) return 0;  
+            if(position < size) return base + position - 1;  
+  
+            // otherwise jump into next section  
+            position -= size;  
+            base += adapter.getCount();
+        }  
+        return -1;
     }
 
     public Adapter findAdapterBySection(String sec){

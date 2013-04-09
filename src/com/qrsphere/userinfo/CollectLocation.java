@@ -38,6 +38,24 @@ public CollectLocation(Context context,LocationListener locationListener) {
         }  
         return location;  
     }  
+	
+	public double getLatitude(){
+		double nret = 0;
+		Location lo = getLocation();
+		if (lo != null)
+			nret = location.getLatitude();
+		
+		return nret;
+	}
+	
+	public double getLongitude(){
+		double nret = 0;
+		Location lo = getLocation();
+		if (lo != null)
+			nret = location.getLongitude();
+		
+		return nret;
+	}
 //	
 //	public String getLocationString(Context context) {
 //		return getLocation(context).toString();
