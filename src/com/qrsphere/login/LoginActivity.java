@@ -54,7 +54,7 @@ public class LoginActivity extends Activity {
 	        } else if (msg.what == 0) {
 
 	        } else {
-	            showNetworkAlert();
+	            showNetworkAlert(LoginActivity.this);
 	        }
 	    }
 	};
@@ -139,7 +139,7 @@ public class LoginActivity extends Activity {
 			            }
 			        }).start();
 			    } else {
-			        showNetworkAlert();
+			        showNetworkAlert(LoginActivity.this);
 			    }
 				
 //				if (res.compareTo("No result!")!=0){
@@ -169,8 +169,8 @@ public class LoginActivity extends Activity {
 	    }
 	    return false;
 	}
-	public void showNetworkAlert() {
-	    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	public static void showNetworkAlert(Context context) {
+	    AlertDialog.Builder builder = new AlertDialog.Builder(context);
 	    builder.setMessage("Please check your internet connection.")
 	            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 	                public void onClick(DialogInterface dialog, int id) {

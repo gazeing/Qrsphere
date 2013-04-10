@@ -170,7 +170,7 @@ public class FavoriteActivity extends Activity {
     	
     	Qrcode qc = qrcodeGlobal;
     	if (qc!=null){
-    		StartBrowser sb = new StartBrowser(qc.getRawdata(),this);
+    		StartBrowser sb = new StartBrowser(qc.getQrcodeJSONData().getUrl(),this);
     		sb.startBrowse();
     	}
     }

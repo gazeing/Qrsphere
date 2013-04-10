@@ -24,12 +24,12 @@
                android:layout_height="fill_parent"
                android:layout_centerInParent="true"/>
 
-  <com.example.clienttest.scan.ViewfinderView
+  <com.qrsphere.scan.ViewfinderView
       android:id="@+id/viewfinder_view"
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"
       
-      android:background="@color/transparent"/>
+      android:background="@drawable/scan_box_for_silvio"/>
 
 
 
@@ -37,5 +37,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"          
             android:textSize="14sp"/>
+  
+      <Button
+        android:id="@+id/buttonScanQuit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginLeft="580sp"
+        android:layout_marginTop="15sp"
+        android:rotation="270"
+
+        android:text="Back" />"
 
 </FrameLayout>
