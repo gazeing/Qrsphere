@@ -3,14 +3,14 @@ package com.qrsphere;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.qrsphere.database.QrcodeDataOperator;
-import com.qrsphere.login.LoginProcess;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.widget.TextView;
+
+import com.qrsphere.database.QrcodeDataOperator;
+import com.qrsphere.login.LoginProcess;
 
 public class SplashScreen extends Activity {
 
@@ -58,7 +58,12 @@ public class SplashScreen extends Activity {
 
                     finish();
                     // start mainActivity
-                    startActivity(new Intent(getIntentStr()));
+    				Intent intent = new Intent(new Intent(getIntentStr()));
+    				Bundle b = new Bundle();
+    				b.putBoolean("IsOnline", isLoginOK);
+    				intent.putExtras(b);
+    				startActivity(intent);
+                    //startActivity(new Intent(getIntentStr()));
                     // stop(); //android does not support stop() any more, following code could be a way to exit
 //                  shouldContinue = false;
 //                  join();

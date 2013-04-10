@@ -3,6 +3,7 @@ package com.qrsphere;
 
 
 import com.qrsphere.database.QrcodeDataOperator;
+import com.qrsphere.widget.TabView;
 
 import android.os.Bundle;
 import android.app.TabActivity;

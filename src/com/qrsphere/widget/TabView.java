@@ -1,5 +1,6 @@
-package com.qrsphere;
+package com.qrsphere.widget;
 
+import com.qrsphere.R;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
@@ -10,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 @SuppressLint("ViewConstructor")
-class TabView extends LinearLayout {  
+public class TabView extends LinearLayout {  
     ImageView imageView ; 
     
 

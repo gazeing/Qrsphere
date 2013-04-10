@@ -1,6 +1,5 @@
 package com.qrsphere;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,6 +11,10 @@ import org.json.JSONObject;
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.database.QrcodeDataOperator;
 import com.qrsphere.userinfo.CollectLocation;
+import com.qrsphere.widget.ComboBox;
+import com.qrsphere.widget.ScanDetail;
+import com.qrsphere.widget.SeparatedListAdapter;
+import com.qrsphere.widget.StartBrowser;
 
 
 
@@ -297,7 +300,7 @@ public class HistoryActivity extends Activity {
     	
     	Qrcode qc = qrcodeGlobal;
     	if (qc!=null)
-    		ScanDetailDialog(qc);
+    		ScanDetail.ScanDetailDialog(qc,this);
 //    		text = "Rawdata: \n"+qc.getRawdata()+"\nHashcode: \n"+qc.getHashcode()+"\nTime: \n"+TransferTimeFormat(qc.getTimeStamp());
 //    	Dialog dialog = new AlertDialog.Builder(this).setIcon(R.drawable.ic_launcher)
 //    				.setView(new ScanDetail(this,text))
@@ -306,61 +309,7 @@ public class HistoryActivity extends Activity {
     	
     	
     }
-    private void ScanDetailDialog(Qrcode qc) {
-    	AlertDialog.Builder ad = new AlertDialog.Builder(this);
-		  ad.setIcon(R.drawable.ic_launcher);
-		  ad.setTitle("Scan Detail");
-		  LayoutInflater linf = LayoutInflater.from(this);
-		  final View inflator = linf.inflate(R.layout.scan_detail, null);
-		  ad.setView(inflator);
 
-		  ad.setPositiveButton("OK", 
-		    new android.content.DialogInterface.OnClickListener() {
-		     public void onClick(DialogInterface dialog, int arg1) {
-		      // OK, go back to Main menu
-		    	// sendDataToFavorList();
-		     }
-
-
-		    }
-		   );
-
-		   ad.setOnCancelListener(new DialogInterface.OnCancelListener(){
-		    public void onCancel(DialogInterface dialog) {
-		     // OK, go back to Main menu   
-		    }}
-		   );
-		   
-		   //fill the content to scan detail page
-			  TextView tv =(TextView)(inflator.findViewById(R.id.ScanDetailUrl));
-			  if (tv!=null)
-				tv.setText("URL: ");
-			  TextView tv1 =(TextView)(inflator.findViewById(R.id.ScanDetailUrlText));
-			  if (tv1!=null)
-				tv1.setText(qc.getQrcodeJSONData().getUrl());
-			  TextView tv2 =(TextView)(inflator.findViewById(R.id.ScanDetailTime));
-			  if (tv2!=null)
-				tv2.setText("Scan Time: ");
-			  TextView tv3 =(TextView)(inflator.findViewById(R.id.ScanDetailTimeText));
-			  if (tv3!=null)
-				tv3.setText(TransferTimeFormat(qc.getTimeStamp()));
-			  TextView tv4 =(TextView)(inflator.findViewById(R.id.ScanDetailLocation));
-			  if (tv4!=null)
-				tv4.setText("Location: ");
-			  TextView tv5 =(TextView)(inflator.findViewById(R.id.ScanDetailLocationText));
-			  if (tv5!=null)
-				tv5.setText(qc.getQrcodeJSONData().getLatitude()+", "+qc.getQrcodeJSONData().getLongitude());
-
-
-		  ad.show();
-		
-	}
-
-	@SuppressLint("SimpleDateFormat")
-	public String TransferTimeFormat(long time){
-    	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
-    	return sdf.format(new Date(time));
-    }
 
 	@Override
 	protected void onResume() {
@@ -405,7 +354,7 @@ public class HistoryActivity extends Activity {
 	        HashMap<String, Object> map = new HashMap<String, Object>();  
 	        map.put("Qrcode",q);  
 	        map.put("ItemTitle", q.getQrcodeJSONData().getUrl());  
-	        map.put("ItemText", TransferTimeFormat(q.getTimeStamp())); 
+	        map.put("ItemText", ScanDetail.TransferTimeFormat(q.getTimeStamp())); 
 	        
 	        long longTime = q.getTimeStamp();
 	        if (((longTime-longMid)<oneDay)&&((longTime-longMid)>=0))
@@ -421,6 +370,7 @@ public class HistoryActivity extends Activity {
 	       // hashlist.add(map);
 		}
 	}
+
 	public List<Qrcode> getQrcodes(){
 		return generateTestQrcode();
 	}

@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 
 
+import com.qrsphere.MainViewActivity;
 import com.qrsphere.R;
 import com.qrsphere.database.QrcodeDataOperator;
 import android.annotation.SuppressLint;
@@ -45,7 +46,11 @@ public class LoginActivity extends Activity {
 	        if (msg.what == 11) {
 				if (isLoginOK){
 					LoginActivity.this.finish();
-					startActivity(new Intent("com.qrsphere.MainViewActivity"));
+					Intent intent = new Intent(LoginActivity.this,MainViewActivity.class);
+					Bundle b = new Bundle();
+					b.putBoolean("IsOnline", true);
+					intent.putExtras(b);
+					startActivity(intent);
 				}
 				else{
 					Toast.makeText(getBaseContext(), "Account dosen't exist or password is incorrect.", Toast.LENGTH_SHORT).show();
@@ -78,6 +83,12 @@ public class LoginActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				//startActivity(new Intent("com.example.clienttest.login.RegisterActivity"));
+				Intent intent = new Intent(LoginActivity.this,MainViewActivity.class);
+				Bundle b = new Bundle();
+				b.putBoolean("IsOnline", false);
+				intent.putExtras(b);
+				startActivity(intent);
+				LoginActivity.this.finish();
 				
 			}
 		});

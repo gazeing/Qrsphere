@@ -21,7 +21,7 @@
             android:layout_height="wrap_content" 
             android:text=""></TextView>
 
-<com.qrsphere.ComboBox   
+<com.qrsphere.widget.ComboBox   
     		android:id="@+id/Combo01" 
             android:layout_width="fill_parent" 
             android:layout_height="wrap_content"/>

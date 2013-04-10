@@ -1,4 +1,4 @@
-package com.qrsphere;
+package com.qrsphere.widget;
 
 import android.content.Context;
 import android.content.Intent;

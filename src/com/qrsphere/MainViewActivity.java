@@ -7,6 +7,9 @@ import java.util.HashMap;
 
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.login.LoginActivity;
+import com.qrsphere.widget.ScanDetail;
+import com.qrsphere.widget.StartBrowser;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -55,6 +58,7 @@ public class MainViewActivity extends Activity{
     GridView mGridView;
     Button bt_ad;
     Context context;
+    boolean IsOnline = false;
     
 	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {
@@ -68,7 +72,8 @@ public class MainViewActivity extends Activity{
 //				else{
 //					Toast.makeText(getBaseContext(), "Account dosen't exist or password is incorrect.", Toast.LENGTH_SHORT).show();
 //				}
-	        	startActivity(new Intent("com.qrsphere.HistoryActivity"));
+	        	if (IsOnline)
+	        		startActivity(new Intent("com.qrsphere.HistoryActivity"));
 	        } else if (msg.what == 0) {
 
 	        } else {
@@ -90,6 +95,10 @@ public class MainViewActivity extends Activity{
 	
 	private void Init(){
 		context = this;
+		
+		Bundle b= getIntent().getExtras();
+		if (b!=null)
+		IsOnline = b.getBoolean("IsOnline"); 
 		
 		mGridView=(GridView) findViewById(R.id.gridview);  
         //  
@@ -113,21 +122,35 @@ public class MainViewActivity extends Activity{
             @Override  
             public void onItemClick(AdapterView<?> parent, View view,  
                     int position, long id) {  
-                Toast toast=Toast.makeText(getApplicationContext(),
-                		"you chose"+(position+1)+"#picture", Toast.LENGTH_SHORT);  
-                toast.setGravity(Gravity.BOTTOM, 0, 0);  
-                toast.show();  
+//                Toast toast=Toast.makeText(getApplicationContext(),
+//                		"you chose"+(position+1)+"#picture", Toast.LENGTH_SHORT);  
+//                toast.setGravity(Gravity.BOTTOM, 0, 0);  
+//                toast.show();  
                 
-                if (position == 1){
-                	 startActivity(new Intent("com.qrsphere.HistoryActivity"));
-                }else if (position == 2){
-                	 startActivity(new Intent("com.qrsphere.FavoriteActivity"));
-                }
-                else if (position == 0){
+                if (position == 0){
     				int nRet = 0;
     				
     				startActivityForResult(new Intent("com.qrsphere.scan.CaptureActivity"),nRet);
                }
+                else if (IsOnline){
+                
+	                if (position == 1){
+	                	 startActivity(new Intent("com.qrsphere.HistoryActivity"));
+	                }else if (position == 2){
+	                	 startActivity(new Intent("com.qrsphere.FavoriteActivity"));
+	                }
+	                else if (position == 3){
+	                
+	                }
+                }
+                else{
+                	MainViewActivity.this.finish();
+                	startActivity(new Intent("com.qrsphere.login.LoginActivity"));
+                	Toast toast=Toast.makeText(getApplicationContext(),
+                    		"Sorry, to use this function, you have to login.", Toast.LENGTH_SHORT);  
+                    toast.setGravity(Gravity.BOTTOM, 0, 0);  
+                    toast.show();  
+                }
             }  
               
         });  
@@ -153,7 +176,7 @@ public class MainViewActivity extends Activity{
 	public void sentScanDetailToServer(Qrcode q){
 		
 		 if (LoginActivity.isOnline(this)) {
-		        pd = ProgressDialog.show(this, "", "Send to server...", true,
+		        pd = ProgressDialog.show(this, "", "Sending to server...", true,
 		                false);
 		        new Thread(new Runnable() {
 
@@ -201,8 +224,12 @@ public class MainViewActivity extends Activity{
                 toast.show(); 
 
 				Qrcode q = new Qrcode(contents, this);
-				if (q!=null)
-					sentScanDetailToServer(q);
+				if (q!=null){
+					if (IsOnline)
+						sentScanDetailToServer(q);
+					else
+						ScanDetail.ScanDetailDialog(q, context);
+				}
 
 //				if (barcode != null)
 //				{

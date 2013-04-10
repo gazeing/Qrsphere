@@ -1,4 +1,4 @@
-package com.qrsphere;
+package com.qrsphere.widget;
 
 import android.content.Context;
 import android.view.View;
@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import com.qrsphere.R;
 
 public class SeparatedListAdapter extends BaseAdapter {  
     
