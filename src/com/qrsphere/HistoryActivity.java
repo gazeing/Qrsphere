@@ -24,6 +24,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -194,7 +195,7 @@ public class HistoryActivity extends Activity {
                 Toast.makeText(getBaseContext(), "You selected the action : " + item.getTitle(), Toast.LENGTH_SHORT).show();
                 switch(item.getItemId()){
                 case R.id.go_to_web:
-                	goToTheWeb();
+                	showQPage();
                 	break;
                 case R.id.add_to_favor:
                 	addToFavorite();
@@ -218,6 +219,14 @@ public class HistoryActivity extends Activity {
         popup.show();  
     }
 
+    public void showQPage(){
+    	Qrcode qc = qrcodeGlobal;
+    	if (qc!=null){
+    		Intent intent= new Intent("com.qrsphere.QPageActivity");
+    		
+    		startActivity(intent);
+    	}
+    }
     
     public void goToTheWeb(){
     	
