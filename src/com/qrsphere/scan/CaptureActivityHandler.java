@@ -94,6 +94,7 @@ public final class CaptureActivityHandler extends Handler {
       case R.id.return_scan_result:
         Log.d(TAG, "Got return scan result message");
         activity.setResult(Activity.RESULT_OK, (Intent) message.obj);
+        //TODO for test only
         activity.finish();
         break;
       case R.id.launch_product_query:

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:rotation="270" >
+
+    <ImageView
+        android:id="@+id/scimageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/qr_logo" />
+
+    <TextView
+        android:id="@+id/sctextView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/scimageView1"
+        android:layout_below="@+id/scimageView1"
+        android:layout_marginTop="18dp"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/scbutton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/sctextView1"
+        android:layout_below="@+id/sctextView1"
+        android:layout_marginTop="16dp"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/scbutton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/scbutton1"
+        android:layout_below="@+id/scbutton1"
+        android:layout_marginTop="17dp"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/scbutton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/scbutton2"
+        android:layout_below="@+id/scbutton2"
+        android:layout_marginTop="20dp"
+        android:text="Button" />
+
+</RelativeLayout>

@@ -94,9 +94,9 @@ public final class R {
         public static final int TextView01=0x7f070010;
         public static final int TextView02=0x7f070011;
         public static final int accountEdit=0x7f070025;
-        public static final int action_settings=0x7f070056;
+        public static final int action_settings=0x7f07005b;
         public static final int ad_bar=0x7f070015;
-        public static final int add_to_favor=0x7f070052;
+        public static final int add_to_favor=0x7f070057;
         /**  Messages IDs 
          */
         public static final int auto_focus=0x7f070000;
@@ -106,41 +106,46 @@ public final class R {
         public static final int btn_login=0x7f070021;
         public static final int btn_reminder=0x7f070034;
         public static final int btn_submit=0x7f070037;
-        public static final int btn_title_left=0x7f07004e;
-        public static final int btn_title_right=0x7f07004f;
+        public static final int btn_title_left=0x7f070053;
+        public static final int btn_title_right=0x7f070054;
         public static final int buttonScanQuit=0x7f07002b;
         public static final int checkBox1=0x7f070026;
         public static final int decode=0x7f070001;
         public static final int decode_failed=0x7f070002;
         public static final int decode_succeeded=0x7f070003;
-        public static final int delete_item=0x7f070055;
+        public static final int delete_item=0x7f07005a;
         public static final int editText1=0x7f070038;
         public static final int encode_failed=0x7f070004;
         public static final int encode_succeeded=0x7f070005;
         public static final int favorite_list=0x7f070014;
-        public static final int feedback=0x7f070051;
-        public static final int go_to_web=0x7f070050;
+        public static final int feedback=0x7f070056;
+        public static final int go_to_web=0x7f070055;
         public static final int gridview=0x7f07002c;
         public static final int history_list=0x7f070018;
-        public static final int imageView1=0x7f07004a;
+        public static final int imageView1=0x7f07004f;
         public static final int instructions_view=0x7f07000f;
         public static final int launch_product_query=0x7f070006;
         public static final int list_header_title=0x7f070019;
         public static final int nameEdit=0x7f070023;
         public static final int passwordEdit=0x7f070027;
         public static final int preview_view=0x7f070028;
-        public static final int progressBar1=0x7f07004c;
+        public static final int progressBar1=0x7f070051;
         public static final int qpagebar=0x7f070032;
         public static final int qpageinfo=0x7f070036;
         public static final int qpagetitle=0x7f07002d;
         public static final int quit=0x7f070007;
         public static final int restart_preview=0x7f070008;
         public static final int return_scan_result=0x7f070009;
-        public static final int scan_detail=0x7f070054;
+        public static final int scan_detail=0x7f070059;
+        public static final int scbutton1=0x7f07004b;
+        public static final int scbutton2=0x7f07004c;
+        public static final int scbutton3=0x7f07004d;
+        public static final int scimageView1=0x7f070049;
+        public static final int sctextView1=0x7f07004a;
         public static final int search_book_contents_failed=0x7f07000a;
         public static final int search_book_contents_succeeded=0x7f07000b;
-        public static final int send_out=0x7f070053;
-        public static final int splashTextView1=0x7f07004b;
+        public static final int send_out=0x7f070058;
+        public static final int splashTextView1=0x7f070050;
         public static final int textView1=0x7f070031;
         public static final int textView2=0x7f07002f;
         public static final int textView3=0x7f07002e;
@@ -148,12 +153,12 @@ public final class R {
         public static final int textView8=0x7f07003a;
         public static final int title_bar=0x7f070013;
         public static final int top_title=0x7f07000c;
-        public static final int tvtitle=0x7f07004d;
+        public static final int tvtitle=0x7f070052;
         public static final int txtResult=0x7f07002a;
         public static final int viewfinder_view=0x7f070029;
         public static final int widget32=0x7f07001e;
         public static final int widget34=0x7f070024;
-        public static final int widget36=0x7f070049;
+        public static final int widget36=0x7f07004e;
         public static final int widget48=0x7f07001f;
         public static final int widget51=0x7f070020;
         public static final int widget56=0x7f070041;
@@ -179,14 +184,17 @@ public final class R {
         public static final int qpage=0x7f03000b;
         public static final int register=0x7f03000c;
         public static final int scan_detail=0x7f03000d;
-        public static final int scorll=0x7f03000e;
-        public static final int splash=0x7f03000f;
-        public static final int title_bar=0x7f030010;
+        public static final int scanpopup=0x7f03000e;
+        public static final int scorll=0x7f03000f;
+        public static final int splash=0x7f030010;
+        public static final int title_bar=0x7f030011;
     }
     public static final class menu {
         public static final int action_chose=0x7f0a0000;
         public static final int favor_chose=0x7f0a0001;
         public static final int main=0x7f0a0002;
+        public static final int scan_offline=0x7f0a0003;
+        public static final int scan_online=0x7f0a0004;
     }
     public static final class raw {
         public static final int beep=0x7f040000;

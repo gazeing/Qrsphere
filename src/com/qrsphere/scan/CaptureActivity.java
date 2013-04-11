@@ -167,7 +167,11 @@ public class CaptureActivity extends Activity implements Callback {
 		intent.putExtra("Url", value);
 		//intent.putExtra("Bmp", barcode);
 		sendReplyMessage(R.id.return_scan_result, intent, 0);
+		
+		
 	}
+
+	
 	private void sendReplyMessage(int id, Object arg, long delayMS) {
 		    Message message = Message.obtain(handler, id, arg);
 		    if (delayMS > 0L) {

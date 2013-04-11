@@ -12,8 +12,10 @@ import com.qrsphere.widget.StartBrowser;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -58,7 +60,7 @@ public class MainViewActivity extends Activity{
     GridView mGridView;
     Button bt_ad;
     Context context;
-    boolean IsOnline = false;
+    boolean isOnline = false;
     
 	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {
@@ -72,7 +74,7 @@ public class MainViewActivity extends Activity{
 //				else{
 //					Toast.makeText(getBaseContext(), "Account dosen't exist or password is incorrect.", Toast.LENGTH_SHORT).show();
 //				}
-	        	if (IsOnline)
+	        	if (isOnline)
 	        		startActivity(new Intent("com.qrsphere.HistoryActivity"));
 	        } else if (msg.what == 0) {
 
@@ -98,7 +100,7 @@ public class MainViewActivity extends Activity{
 		
 		Bundle b= getIntent().getExtras();
 		if (b!=null)
-		IsOnline = b.getBoolean("IsOnline"); 
+			isOnline = b.getBoolean("IsOnline"); 
 		
 		mGridView=(GridView) findViewById(R.id.gridview);  
         //  
@@ -132,7 +134,7 @@ public class MainViewActivity extends Activity{
     				
     				startActivityForResult(new Intent("com.qrsphere.scan.CaptureActivity"),nRet);
                }
-                else if (IsOnline){
+                else if (isOnline){
                 
 	                if (position == 1){
 	                	 startActivity(new Intent("com.qrsphere.HistoryActivity"));
@@ -223,12 +225,77 @@ public class MainViewActivity extends Activity{
                 toast.setGravity(Gravity.BOTTOM, 0, 0);  
                 toast.show(); 
 
-				Qrcode q = new Qrcode(contents, this);
-				if (q!=null){
-					if (IsOnline)
-						sentScanDetailToServer(q);
-					else
-						ScanDetail.ScanDetailDialog(q, context);
+                //TODO be aware of the risk that reading the previous q
+				final Qrcode qc = new Qrcode(contents, this);
+				
+				android.content.DialogInterface.OnClickListener onselect = new android.content.DialogInterface.OnClickListener() {  
+					    @Override  
+					    public void onClick(DialogInterface dialog, int which) {  
+					        // TODO Auto-generated method stub  
+					        switch (which) {  
+					        case 0:  
+					            Toast.makeText(MainViewActivity.this, "0",Toast.LENGTH_SHORT).show(); 
+					            showQPage();
+					            break;  
+					        case 1:  
+					            Toast.makeText(MainViewActivity.this, "1",Toast.LENGTH_SHORT).show();
+					            sendOutQrcode();
+					            break;  
+					        case 2:  
+					            Toast.makeText(MainViewActivity.this, "2",Toast.LENGTH_SHORT).show(); 
+					            showScanDetails();
+					            break;  
+					        case 3:  
+					            Toast.makeText(MainViewActivity.this, "3",Toast.LENGTH_SHORT).show();
+					            feedback();
+					            break;  
+					        case 4:  
+					            Toast.makeText(MainViewActivity.this, "4",Toast.LENGTH_SHORT).show();
+					            addToFavorite();
+					            break;  
+					    }  
+					    }
+
+						private void addToFavorite() {
+							// TODO Auto-generated method stub
+							
+						}
+
+						private void feedback() {
+							// TODO Auto-generated method stub
+							
+						}
+
+						private void showScanDetails() {
+							// TODO Auto-generated method stub
+					    	if (qc!=null)
+					    		ScanDetail.ScanDetailDialog(qc,MainViewActivity.this);
+						}
+
+						private void sendOutQrcode() {
+							// TODO Auto-generated method stub
+							
+						}
+
+						private void showQPage() {
+							// TODO Auto-generated method stub
+					    	if (qc!=null){
+					    		Intent intent= new Intent("com.qrsphere.QPageActivity");
+					    		
+					    		startActivity(intent);
+					    	}
+						}
+
+
+
+
+
+					      
+					   };  
+				if (qc!=null){
+
+					showPopup(contents,onselect);
+
 				}
 
 //				if (barcode != null)
@@ -270,6 +337,89 @@ public class MainViewActivity extends Activity{
 		//((MainActivity) this.getParent()).getTabHost().setCurrentTabByTag("History");
 	}
 	}
+	
+	
+	@SuppressLint("NewApi")
+	protected void showPopup(String str,android.content.DialogInterface.OnClickListener oc) {  
+		
+		String[] choicesOnline={this.getString(R.string.qpage) ,
+				this.getString(R.string.send_out),
+				this.getString(R.string.scan_detail),
+				this.getString(R.string.feedback),
+				this.getString(R.string.add_to_favor)};  
+		String[] choicesOffline={this.getString(R.string.qpage) ,
+				this.getString(R.string.send_out),
+				this.getString(R.string.scan_detail)};  
+		String[] choices = isOnline?choicesOnline:choicesOffline;
+		
+		AlertDialog dialog = new AlertDialog.Builder(MainViewActivity.this)  
+            .setIcon(R.drawable.scan_icon)  
+            .setTitle(str)  
+            .setItems(choices, (android.content.DialogInterface.OnClickListener) oc).create();  
+		dialog.show();  
+//		FrameLayout titil_bar= (FrameLayout) findViewById(R.id.title_bar);
+//        PopupMenu popup = new PopupMenu(this, titil_bar);  
+//        MenuInflater inflater = popup.getMenuInflater(); 
+//        int id = isOnline?R.menu.scan_online:R.menu.scan_offline;
+//        inflater.inflate(id, popup.getMenu());
+//        popup.
+//        popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+//        	 
+//            @Override
+//            //the logic to deal with the menu selection
+//            public boolean onMenuItemClick(MenuItem item) {
+//                Toast.makeText(getBaseContext(), "You selected the action : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+//                switch(item.getItemId()){
+//                case R.id.go_to_web:
+//                	showQPage();
+//                	break;
+//                case R.id.add_to_favor:
+//                	addToFavorite();
+//                	break;
+//                case R.id.scan_detail:
+//
+//                	showScanDetails();
+//                	break;
+//                case R.id.send_out:
+//                	;
+//                	break;
+//                	
+//                case R.id.feedback:
+//                	;
+//                	break;
+//
+//                default:
+//                	break;
+//                }
+//                return true;
+//            }
+//
+//
+//
+//
+//        });
+//        popup.show();  
+		
+//	    LayoutInflater layoutInflater = (LayoutInflater)getBaseContext()
+//	      									.getSystemService(LAYOUT_INFLATER_SERVICE);  
+//	    View popupView = layoutInflater.inflate(R.layout.scanpopup, null);  
+//	    final PopupWindow popupWindow = new PopupWindow(popupView, 
+//	               									LayoutParams.WRAP_CONTENT,  
+//	               									LayoutParams.WRAP_CONTENT);  
+//	             
+//	             Button btnDismiss = (Button)popupView.findViewById(R.id.scbutton1);
+//	             btnDismiss.setOnClickListener(new Button.OnClickListener(){
+//
+//	     @Override
+//	     public void onClick(View v) {
+//	      // TODO Auto-generated method stub
+//	      popupWindow.dismiss();
+//	     }});
+//	               
+//	    popupWindow.showAsDropDown(v, -50, -30);
+    }
+	
+
 	
 
 
