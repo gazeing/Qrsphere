@@ -31,7 +31,7 @@ public class Qrcode {
 		this.timestamp = System.currentTimeMillis();
 		this.hashcode = "";
 		
-		this.hashcode = SimpleSHA1.sha1Hash(rawdata+timestamp);
+		this.hashcode = SimpleSHA1.sha1Hash(rawdata);
 	}
 	String generateRawdataByUrl(String url, Context context){
 		LocationListener ll = new LocationListener(){

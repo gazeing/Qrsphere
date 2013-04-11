@@ -70,57 +70,7 @@ public class HistoryActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		qdo = new QrcodeDataOperator(this);
 		
-		//for test
-//		LocationListener ll = new LocationListener(){
-//
-//			@Override
-//			public void onLocationChanged(Location location) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void onProviderDisabled(String provider) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void onProviderEnabled(String provider) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void onStatusChanged(String provider, int status,
-//					Bundle extras) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//		};
-//		CollectLocation cl = new CollectLocation(this,ll);
-//		
-//		for (int i = 0;i<20;i++){
-//			JSONObject json = new JSONObject();
-//			try {		
-//				json.put("Catalogue", "test");
-//				json.put("URL", "www.facebook.com");
-//				json.put("IsFavorite", true);
-//				json.put("Latitude", cl.getLatitude());
-//				json.put("Longitude", cl.getLongitude());
-//			} catch (JSONException e) {
-//				
-//				e.printStackTrace();
-//			}
-//			Qrcode q1 = new Qrcode(json.toString());
-//			qdo.insert(q1);
-//		}
-//		
-//		
 
-		
-		//test end
 		
 
 		setContentView(R.layout.history);
