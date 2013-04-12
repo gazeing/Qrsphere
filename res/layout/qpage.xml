@@ -6,8 +6,8 @@
 
     <RelativeLayout
         android:id="@+id/qpagetitle"
-        android:layout_width="360sp"
-        android:layout_height="130sp"
+        android:layout_width="match_parent"
+        android:layout_height="110sp"
         android:background="@drawable/qpage_title" >
 
         <TextView
@@ -25,7 +25,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="31sp"
-            android:layout_marginTop="13sp"
+            android:layout_marginTop="0sp"
             android:src="@drawable/q_logo" 
             android:contentDescription="for show company logo"/>
 
@@ -35,8 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignTop="@+id/QpimageView1"
-            android:layout_marginLeft="18dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginLeft="18sp"
+            android:layout_marginTop="30sp"
             android:text=""
             android:textAppearance="?android:attr/textAppearanceLarge" />
 

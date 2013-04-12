@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.database.QrcodeJSONData;
 import com.qrsphere.userinfo.CollectLocation;
+import com.qrsphere.widget.MyLog;
 import com.qrsphere.widget.ScanDetail;
 import com.qrsphere.widget.SeparatedListAdapter;
 import com.qrsphere.widget.StartBrowser;
@@ -313,7 +314,7 @@ public class FavoriteActivity extends Activity {
 				json.put("Longitude", cl.getLongitude());
 			} catch (JSONException e) {
 				
-				e.printStackTrace();
+				MyLog.i(e.toString());
 			}
 			Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i,"testHashCode");
 			qrs.add(q1);
@@ -328,7 +329,7 @@ public class FavoriteActivity extends Activity {
 				json.put("Longitude", cl.getLongitude());
 			} catch (JSONException e) {
 				
-				e.printStackTrace();
+				MyLog.i(e.toString());
 			}
 			Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i*32,"testHashCode");
 			qrs.add(q1);
@@ -344,7 +345,7 @@ public class FavoriteActivity extends Activity {
 				json.put("Longitude", cl.getLongitude());
 			} catch (JSONException e) {
 				
-				e.printStackTrace();
+				MyLog.i(e.toString());
 			}
 			Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i*12,"testHashCode");
 			qrs.add(q1);

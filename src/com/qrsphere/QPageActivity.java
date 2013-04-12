@@ -95,7 +95,7 @@ public class QPageActivity extends Activity {
 			json.put("Owner", "Lisa Smith");
 			json.put("Tel", "0425555555");
 			json.put("Email", "lis@xxxxx.com");
-			json.put("Manufecturer", "Brand X");
+			json.put("Manufacturer", "Brand X");
 
 		} catch (JSONException e) {
 			
@@ -111,7 +111,7 @@ public class QPageActivity extends Activity {
 
 		map.put("Tel", "0425555555");
 		map.put("Email", "lis@xxxxx.com");
-		map.put("Manufecturer", "Brand X");
+		map.put("Manufacturer", "Brand X");
 		
 		return map;
 	}
@@ -171,7 +171,7 @@ public class QPageActivity extends Activity {
 			relativeParams1.topMargin = nMarginTop*3;
 			tvadd = (TextView) findViewById(R.id.textView8);
 			tvadd.setLayoutParams(relativeParams1);
-			tvadd.setText("Contect Owner");
+			tvadd.setText("Contact Owner");
 			
 			
 		} catch (JSONException e) {
