@@ -62,6 +62,9 @@ public class MainViewActivity extends Activity{
     Context context;
     boolean isOnline = false;
     
+    boolean isFromPopupMenu = false;
+    Qrcode qrcodeGlobal =  null;
+    
 	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {
 	    public void handleMessage(Message msg) {
@@ -214,6 +217,98 @@ public class MainViewActivity extends Activity{
 			//getParent().finish();
 		
 	}
+	protected void setPopupMenuAction(Qrcode q){
+		qrcodeGlobal = q;
+		android.content.DialogInterface.OnClickListener onselect = new android.content.DialogInterface.OnClickListener() {  
+			    @Override  
+			    public void onClick(DialogInterface dialog, int which) {  
+			        // TODO Auto-generated method stub  
+			        switch (which) {  
+			        case 0:  
+			            Toast.makeText(MainViewActivity.this, "0",Toast.LENGTH_SHORT).show(); 
+			            showQPage();
+			            break;  
+			        case 1:  
+			            Toast.makeText(MainViewActivity.this, "1",Toast.LENGTH_SHORT).show();
+			            sendOutQrcode();
+			            break;  
+			        case 2:  
+			            Toast.makeText(MainViewActivity.this, "2",Toast.LENGTH_SHORT).show(); 
+			            showScanDetails();
+			            break;  
+			        case 3:  
+			            Toast.makeText(MainViewActivity.this, "3",Toast.LENGTH_SHORT).show();
+			            feedback();
+			            break;  
+			        case 4:  
+			            Toast.makeText(MainViewActivity.this, "4",Toast.LENGTH_SHORT).show();
+			            addToFavorite();
+			            break;  
+			    }  
+			        isFromPopupMenu = true;
+			        
+			    }
+	
+				
+	
+	
+	
+	
+	
+			      
+			   };  
+		if (q!=null){
+	
+			showPopup(q.getQrcodeJSONData().getUrl(),onselect);
+	
+		}
+	}
+	private void addToFavorite() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void feedback() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void showScanDetails() {
+		// TODO Auto-generated method stub
+    	if (qrcodeGlobal!=null){
+    		DialogInterface.OnClickListener click =new android.content.DialogInterface.OnClickListener() {
+   		     public void onClick(DialogInterface dialog, int arg1) {
+   		      // go back to Main menu
+   				setPopupMenuAction(qrcodeGlobal);
+   				isFromPopupMenu = false;
+   		     }
+    		};
+    		
+    		DialogInterface.OnCancelListener cancel =new DialogInterface.OnCancelListener(){
+     	  		    public void onCancel(DialogInterface dialog) {
+     	  		     // go back to Main menu  
+     	  				setPopupMenuAction(qrcodeGlobal);
+     	  				isFromPopupMenu = false;
+     	  		    }};
+    		
+    		ScanDetail.ScanDetailDialog(qrcodeGlobal,MainViewActivity.this,click,cancel);
+
+    	}
+	}
+
+	private void sendOutQrcode() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void showQPage() {
+		// TODO Auto-generated method stub
+    	if (qrcodeGlobal!=null){
+    		Intent intent= new Intent("com.qrsphere.QPageActivity");
+    		
+    		startActivity(intent);
+    	}
+	}
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		if (requestCode ==0) {
 			if (resultCode == RESULT_OK) {
@@ -226,77 +321,9 @@ public class MainViewActivity extends Activity{
                 toast.show(); 
 
                 //TODO be aware of the risk that reading the previous q
-				final Qrcode qc = new Qrcode(contents, this);
+				Qrcode qc = new Qrcode(contents, this);
 				
-				android.content.DialogInterface.OnClickListener onselect = new android.content.DialogInterface.OnClickListener() {  
-					    @Override  
-					    public void onClick(DialogInterface dialog, int which) {  
-					        // TODO Auto-generated method stub  
-					        switch (which) {  
-					        case 0:  
-					            Toast.makeText(MainViewActivity.this, "0",Toast.LENGTH_SHORT).show(); 
-					            showQPage();
-					            break;  
-					        case 1:  
-					            Toast.makeText(MainViewActivity.this, "1",Toast.LENGTH_SHORT).show();
-					            sendOutQrcode();
-					            break;  
-					        case 2:  
-					            Toast.makeText(MainViewActivity.this, "2",Toast.LENGTH_SHORT).show(); 
-					            showScanDetails();
-					            break;  
-					        case 3:  
-					            Toast.makeText(MainViewActivity.this, "3",Toast.LENGTH_SHORT).show();
-					            feedback();
-					            break;  
-					        case 4:  
-					            Toast.makeText(MainViewActivity.this, "4",Toast.LENGTH_SHORT).show();
-					            addToFavorite();
-					            break;  
-					    }  
-					    }
-
-						private void addToFavorite() {
-							// TODO Auto-generated method stub
-							
-						}
-
-						private void feedback() {
-							// TODO Auto-generated method stub
-							
-						}
-
-						private void showScanDetails() {
-							// TODO Auto-generated method stub
-					    	if (qc!=null)
-					    		ScanDetail.ScanDetailDialog(qc,MainViewActivity.this);
-						}
-
-						private void sendOutQrcode() {
-							// TODO Auto-generated method stub
-							
-						}
-
-						private void showQPage() {
-							// TODO Auto-generated method stub
-					    	if (qc!=null){
-					    		Intent intent= new Intent("com.qrsphere.QPageActivity");
-					    		
-					    		startActivity(intent);
-					    	}
-						}
-
-
-
-
-
-					      
-					   };  
-				if (qc!=null){
-
-					showPopup(contents,onselect);
-
-				}
+				setPopupMenuAction(qc);
 
 //				if (barcode != null)
 //				{
@@ -339,6 +366,18 @@ public class MainViewActivity extends Activity{
 	}
 	
 	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		if (isFromPopupMenu){
+			setPopupMenuAction(qrcodeGlobal);
+			isFromPopupMenu = false;
+		}
+			
+			
+	}
+
 	@SuppressLint("NewApi")
 	protected void showPopup(String str,android.content.DialogInterface.OnClickListener oc) {  
 		

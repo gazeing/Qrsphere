@@ -160,11 +160,11 @@ public class CaptureActivity extends Activity implements Callback {
 		inactivityTimer.onActivity();
 		viewfinderView.drawResultBitmap(barcode);
 		 playBeepSoundAndVibrate();
-		 String value =  obj.getBarcodeFormat().toString() + ":"
-			+ obj.getText();
+		String value =   obj.getText();
 		txtResult.setText(value);
 		Intent intent = new Intent();
 		intent.putExtra("Url", value);
+		intent.putExtra("Format", obj.getBarcodeFormat().toString());
 		//intent.putExtra("Bmp", barcode);
 		sendReplyMessage(R.id.return_scan_result, intent, 0);
 		
