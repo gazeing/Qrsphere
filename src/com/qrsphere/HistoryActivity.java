@@ -10,8 +10,11 @@ import org.json.JSONObject;
 
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.database.QrcodeDataOperator;
+import com.qrsphere.login.LoginActivity;
+import com.qrsphere.network.QPageProcess;
 import com.qrsphere.userinfo.CollectLocation;
 import com.qrsphere.widget.ComboBox;
+import com.qrsphere.widget.MyLog;
 import com.qrsphere.widget.ScanDetail;
 import com.qrsphere.widget.SeparatedListAdapter;
 import com.qrsphere.widget.StartBrowser;
@@ -23,11 +26,13 @@ import com.qrsphere.widget.StartBrowser;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,6 +48,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.PopupMenu;
 
+@SuppressLint("HandlerLeak")
 public class HistoryActivity extends Activity {
 
 
@@ -62,14 +68,40 @@ public class HistoryActivity extends Activity {
 	QrcodeDataOperator qdo;
 	SeparatedListAdapter adapter;
 	
+	 QPageProcess qpGlobal = null;
+	 ProgressDialog pd;
+	 @SuppressLint("HandlerLeak")
+		private Handler handler = new Handler() {
+		   
+			public void handleMessage(Message msg) {
+		      
+		    	if(pd!=null&&pd.isShowing()){
+		    		pd.dismiss();
+		    		
+		    		MyLog.i("Dialog","pd.dismiss(); pd.getProgress() = "+pd.getProgress());
+
+		    	}
+		        if (msg.what == 11) {
+
+		        } else if (msg.what == 1) {
+
+		        } else if (msg.what == 22) {
+		        	qpGlobal.startQPage(HistoryActivity.this);
+		        	
+		        }else {
+		            LoginActivity.showNetworkAlert(HistoryActivity.this);
+		        }
+		    }
+		};
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		qdo = new QrcodeDataOperator(this);
+		//qdo = new QrcodeDataOperator(this);
 		
+		qpGlobal = new QPageProcess(pd, handler);
 
 		
 
@@ -172,9 +204,7 @@ public class HistoryActivity extends Activity {
     public void showQPage(){
     	Qrcode qc = qrcodeGlobal;
     	if (qc!=null){
-    		Intent intent= new Intent("com.qrsphere.QPageActivity");
-    		
-    		startActivity(intent);
+    		this.pd = qpGlobal.sentToServer(HistoryActivity.this, qc, 22, "Generating Qpage...");
     	}
     }
     

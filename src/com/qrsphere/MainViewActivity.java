@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.login.LoginActivity;
+import com.qrsphere.network.QPageProcess;
 import com.qrsphere.widget.MyLog;
 import com.qrsphere.widget.ScanDetail;
 import com.qrsphere.widget.StartBrowser;
@@ -64,39 +65,26 @@ public class MainViewActivity extends Activity{
     
     boolean isFromPopupMenu = false;
     Qrcode qrcodeGlobal =  null;
+    QPageProcess qpGlobal = null;
     
 	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {
-	   // @SuppressWarnings("deprecation")
+	   
 		public void handleMessage(Message msg) {
-	        //pd.dismiss();
-	    	//removeDialog(pd.);
+	      
 	    	if(pd!=null&&pd.isShowing()){
 	    		pd.dismiss();
-	    		//removeDialog(888);
+	    		
 	    		MyLog.i("Dialog","pd.dismiss(); pd.getProgress() = "+pd.getProgress());
 
 	    	}
 	        if (msg.what == 11) {
-//				if (isLoginOK){
-//					LoginActivity.this.finish();
-//					startActivity(new Intent("com.qrsphere.MainViewActivity"));
-//				}
-//				else{
-//					Toast.makeText(getBaseContext(), "Account dosen't exist or password is incorrect.", Toast.LENGTH_SHORT).show();
-//				}
-//	        	if (isOnline)
-//	        		startActivity(new Intent("com.qrsphere.HistoryActivity"));
+
 	        } else if (msg.what == 1) {
 
 	        } else if (msg.what == 22) {
-	        	if (qrcodeGlobal!=null){
-	        		Intent intent= new Intent("com.qrsphere.QPageActivity");
-	        		
-	        		startActivity(intent);
-	        		MyLog.i("Dialog","startActivity(intent);");
-	        	}
-
+	        	qpGlobal.startQPage(MainViewActivity.this);
+	        	
 	        }else {
 	            LoginActivity.showNetworkAlert(MainViewActivity.this);
 	        }
@@ -116,6 +104,7 @@ public class MainViewActivity extends Activity{
 	
 	private void Init(){
 		context = this;
+		qpGlobal = new QPageProcess(pd, handler);
 		
 		Bundle b= getIntent().getExtras();
 		if (b!=null)
@@ -325,7 +314,8 @@ public class MainViewActivity extends Activity{
 
 	private void showQPage() {
 		// TODO Auto-generated method stub
-		sentToServer(qrcodeGlobal, 22, "Generating Qpage...");
+		
+		this.pd = qpGlobal.sentToServer(context, qrcodeGlobal, 22, "Generating Qpage...");
 		 MyLog.i("Dialog","ServerProcessDialog.sentToServer(this, handler, qrcodeGlobal, pd, 22, ");
 	}
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -407,38 +397,7 @@ public class MainViewActivity extends Activity{
 			
 	}
 	
-	public void sentToServer (Qrcode qc,
-			final int succussCode,
-			String processText){
 
-			if (LoginActivity.isOnline(context)) {
-				pd = ProgressDialog.show(context, "", processText, true,
-				false);
-				//pd.setProgress(888);
-				MyLog.i("Dialog"," pd = ProgressDialog.show(context,");
-				new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					try {
-					
-						Thread.sleep(1500);
-						//TODO add server communication code here
-					
-					    handler.sendEmptyMessage(succussCode);
-					    MyLog.i("Dialog","handler.sendEmptyMessage(succussCode);");
-					} catch (Exception e) {
-					    System.out.println("In Cache :");
-					    handler.sendEmptyMessage(1);
-					    MyLog.i("Dialog","handler.sendEmptyMessage(1);");
-					}
-				}
-			}).start();
-			// pd.dismiss();
-			} else {
-				
-			}
-}
 
 	@SuppressLint("NewApi")
 	protected void showPopup(String str,android.content.DialogInterface.OnClickListener oc) {  

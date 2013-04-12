@@ -10,6 +10,8 @@ import org.json.JSONObject;
 
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.database.QrcodeJSONData;
+import com.qrsphere.login.LoginActivity;
+import com.qrsphere.network.QPageProcess;
 import com.qrsphere.userinfo.CollectLocation;
 import com.qrsphere.widget.MyLog;
 import com.qrsphere.widget.ScanDetail;
@@ -18,9 +20,12 @@ import com.qrsphere.widget.StartBrowser;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +39,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
+@SuppressLint("HandlerLeak")
 public class FavoriteActivity extends Activity {
 	private List<String> data = new ArrayList<String>();
 	ListView lView;
@@ -59,6 +65,31 @@ public class FavoriteActivity extends Activity {
 	
 	SeparatedListAdapter adapter;
 	
+	 QPageProcess qpGlobal = null;
+	 ProgressDialog pd;
+	 @SuppressLint("HandlerLeak")
+		private Handler handler = new Handler() {
+		   
+			public void handleMessage(Message msg) {
+		      
+		    	if(pd!=null&&pd.isShowing()){
+		    		pd.dismiss();
+		    		
+		    		MyLog.i("Dialog","pd.dismiss(); pd.getProgress() = "+pd.getProgress());
+
+		    	}
+		        if (msg.what == 11) {
+
+		        } else if (msg.what == 1) {
+
+		        } else if (msg.what == 22) {
+		        	qpGlobal.startQPage(FavoriteActivity.this);
+		        	
+		        }else {
+		            LoginActivity.showNetworkAlert(FavoriteActivity.this);
+		        }
+		    }
+		};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +97,7 @@ public class FavoriteActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		//qdo = new QrcodeDataOperator(this);
 		
-		
+		qpGlobal = new QPageProcess(pd, handler);
 		
 		
 		
@@ -142,7 +173,7 @@ public class FavoriteActivity extends Activity {
                 Toast.makeText(getBaseContext(), "You selected the action : " + item.getTitle(), Toast.LENGTH_SHORT).show();
                 switch(item.getItemId()){
                 case R.id.go_to_web:
-                	goToTheWeb();
+                	showQPage();
                 	break;
                 	
                 case R.id.feedback:
@@ -164,8 +195,17 @@ public class FavoriteActivity extends Activity {
                 }
                 return true;
             }
+
+
         });
         popup.show();  
+	}			
+	private void showQPage() {
+				// TODO Auto-generated method stub
+    	Qrcode qc = qrcodeGlobal;
+    	if (qc!=null){
+    		this.pd = qpGlobal.sentToServer(FavoriteActivity.this, qc, 22, "Generating Qpage...");;
+    	}		
 	}
     public void goToTheWeb(){
     	

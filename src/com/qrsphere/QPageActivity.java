@@ -1,11 +1,13 @@
 package com.qrsphere;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.qrsphere.widget.MyLog;
 import com.qrsphere.widget.ScreenSolution;
 
 import android.app.Activity;
@@ -84,23 +86,34 @@ public class QPageActivity extends Activity {
 	}
 	
 	public JSONObject getQPageInfo(){
+		Bundle b= getIntent().getExtras();
+		String str= null;
+		if (b!=null)
+			str = b.getString("Result");
+		
 		JSONObject json = null;
-	//for test	
-		json = new JSONObject();
-		try {		
-			json.put("Brand", "Brand X");
-			json.put("Product", "X product");
-			json.put("Id", "12345678901234567890");
-			
-			json.put("Owner", "Lisa Smith");
-			json.put("Tel", "0425555555");
-			json.put("Email", "lis@xxxxx.com");
-			json.put("Manufacturer", "Brand X");
-
+		try {
+			json = new JSONObject(str);
 		} catch (JSONException e) {
-			
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	//for test	
+//		json = new JSONObject();
+//		try {		
+//			json.put("Brand", "Brand X");
+//			json.put("Product", "X product");
+//			json.put("Id", "12345678901234567890");
+//			
+//			json.put("Owner", "Lisa Smith");
+//			json.put("Tel", "0425555555");
+//			json.put("Email", "lis@xxxxx.com");
+//			json.put("Manufacturer", "Brand X");
+//
+//		} catch (JSONException e) {
+//			
+//			e.printStackTrace();
+//		}
 	//test end
 		
 		return json;
@@ -108,11 +121,29 @@ public class QPageActivity extends Activity {
 	}
 	public Map<String,String> getQpageContent(JSONObject json){
 		Map<String,String> map = new HashMap<String, String>();
-
-		map.put("Tel", "0425555555");
-		map.put("Email", "lis@xxxxx.com");
-		map.put("Manufacturer", "Brand X");
 		
+	    @SuppressWarnings("unchecked")
+		Iterator<String> iter = json.keys();
+	    while (iter.hasNext()) {
+	        String key = iter.next();
+	        try {
+	            String value = json.getString(key);
+	            if ((key.compareTo("Brand")!=0)
+	            		&&(key.compareTo("Product")!=0)
+	            		&&(key.compareTo("Id")!=0)
+	            		&&(key.compareTo("Owner")!=0)
+	            		)
+	            	map.put(key,value);
+	        } catch (JSONException e) {
+	            // Something went wrong!
+	        	MyLog.i(e.toString());
+	        }
+	    }
+
+//		map.put("Tel", "0425555555");
+//		map.put("Email", "lis@xxxxx.com");
+//		map.put("Manufacturer", "Brand X");
+//		
 		return map;
 	}
 	public void updatePage(JSONObject json){
