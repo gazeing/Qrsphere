@@ -9,11 +9,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.qrsphere.database.Qrcode;
-import com.qrsphere.database.QrcodeDataOperator;
 import com.qrsphere.login.LoginActivity;
+import com.qrsphere.network.AddToFavoriteProcess;
 import com.qrsphere.network.QPageProcess;
 import com.qrsphere.network.SuccessCode;
 import com.qrsphere.userinfo.CollectLocation;
+import com.qrsphere.widget.AddToFavorite;
 import com.qrsphere.widget.ComboBox;
 import com.qrsphere.widget.MyLog;
 import com.qrsphere.widget.ScanDetail;
@@ -26,7 +27,6 @@ import com.qrsphere.widget.StartBrowser;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.location.Location;
@@ -34,13 +34,11 @@ import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -66,10 +64,12 @@ public class HistoryActivity extends Activity {
 	int positionGlobal = 0;
 	String qrDataGlobal = "";
 	Qrcode qrcodeGlobal = null;
-	QrcodeDataOperator qdo;
+	//QrcodeDataOperator qdo;
 	SeparatedListAdapter adapter;
+	ComboBox  cbGlobal = null;
 	
 	 QPageProcess qpGlobal = null;
+	 AddToFavoriteProcess atpGlobal= null;
 	 ProgressDialog pd;
 	 @SuppressLint("HandlerLeak")
 		private Handler handler = new Handler() {
@@ -89,6 +89,8 @@ public class HistoryActivity extends Activity {
 		        } else if (msg.what == SuccessCode.QPAGE_SUCCESS) {
 		        	qpGlobal.startQPage(HistoryActivity.this);
 		        	
+		        }else if (msg.what == SuccessCode.ADD_TO_FAVORITE_SUCCESS) {
+		        	
 		        }else {
 		            LoginActivity.showNetworkAlert(HistoryActivity.this);
 		        }
@@ -103,7 +105,7 @@ public class HistoryActivity extends Activity {
 		//qdo = new QrcodeDataOperator(this);
 		
 		qpGlobal = new QPageProcess(pd, handler);
-
+		atpGlobal = new AddToFavoriteProcess(pd, handler);
 		
 
 		setContentView(R.layout.history);
@@ -205,7 +207,7 @@ public class HistoryActivity extends Activity {
     public void showQPage(){
     	Qrcode qc = qrcodeGlobal;
     	if (qc!=null){
-    		this.pd = qpGlobal.sentToServer(HistoryActivity.this, qc, SuccessCode.QPAGE_SUCCESS, "Generating Qpage...");
+    		this.pd = qpGlobal.sentToServer(HistoryActivity.this, qc);
     	}
     }
     
@@ -229,58 +231,75 @@ public class HistoryActivity extends Activity {
 
 	public void addToFavorite(){
 
-    	
-    	ArrayAdapter<String> adp = getSuggestion();
-
-    	InstructionsDialog("You have chose "+ qrDataGlobal +". " +
-    			"\nPlease give a description of it. Or you can chose " +
-    			"from the past list. ","Please input category",adp);
-       	;
+		DialogInterface.OnClickListener click =new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int arg1) {
+			// OK, go back to Main menu
+			 sendDataToFavorList();
+			}
+			
+		
+		};
+		
+		DialogInterface.OnCancelListener cancel = new DialogInterface.OnCancelListener(){
+			public void onCancel(DialogInterface dialog) {
+			// OK, go back to Main menu   
+				}
+			};
+			
+		AddToFavorite af = new AddToFavorite();
+		cbGlobal = af.show(this, qrDataGlobal, click, cancel);
     }
     
 
     
-	protected void InstructionsDialog(String text,String title,
-							ArrayAdapter<String> list){
-
-		  AlertDialog.Builder ad = new AlertDialog.Builder(this);
-		  ad.setIcon(R.drawable.ic_launcher);
-		  ad.setTitle(title);
-		  LayoutInflater linf = LayoutInflater.from(this);
-		  final View inflator = linf.inflate(R.layout.dialog, null);
-		  ad.setView(inflator);
-
-		  ad.setPositiveButton("OK", 
-		    new android.content.DialogInterface.OnClickListener() {
-		     public void onClick(DialogInterface dialog, int arg1) {
-		      // OK, go back to Main menu
-		    	 sendDataToFavorList();
-		     }
-
-
-		    }
-		   );
-
-		   ad.setOnCancelListener(new DialogInterface.OnCancelListener(){
-		    public void onCancel(DialogInterface dialog) {
-		     // OK, go back to Main menu   
-		    }}
-		   );
-		   
-			  TextView tv =(TextView)(inflator.findViewById(R.id.TextView01));
-			  if (tv!=null)
-				tv.setText(text);
-			  ComboBox cb = (ComboBox) (inflator.findViewById(R.id.Combo01));
-			  if (cb!= null)
-				  cb.setSuggestionSource(list);
-
-		  ad.show();
-
-		 }
+//	protected void InstructionsDialog(String text,String title,
+//							ArrayAdapter<String> list){
+//
+//		  AlertDialog.Builder ad = new AlertDialog.Builder(this);
+//		  ad.setIcon(R.drawable.ic_launcher);
+//		  ad.setTitle(title);
+//		  LayoutInflater linf = LayoutInflater.from(this);
+//		  final View inflator = linf.inflate(R.layout.dialog, null);
+//		  ad.setView(inflator);
+//
+//		  ad.setPositiveButton("OK", 
+//		    new android.content.DialogInterface.OnClickListener() {
+//		     public void onClick(DialogInterface dialog, int arg1) {
+//		      // OK, go back to Main menu
+//		    	 sendDataToFavorList();
+//		     }
+//
+//
+//		    }
+//		   );
+//
+//		   ad.setOnCancelListener(new DialogInterface.OnCancelListener(){
+//		    public void onCancel(DialogInterface dialog) {
+//		     // OK, go back to Main menu   
+//		    }}
+//		   );
+//		   
+//			  TextView tv =(TextView)(inflator.findViewById(R.id.TextView01));
+//			  if (tv!=null)
+//				tv.setText(text);
+//			  ComboBox cb = (ComboBox) (inflator.findViewById(R.id.Combo01));
+//			  if (cb!= null)
+//				  cb.setSuggestionSource(list);
+//
+//		  ad.show();
+//
+//		 }
 	
 	private void sendDataToFavorList() {
 		// TODO Auto-generated method stub
-		
+		if (cbGlobal!=null){
+			String cata = cbGlobal.getText();
+			qrcodeGlobal.addCatalogue(cata);
+	    	Qrcode qc = qrcodeGlobal;
+	    	if (qc!=null){
+	    		this.pd =atpGlobal.sentToServer(this, qc);
+	    	}
+		}
 	}
 
 	public void showScanDetails(){
@@ -364,16 +383,7 @@ public class HistoryActivity extends Activity {
 	public List<Qrcode> getQrcodes(){
 		return generateTestQrcode();
 	}
-	
-    public ArrayAdapter<String> getSuggestion(){
-    	ArrayAdapter<String> adp = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line);
-    	int i = 4;
-    	while(i-->0){
 
-    		adp.add("Suggest"+i);
-    	}
-    	return adp;
-    }
 	
 	public List<Qrcode> generateTestQrcode()
 	{

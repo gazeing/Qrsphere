@@ -68,6 +68,7 @@ public class FavoriteActivity extends Activity {
 	
 	 QPageProcess qpGlobal = null;
 	 ProgressDialog pd;
+	 
 	 @SuppressLint("HandlerLeak")
 		private Handler handler = new Handler() {
 		   
@@ -205,7 +206,7 @@ public class FavoriteActivity extends Activity {
 				// TODO Auto-generated method stub
     	Qrcode qc = qrcodeGlobal;
     	if (qc!=null){
-    		this.pd = qpGlobal.sentToServer(FavoriteActivity.this, qc, SuccessCode.QPAGE_SUCCESS, "Generating Qpage...");;
+    		this.pd = qpGlobal.sentToServer(FavoriteActivity.this, qc);
     	}		
 	}
     public void goToTheWeb(){

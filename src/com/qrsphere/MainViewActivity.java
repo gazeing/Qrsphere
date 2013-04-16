@@ -7,8 +7,12 @@ import java.util.HashMap;
 
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.login.LoginActivity;
+import com.qrsphere.network.AddToFavoriteProcess;
 import com.qrsphere.network.QPageProcess;
+import com.qrsphere.network.SendDetailProcess;
 import com.qrsphere.network.SuccessCode;
+import com.qrsphere.widget.AddToFavorite;
+import com.qrsphere.widget.ComboBox;
 import com.qrsphere.widget.MyLog;
 import com.qrsphere.widget.ScanDetail;
 import com.qrsphere.widget.StartBrowser;
@@ -67,6 +71,10 @@ public class MainViewActivity extends Activity{
     boolean isFromPopupMenu = false;
     Qrcode qrcodeGlobal =  null;
     QPageProcess qpGlobal = null;
+    SendDetailProcess sdqGlobal = null;
+    AddToFavoriteProcess atpGlobal= null;
+    
+    ComboBox  cbGlobal = null;
     
 	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {
@@ -85,6 +93,8 @@ public class MainViewActivity extends Activity{
 
 	        } else if (msg.what == SuccessCode.QPAGE_SUCCESS) {
 	        	qpGlobal.startQPage(MainViewActivity.this);
+	        	
+	        }else if (msg.what == SuccessCode.ADD_TO_FAVORITE_SUCCESS) {
 	        	
 	        }else {
 	            LoginActivity.showNetworkAlert(MainViewActivity.this);
@@ -106,6 +116,8 @@ public class MainViewActivity extends Activity{
 	private void Init(){
 		context = this;
 		qpGlobal = new QPageProcess(pd, handler);
+		sdqGlobal = new SendDetailProcess(pd, handler);
+		atpGlobal = new AddToFavoriteProcess(pd, handler);
 		
 		Bundle b= getIntent().getExtras();
 		if (b!=null)
@@ -187,33 +199,37 @@ public class MainViewActivity extends Activity{
 	
 	public void sentScanDetailToServer(Qrcode q){
 		
-		 if (LoginActivity.isOnline(this)) {
-		        pd = ProgressDialog.show(this, "", "Sending to server...", true,
-		                false);
-		        
-		        MyLog.i("Dialog","pd = ProgressDialog.show(this, \"\", \"Sending to server...\", true,false);");
-		        new Thread(new Runnable() {
-
-		            @Override
-		            public void run() {
-		                try {
-
-		    				
-		    				Thread.sleep(5000);
-		    				
-		    				//strResponse = res;
-
-		                    handler.sendEmptyMessage(SuccessCode.DETAIL_SENT_SUCCESS);
-		                } catch (Exception e) {
-		                    System.out.println("In Cache :");
-		                    handler.sendEmptyMessage(1);
-		                }
-		            }
-		        }).start();
-		    } else {
-		    	LoginActivity.showNetworkAlert(this);
-		    }
-			
+		if (q!=null){
+			this.pd = sdqGlobal.sentToServer(this, q);
+		}
+		 
+//		if (LoginActivity.isOnline(this)) {
+//		        pd = ProgressDialog.show(this, "", "Sending to server...", true,
+//		                false);
+//		        
+//		        MyLog.i("Dialog","pd = ProgressDialog.show(this, \"\", \"Sending to server...\", true,false);");
+//		        new Thread(new Runnable() {
+//
+//		            @Override
+//		            public void run() {
+//		                try {
+//
+//		    				
+//		    				Thread.sleep(5000);
+//		    				
+//		    				//strResponse = res;
+//
+//		                    handler.sendEmptyMessage(SuccessCode.DETAIL_SENT_SUCCESS);
+//		                } catch (Exception e) {
+//		                    System.out.println("In Cache :");
+//		                    handler.sendEmptyMessage(1);
+//		                }
+//		            }
+//		        }).start();
+//		    } else {
+//		    	LoginActivity.showNetworkAlert(this);
+//		    }
+//			
 //			if (res.compareTo("No result!")!=0){
 //				finish();
 //				startActivity(new Intent("com.example.clienttest.MainActivity"));
@@ -277,7 +293,36 @@ public class MainViewActivity extends Activity{
 	}
 	private void addToFavorite() {
 		// TODO Auto-generated method stub
+		DialogInterface.OnClickListener click =new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int arg1) {
+			// OK, go back to Main menu
+			 sendDataToFavorList();
+			}
+			
 		
+		};
+		
+		DialogInterface.OnCancelListener cancel = new DialogInterface.OnCancelListener(){
+			public void onCancel(DialogInterface dialog) {
+			// OK, go back to Main menu   
+				}
+			};
+			
+		AddToFavorite af = new AddToFavorite();
+		cbGlobal = af.show(this, qrcodeGlobal.getQrcodeJSONData().getUrl(),
+				click, cancel);
+		
+	}
+	private void sendDataToFavorList() {
+		// TODO Auto-generated method stub
+		if (cbGlobal!=null){
+			String cata = cbGlobal.getText();
+			qrcodeGlobal.addCatalogue(cata);
+	    	Qrcode qc = qrcodeGlobal;
+	    	if (qc!=null){
+	    		this.pd =atpGlobal.sentToServer(this, qc);
+	    	}
+		}
 	}
 
 	private void feedback() {
@@ -316,7 +361,7 @@ public class MainViewActivity extends Activity{
 	private void showQPage() {
 		// TODO Auto-generated method stub
 		
-		this.pd = qpGlobal.sentToServer(context, qrcodeGlobal, SuccessCode.QPAGE_SUCCESS, "Generating Qpage...");
+		this.pd = qpGlobal.sentToServer(context, qrcodeGlobal);
 		 MyLog.i("Dialog","ServerProcessDialog.sentToServer(this, handler, qrcodeGlobal, pd, 22, ");
 	}
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {

@@ -88,6 +88,35 @@ public class Qrcode {
 		this.timestamp = timestamp;
 		this.hashcode = hashcode;
 	}
+	
+	public Qrcode addCatalogue(String cata){
+		try {
+			JSONObject json = new JSONObject(rawdata);
+			String url = json.getString("URL");
+			String catalogue = json.getString("Catalogue");
+			boolean isFavorite = json.getBoolean("IsFavorite");
+			double latitude = json.getDouble("Latitude");
+			double longitude = json.getDouble("Longitude");
+			catalogue = cata;
+			
+			JSONObject jsonnew = new JSONObject();
+			
+			jsonnew.put("Catalogue", catalogue);
+			jsonnew.put("URL", url);
+			jsonnew.put("IsFavorite", isFavorite);
+			jsonnew.put("Latitude", latitude);
+			jsonnew.put("Longitude", longitude);
+			jsonnew.put("TimeStamp", this.timestamp);
+			
+			this.rawdata = jsonnew.toString();
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return this;
+	}
 
 	public String getRawdata() {
 		return rawdata;

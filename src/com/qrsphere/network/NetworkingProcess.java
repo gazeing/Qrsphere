@@ -13,6 +13,7 @@ public abstract class NetworkingProcess {
 	ProgressDialog pd = null;
 	Handler  handler = null;
 	String strJSON = null;
+	Qrcode qrcode=null;
 	
 	public String getStrJSON() {
 		return strJSON;
@@ -24,7 +25,8 @@ public abstract class NetworkingProcess {
 		this.handler = handler;
 	}
 
-	public ProgressDialog sentToServer (Context context,Qrcode qc,
+
+	public ProgressDialog sentToServer (Context context, Qrcode qc,
 			final int succussCode, String processText){
 
 			if (LoginActivity.isOnline(context)) {
@@ -60,4 +62,6 @@ public abstract class NetworkingProcess {
 
 	//get response of server here
 	abstract protected String getResult();
+	//implement the sending logic here
+	abstract public ProgressDialog sentToServer (Context context, Qrcode qc);
 }

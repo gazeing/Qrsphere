@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.qrsphere.database.Qrcode;
 import com.qrsphere.widget.MyLog;
 
 public class QPageProcess extends NetworkingProcess{
@@ -20,6 +21,9 @@ public class QPageProcess extends NetworkingProcess{
 
 	}
 
+	public ProgressDialog sentToServer(Context context, Qrcode qc){
+		return super.sentToServer(context, qc, SuccessCode.QPAGE_SUCCESS, "Generating Qpage...");
+	}
 	
 	protected String getResult(){
 		
