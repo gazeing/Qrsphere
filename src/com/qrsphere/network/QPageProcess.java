@@ -9,60 +9,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import com.qrsphere.database.Qrcode;
-import com.qrsphere.login.LoginActivity;
 import com.qrsphere.widget.MyLog;
 
-public class QPageProcess {
+public class QPageProcess extends NetworkingProcess{
 
-	ProgressDialog pd = null;
-	Handler  handler = null;
-	String strJSON = null;
-	
-	public String getStrJSON() {
-		return strJSON;
-	}
+
 
 	public QPageProcess(ProgressDialog pd, Handler handler) {
-		super();
-		this.pd = pd;
-		this.handler = handler;
+		super(pd, handler);
+
 	}
 
-	public ProgressDialog sentToServer (Context context,Qrcode qc,
-			final int succussCode,
-			String processText){
-
-			if (LoginActivity.isOnline(context)) {
-				pd = ProgressDialog.show(context, "", processText, true,
-				false);
-				//pd.setProgress(888);
-				MyLog.i("Dialog"," pd = ProgressDialog.show(context,");
-				new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					try {
-					
-						Thread.sleep(1500);
-						//TODO add server communication code here
-						strJSON = getResult();
-					    handler.sendEmptyMessage(succussCode);
-					    MyLog.i("Dialog","handler.sendEmptyMessage(succussCode);");
-					} catch (Exception e) {
-					    System.out.println("In Cache :");
-					    handler.sendEmptyMessage(1);
-					    MyLog.i("Dialog","handler.sendEmptyMessage(1);");
-					}
-				}
-			}).start();
-			// pd.dismiss();
-			} else {
-				
-			}
-			return pd;
-	}
-	String getResult(){
+	
+	protected String getResult(){
 		
 		JSONObject json = new JSONObject();
 		try {		

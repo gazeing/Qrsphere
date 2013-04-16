@@ -12,6 +12,7 @@ import com.qrsphere.database.Qrcode;
 import com.qrsphere.database.QrcodeJSONData;
 import com.qrsphere.login.LoginActivity;
 import com.qrsphere.network.QPageProcess;
+import com.qrsphere.network.SuccessCode;
 import com.qrsphere.userinfo.CollectLocation;
 import com.qrsphere.widget.MyLog;
 import com.qrsphere.widget.ScanDetail;
@@ -78,11 +79,11 @@ public class FavoriteActivity extends Activity {
 		    		MyLog.i("Dialog","pd.dismiss(); pd.getProgress() = "+pd.getProgress());
 
 		    	}
-		        if (msg.what == 11) {
+		        if (msg.what == SuccessCode.DETAIL_SENT_SUCCESS) {
 
-		        } else if (msg.what == 1) {
+		        } else if (msg.what == SuccessCode.ERROR) {
 
-		        } else if (msg.what == 22) {
+		        } else if (msg.what == SuccessCode.QPAGE_SUCCESS) {
 		        	qpGlobal.startQPage(FavoriteActivity.this);
 		        	
 		        }else {
@@ -204,7 +205,7 @@ public class FavoriteActivity extends Activity {
 				// TODO Auto-generated method stub
     	Qrcode qc = qrcodeGlobal;
     	if (qc!=null){
-    		this.pd = qpGlobal.sentToServer(FavoriteActivity.this, qc, 22, "Generating Qpage...");;
+    		this.pd = qpGlobal.sentToServer(FavoriteActivity.this, qc, SuccessCode.QPAGE_SUCCESS, "Generating Qpage...");;
     	}		
 	}
     public void goToTheWeb(){

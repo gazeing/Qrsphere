@@ -8,6 +8,7 @@ import java.util.HashMap;
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.login.LoginActivity;
 import com.qrsphere.network.QPageProcess;
+import com.qrsphere.network.SuccessCode;
 import com.qrsphere.widget.MyLog;
 import com.qrsphere.widget.ScanDetail;
 import com.qrsphere.widget.StartBrowser;
@@ -78,11 +79,11 @@ public class MainViewActivity extends Activity{
 	    		MyLog.i("Dialog","pd.dismiss(); pd.getProgress() = "+pd.getProgress());
 
 	    	}
-	        if (msg.what == 11) {
+	        if (msg.what == SuccessCode.DETAIL_SENT_SUCCESS) {
 
-	        } else if (msg.what == 1) {
+	        } else if (msg.what == SuccessCode.ERROR) {
 
-	        } else if (msg.what == 22) {
+	        } else if (msg.what == SuccessCode.QPAGE_SUCCESS) {
 	        	qpGlobal.startQPage(MainViewActivity.this);
 	        	
 	        }else {
@@ -202,7 +203,7 @@ public class MainViewActivity extends Activity{
 		    				
 		    				//strResponse = res;
 
-		                    handler.sendEmptyMessage(11);
+		                    handler.sendEmptyMessage(SuccessCode.DETAIL_SENT_SUCCESS);
 		                } catch (Exception e) {
 		                    System.out.println("In Cache :");
 		                    handler.sendEmptyMessage(1);
@@ -315,7 +316,7 @@ public class MainViewActivity extends Activity{
 	private void showQPage() {
 		// TODO Auto-generated method stub
 		
-		this.pd = qpGlobal.sentToServer(context, qrcodeGlobal, 22, "Generating Qpage...");
+		this.pd = qpGlobal.sentToServer(context, qrcodeGlobal, SuccessCode.QPAGE_SUCCESS, "Generating Qpage...");
 		 MyLog.i("Dialog","ServerProcessDialog.sentToServer(this, handler, qrcodeGlobal, pd, 22, ");
 	}
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
