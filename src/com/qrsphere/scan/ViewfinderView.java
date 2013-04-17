@@ -50,6 +50,8 @@ private static final int[] SCANNER_ALPHA = {0, 64, 128, 192, 255, 192, 128, 64};
   private Bitmap resultBitmap;
   private final int maskColor;
   private final int resultColor;
+  
+  private final int logoHeight; // the height of logo in scan screen
   @SuppressWarnings("unused")
 private final int frameColor;
   @SuppressWarnings("unused")
@@ -74,6 +76,8 @@ private int scannerAlpha;
     resultPointColor = resources.getColor(R.color.possible_result_points);
     scannerAlpha = 0;
     possibleResultPoints = new HashSet<ResultPoint>(5);
+    
+    logoHeight = 132; // the height on the 720*1280 screen
   }
 
   @SuppressLint("DrawAllocation")
@@ -85,13 +89,16 @@ private int scannerAlpha;
     }
     int width = canvas.getWidth();
     int height = canvas.getHeight();
+    
+    int logoHeightDraw = logoHeight*width/1280;
+    int widthWithoutBar=width-logoHeightDraw;
 
     // Draw the exterior (i.e. outside the framing rect) darkened
     paint.setColor(resultBitmap != null ? resultColor : maskColor);
-    canvas.drawRect(0, 0, width, frame.top, paint);
+    canvas.drawRect(0, 0, widthWithoutBar, frame.top, paint);
     canvas.drawRect(0, frame.top, frame.left, frame.bottom + 1, paint);
-    canvas.drawRect(frame.right + 1, frame.top, width, frame.bottom + 1, paint);
-    canvas.drawRect(0, frame.bottom + 1, width, height, paint);
+    canvas.drawRect(frame.right + 1, frame.top, widthWithoutBar, frame.bottom + 1, paint);
+    canvas.drawRect(0, frame.bottom + 1, widthWithoutBar, height, paint);
 
     if (resultBitmap != null) {
       // Draw the opaque result bitmap over the scanning rectangle

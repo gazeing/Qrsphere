@@ -38,5 +38,5 @@
   <color name="transparent">#00000000</color>
   <color name="viewfinder_frame">#ff000000</color>
   <color name="viewfinder_laser">#ff00ff00</color>
-  <color name="viewfinder_mask">#60000000</color>
+  <color name="viewfinder_mask">#60ff6600</color>
 </resources>
