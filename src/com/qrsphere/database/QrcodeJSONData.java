@@ -12,8 +12,14 @@ public class QrcodeJSONData {
 	String catalogue = "";
 	double longitude;
 	double latitude;
+	long timeStamp;
 	
 	
+	public long getTimeStamp() {
+		return timeStamp;
+	}
+
+
 	public QrcodeJSONData(String rawData) {
 		super();
 		this.rawData = rawData;
@@ -25,6 +31,7 @@ public class QrcodeJSONData {
 			this.isFavorite = json.getBoolean("IsFavorite");
 			this.latitude = json.getDouble("Latitude");
 			this.longitude = json.getDouble("Longitude");
+			this.timeStamp = json.getLong("TimeStamp");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

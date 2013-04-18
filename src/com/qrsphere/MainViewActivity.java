@@ -14,7 +14,6 @@ import com.qrsphere.network.SuccessCode;
 import com.qrsphere.widget.AddToFavorite;
 import com.qrsphere.widget.ComboBox;
 import com.qrsphere.widget.MyLog;
-import com.qrsphere.widget.ScanDetail;
 import com.qrsphere.widget.StartBrowser;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -36,6 +35,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 @SuppressLint("HandlerLeak")
@@ -45,7 +45,9 @@ public class MainViewActivity extends Activity{
             R.drawable.scan_icon,  
             R.drawable.history_icon,  
             R.drawable.fav_icon,  
-            R.drawable.gear_icon, 
+            R.drawable.gear_icon,
+            R.drawable.about_icon,
+            R.drawable.discover_icon,
             
 
 
@@ -57,6 +59,8 @@ public class MainViewActivity extends Activity{
     		"History",
     		"Favorite",
     		"More",
+    		"About",
+    		"Discover"
     		
 
     		
@@ -120,8 +124,12 @@ public class MainViewActivity extends Activity{
 		atpGlobal = new AddToFavoriteProcess(pd, handler);
 		
 		Bundle b= getIntent().getExtras();
-		if (b!=null)
+		if (b!=null){
 			isOnline = b.getBoolean("IsOnline"); 
+			String str = b.getString("username");
+			TextView tvTitle = (TextView) findViewById(R.id.tvmaintitle);
+			tvTitle.setText(str);
+		}
 		
 		mGridView=(GridView) findViewById(R.id.gridview);  
         //  
@@ -136,8 +144,8 @@ public class MainViewActivity extends Activity{
         //
         SimpleAdapter simple = new SimpleAdapter(this, lstImageItem,  
                 R.layout.gridviewitem,  
-                new String[] { "ItemImage", "ItemText" }, new int[] {  
-                        R.id.ItemImage, R.id.ItemText });  
+                new String[] { "ItemImage" }, new int[] {  
+                        R.id.ItemImage});  
         mGridView.setAdapter(simple);  
         //  
         mGridView.setOnItemClickListener(new GridView.OnItemClickListener(){  
@@ -164,6 +172,12 @@ public class MainViewActivity extends Activity{
 	                }
 	                else if (position == 3){
 	                
+	                }
+	                else if (position == 4){
+		                
+	                }
+	                else if (position == 5){
+		                
 	                }
                 }
                 else{
@@ -333,23 +347,27 @@ public class MainViewActivity extends Activity{
 	private void showScanDetails() {
 		// TODO Auto-generated method stub
     	if (qrcodeGlobal!=null){
-    		DialogInterface.OnClickListener click =new android.content.DialogInterface.OnClickListener() {
-   		     public void onClick(DialogInterface dialog, int arg1) {
-   		      // go back to Main menu
-   				setPopupMenuAction(qrcodeGlobal);
-   				isFromPopupMenu = false;
-   		     }
-    		};
-    		
-    		DialogInterface.OnCancelListener cancel =new DialogInterface.OnCancelListener(){
-     	  		    public void onCancel(DialogInterface dialog) {
-     	  		     // go back to Main menu  
-     	  				setPopupMenuAction(qrcodeGlobal);
-     	  				isFromPopupMenu = false;
-     	  		    }};
-    		
-    		ScanDetail.ScanDetailDialog(qrcodeGlobal,MainViewActivity.this,click,cancel);
-
+//    		DialogInterface.OnClickListener click =new android.content.DialogInterface.OnClickListener() {
+//   		     public void onClick(DialogInterface dialog, int arg1) {
+//   		      // go back to Main menu
+//   				setPopupMenuAction(qrcodeGlobal);
+//   				isFromPopupMenu = false;
+//   		     }
+//    		};
+//    		
+//    		DialogInterface.OnCancelListener cancel =new DialogInterface.OnCancelListener(){
+//     	  		    public void onCancel(DialogInterface dialog) {
+//     	  		     // go back to Main menu  
+//     	  				setPopupMenuAction(qrcodeGlobal);
+//     	  				isFromPopupMenu = false;
+//     	  		    }};
+//    		
+//    		ScanDetail.ScanDetailDialog(qrcodeGlobal,MainViewActivity.this,click,cancel);
+    		Intent intent = new Intent(MainViewActivity.this, ScanDetailActivity.class);
+    		Bundle b = new Bundle();
+    		b.putString("Qrcode",qrcodeGlobal.getRawdata());
+    		intent.putExtras(b);
+    		startActivity(intent);
     	}
 	}
 

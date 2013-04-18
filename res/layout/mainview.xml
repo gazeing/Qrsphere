@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="@drawable/grey_background">
 
     <include
-        android:id="@+id/title_bar"
-        layout="@layout/title_bar" />
+        android:id="@+id/main_title_bar"
+        layout="@layout/main_title_bar" />
 
     <GridView
         android:id="@+id/gridview"

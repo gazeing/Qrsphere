@@ -1,14 +1,10 @@
 package com.qrsphere.userinfo;
 
-import java.util.List;
 import android.content.Context;
-import android.location.Address;
 import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.util.Log;
 
 public class CollectLocation /*extends AsyncTask<Context, String,String >*/{
 	
@@ -65,28 +61,7 @@ public CollectLocation(Context context,LocationListener locationListener) {
 	{  
 	    return (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);  
 	}  
-	public String getLocationInfoString(Location loc) {
-		Geocoder gc = new Geocoder(context);
-		//Location cur= getLocation(context);
-		Location cur= loc;
-		List<Address> adds = null;
-		
-			
-		try {
-			if (cur!=null)
-				adds = gc.getFromLocation(cur.getLatitude(), cur.getLongitude(), 1);
-			else	
-				adds = gc.getFromLocation(-33.79477,151.142753, 1);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			Log.i("location",e.toString());
-		}
-		if (adds==null)
-			return null;
-		if (adds.size()>0)
-			return adds.get(0).toString();
-		else return null;
-	}
+	
 	
 	public void sentGPSLocationRequest(){
 		

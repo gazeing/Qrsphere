@@ -29,6 +29,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -308,8 +309,13 @@ public class HistoryActivity extends Activity {
    
     	
     	Qrcode qc = qrcodeGlobal;
-    	if (qc!=null)
-    		ScanDetail.ScanDetailDialog(qc,this);
+    	if (qc!=null){
+    		Intent intent = new Intent(HistoryActivity.this, ScanDetailActivity.class);
+			Bundle b = new Bundle();
+			b.putString("Qrcode",qc.getRawdata());
+			intent.putExtras(b);
+			startActivity(intent);
+    	}
 //    		text = "Rawdata: \n"+qc.getRawdata()+"\nHashcode: \n"+qc.getHashcode()+"\nTime: \n"+TransferTimeFormat(qc.getTimeStamp());
 //    	Dialog dialog = new AlertDialog.Builder(this).setIcon(R.drawable.ic_launcher)
 //    				.setView(new ScanDetail(this,text))

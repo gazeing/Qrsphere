@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -37,6 +38,8 @@ public class LoginActivity extends Activity {
 	boolean isLoginOK = false;
 	CheckBox checkbox;
 	
+	String nameGlobal = "";
+	
 	private ProgressDialog pd;
 	Thread thread = null;
 	@SuppressLint("HandlerLeak")
@@ -49,6 +52,8 @@ public class LoginActivity extends Activity {
 					Intent intent = new Intent(LoginActivity.this,MainViewActivity.class);
 					Bundle b = new Bundle();
 					b.putBoolean("IsOnline", true);
+					String name = etName.getText().toString();
+					b.putString("username", name);
 					intent.putExtras(b);
 					startActivity(intent);
 				}
@@ -68,6 +73,7 @@ public class LoginActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.login);
 		
 
@@ -75,6 +81,33 @@ public class LoginActivity extends Activity {
 		etName = (EditText) findViewById(R.id.nameEdit);
 		etAccount = (EditText) findViewById(R.id.accountEdit);
 		etPassword= (EditText) findViewById(R.id.passwordEdit);
+		
+		QrcodeDataOperator qdo = new QrcodeDataOperator(this);
+		String macAddress = new com.qrsphere.userinfo
+							.CollectPhoneInformation(getApplication()).getMacAddress();
+		String info = qdo.withdrawUserInfo(macAddress);
+		if (info != null){
+			if (info.length() > 0){
+				JSONObject json;
+				try {
+					json = new JSONObject(info);
+					if (json!=null){
+					String name = json.getString("Name");
+					if (name.length() > 0){
+						etName.setText(name);
+						nameGlobal = name;
+					}
+					String account = json.getString("Account");
+					if (account.length() > 0)
+						etAccount.setText(account);
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		}
 		
 		btLater = (Button) this.findViewById(R.id.btn_later);
 		btLater.setOnClickListener(new OnClickListener() {
@@ -86,6 +119,8 @@ public class LoginActivity extends Activity {
 				Intent intent = new Intent(LoginActivity.this,MainViewActivity.class);
 				Bundle b = new Bundle();
 				b.putBoolean("IsOnline", false);
+				
+				b.putString("username", "Offline");
 				intent.putExtras(b);
 				startActivity(intent);
 				LoginActivity.this.finish();

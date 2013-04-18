@@ -7,7 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
-import android.widget.TextView;
+import android.view.Window;
 
 import com.qrsphere.database.QrcodeDataOperator;
 import com.qrsphere.login.LoginProcess;
@@ -17,7 +17,7 @@ public class SplashScreen extends Activity {
 	protected boolean _active = true;
     protected int _splashTime = 5000;
     
-    TextView tv;
+   // TextView tv;
     String strIntent;
     boolean isLoginOK = false;
     String info;
@@ -25,12 +25,12 @@ public class SplashScreen extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        ImageView iv = new ImageView(this);
 //        iv.setImageResource(R.drawable.q_logo);	
 //        iv.setBackgroundColor(Color.TRANSPARENT);
         setContentView(R.layout.splash);
-        tv = (TextView) findViewById(R.id.splashTextView1);
+        //tv = (TextView) findViewById(R.id.splashTextView1);
         
     	final QrcodeDataOperator qdo = new QrcodeDataOperator(this);
     	String mac = new com.qrsphere.userinfo.CollectPhoneInformation(getApplication()).getMacAddress();
@@ -49,7 +49,9 @@ public class SplashScreen extends Activity {
 //                            waited += 100;
 //                        }
                     
+                	
 //                }
+                	sleep(_splashTime);
                    isLoginOK = judgeAccountInfo(info);
                 } catch(Exception e) {
                     // do nothing
@@ -62,6 +64,8 @@ public class SplashScreen extends Activity {
     				Bundle b = new Bundle();
     				b.putBoolean("IsOnline", isLoginOK);
     				intent.putExtras(b);
+					//String name = "User.Test";
+					b.putString("username", getUsernameFromInfo(info));
     				startActivity(intent);
                     //startActivity(new Intent(getIntentStr()));
                     // stop(); //android does not support stop() any more, following code could be a way to exit
@@ -91,9 +95,32 @@ public class SplashScreen extends Activity {
   	return strIntent;
   }
   
+@SuppressWarnings("unused")
+public static String getUsernameFromInfo(String jsonStr){
+	
+	 try {
+
+			if (jsonStr.length() == 0)
+				return null;
+			else{
+				JSONObject json = new JSONObject(jsonStr);
+				if (json!=null){
+					String name = json.getString("Name");
+					return name;
+					}
+				else
+						return null;
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+}
   @SuppressWarnings("unused")
 public boolean judgeAccountInfo(String jsonStr){
 	  try {
+
 		if (jsonStr.length() == 0)
 			return false;
 		else{

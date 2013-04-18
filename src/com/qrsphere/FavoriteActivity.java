@@ -15,13 +15,13 @@ import com.qrsphere.network.QPageProcess;
 import com.qrsphere.network.SuccessCode;
 import com.qrsphere.userinfo.CollectLocation;
 import com.qrsphere.widget.MyLog;
-import com.qrsphere.widget.ScanDetail;
 import com.qrsphere.widget.SeparatedListAdapter;
 import com.qrsphere.widget.StartBrowser;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -231,8 +231,13 @@ public class FavoriteActivity extends Activity {
 	public void showScanDetails(){
 
     	Qrcode qc = qrcodeGlobal;
-    	if (qc!=null)
-    		ScanDetail.ScanDetailDialog(qc,this);
+    	if (qc!=null){
+    		Intent intent = new Intent(FavoriteActivity.this, ScanDetailActivity.class);
+			Bundle b = new Bundle();
+			b.putString("Qrcode",qc.getRawdata());
+			intent.putExtras(b);
+			startActivity(intent);
+    	}
     }
     
 //    private void ScanDetailDialog(Qrcode qc) {

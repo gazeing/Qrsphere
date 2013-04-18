@@ -1,32 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<AbsoluteLayout
+<RelativeLayout
 	android:id="@+id/widget36"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
+	android:background="@drawable/front_loader"
 	xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="49dp"
-        android:layout_y="39dp"
-        android:src="@drawable/q_logo" />
-
-    <TextView
-        android:id="@+id/splashTextView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_x="161dp"
-        android:layout_y="425dp"
-        android:text="Loading..." />
 
     <ProgressBar
         android:id="@+id/progressBar1"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_x="146dp"
-        android:layout_y="326dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13dp" />
 
-</AbsoluteLayout>
+</RelativeLayout>

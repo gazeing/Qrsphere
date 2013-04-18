@@ -3,20 +3,18 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
-    android:scrollbars="vertical"> >
+    android:scrollbars="vertical"> 
     
              <ImageView     
-                   android:layout_height="100dip"     
+                   android:layout_height="wrap_content"     
                    android:id="@+id/ItemImage"     
-                   android:layout_width="80dip"   
-                   android:src="@drawable/q_logo"   
-                   android:layout_gravity="center_horizontal"/>   
+                   android:layout_width="wrap_content"   
+                   android:src="@drawable/q_logo"  
+                   android:layout_marginTop="10sp" 
+                   android:layout_gravity="center_horizontal"
+                   android:contentDescription="@string/app_name"/>   
                        
-             <TextView     
-                   android:layout_width="wrap_content"     
-                   android:layout_height="wrap_content"   
-                   android:layout_gravity="center"    
-                   android:id="@+id/ItemText" />    
+    
 
 </LinearLayout>
 
