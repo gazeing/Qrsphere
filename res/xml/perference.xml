@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory 
+        android:title="Camera Setting"
+        android:key="pref_key_camera_settings">
+    
+		    <CheckBoxPreference
+		        android:key="pref_key_flashlight"
+		        android:title="Flashlight Shortcut"
+		        android:summary="Flashlight shortcut will be shown when scanning"
+		        android:defaultValue="false" />
+		    
+		    <CheckBoxPreference
+		        android:key="pref_key_scanscreen"
+		        android:title="Scan Screen with ligher style"
+		        android:summary="Darker style"
+		        android:defaultValue="false" />
+		    
+		    
+	</PreferenceCategory>	
+	<PreferenceCategory 
+        android:title="After Scanning"
+        android:key="pref_key_after_scanning">    
+        
+	    	<CheckBoxPreference
+		        android:key="pref_key_vibrate"
+		        android:title="Vibrate"
+		        android:summary="Vibrate feedback after scanning?"
+		        android:defaultValue="false" />
+
+		    <CheckBoxPreference
+		        android:key="pref_key_beep"
+		        android:title="Beep"
+		        android:summary="Beep after scanning a code?"
+		        android:defaultValue="false" />
+	    	
+	    	
+	</PreferenceCategory>
+	
+	<PreferenceCategory 
+        android:title="Save History"
+        android:key="pref_key_save_history">    
+        
+	    	<CheckBoxPreference
+		        android:key="pref_save_scanned"
+		        android:title="Scanned"
+		        android:summary="Save in history scanned and decoded code?"
+		        android:defaultValue="true" />
+
+
+	    	
+	    	
+	</PreferenceCategory>	
+	
+
+</PreferenceScreen>

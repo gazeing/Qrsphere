@@ -129,30 +129,31 @@ containing a value of this type.
         public static final int zOrderOnTop=0x7f01000d;
     }
     public static final class color {
-        public static final int contents_text=0x7f070000;
-        public static final int encode_view=0x7f070001;
-        public static final int help_button_view=0x7f070002;
-        public static final int help_view=0x7f070003;
-        public static final int possible_result_points=0x7f070004;
-        public static final int result_image_border=0x7f070005;
-        public static final int result_minor_text=0x7f070006;
-        public static final int result_points=0x7f070007;
-        public static final int result_text=0x7f070008;
-        public static final int result_view=0x7f070009;
-        public static final int sbc_header_text=0x7f07000a;
-        public static final int sbc_header_view=0x7f07000b;
-        public static final int sbc_layout_view=0x7f07000d;
-        public static final int sbc_list_item=0x7f07000c;
-        public static final int sbc_page_number_text=0x7f07000e;
-        public static final int sbc_snippet_text=0x7f07000f;
-        public static final int share_text=0x7f070010;
-        public static final int share_view=0x7f070011;
-        public static final int status_text=0x7f070013;
-        public static final int status_view=0x7f070012;
-        public static final int transparent=0x7f070014;
-        public static final int viewfinder_frame=0x7f070015;
-        public static final int viewfinder_laser=0x7f070016;
-        public static final int viewfinder_mask=0x7f070017;
+        public static final int contents_text=0x7f080000;
+        public static final int encode_view=0x7f080001;
+        public static final int help_button_view=0x7f080002;
+        public static final int help_view=0x7f080003;
+        public static final int possible_result_points=0x7f080004;
+        public static final int result_image_border=0x7f080005;
+        public static final int result_minor_text=0x7f080006;
+        public static final int result_points=0x7f080007;
+        public static final int result_text=0x7f080008;
+        public static final int result_view=0x7f080009;
+        public static final int sbc_header_text=0x7f08000a;
+        public static final int sbc_header_view=0x7f08000b;
+        public static final int sbc_layout_view=0x7f08000d;
+        public static final int sbc_list_item=0x7f08000c;
+        public static final int sbc_page_number_text=0x7f08000e;
+        public static final int sbc_snippet_text=0x7f08000f;
+        public static final int share_text=0x7f080010;
+        public static final int share_view=0x7f080011;
+        public static final int status_text=0x7f080013;
+        public static final int status_view=0x7f080012;
+        public static final int transparent=0x7f080015;
+        public static final int viewfinder_frame=0x7f080016;
+        public static final int viewfinder_laser=0x7f080017;
+        public static final int viewfinder_mask=0x7f080018;
+        public static final int white=0x7f080014;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -161,8 +162,8 @@ containing a value of this type.
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f080000;
-        public static final int activity_vertical_margin=0x7f080001;
+        public static final int activity_horizontal_margin=0x7f090000;
+        public static final int activity_vertical_margin=0x7f090001;
     }
     public static final class drawable {
         public static final int about_icon=0x7f020000;
@@ -175,154 +176,157 @@ containing a value of this type.
         public static final int btn_reminder=0x7f020007;
         public static final int btn_submit=0x7f020008;
         public static final int discover_icon=0x7f020009;
-        public static final int fav_icon=0x7f02000a;
-        public static final int front_loader=0x7f02000b;
-        public static final int gear_icon=0x7f02000c;
-        public static final int generic_profile_image=0x7f02000d;
-        public static final int grey_background=0x7f02000e;
-        public static final int history_icon=0x7f02000f;
-        public static final int ic_launcher=0x7f020010;
-        public static final int id_logo_title=0x7f020011;
-        public static final int images=0x7f020012;
-        public static final int images_unselect=0x7f020013;
-        public static final int login_button=0x7f020014;
-        public static final int logo_login_page=0x7f020015;
-        public static final int q_logo=0x7f020016;
-        public static final int qpage_bar=0x7f020017;
-        public static final int qpage_info=0x7f020018;
-        public static final int qpage_title=0x7f020019;
-        public static final int qr_logo=0x7f02001a;
-        public static final int qrcode_icon=0x7f02001b;
-        public static final int register_button=0x7f02001c;
-        public static final int scan_box_for_silvio=0x7f02001d;
-        public static final int scan_icon=0x7f02001e;
-        public static final int share_icon=0x7f02001f;
-        public static final int skip_button=0x7f020020;
-        public static final int small_images=0x7f020021;
-        public static final int small_images_unselect=0x7f020022;
-        public static final int title=0x7f020023;
+        public static final int edittext_bg=0x7f02000a;
+        public static final int fav_icon=0x7f02000b;
+        public static final int front_loader=0x7f02000c;
+        public static final int gear_icon=0x7f02000d;
+        public static final int generic_profile_image=0x7f02000e;
+        public static final int grey_background=0x7f02000f;
+        public static final int history_icon=0x7f020010;
+        public static final int ic_launcher=0x7f020011;
+        public static final int id_logo_title=0x7f020012;
+        public static final int images=0x7f020013;
+        public static final int images_unselect=0x7f020014;
+        public static final int login_button=0x7f020015;
+        public static final int logo_login_page=0x7f020016;
+        public static final int q_logo=0x7f020017;
+        public static final int qpage_bar=0x7f020018;
+        public static final int qpage_info=0x7f020019;
+        public static final int qpage_title=0x7f02001a;
+        public static final int qr_logo=0x7f02001b;
+        public static final int qrcode_icon=0x7f02001c;
+        public static final int register_button=0x7f02001d;
+        public static final int scan_box_for_silvio=0x7f02001e;
+        public static final int scan_icon=0x7f02001f;
+        public static final int share_icon=0x7f020020;
+        public static final int skip_button=0x7f020021;
+        public static final int small_images=0x7f020022;
+        public static final int small_images_unselect=0x7f020023;
+        public static final int title=0x7f020024;
     }
     public static final class id {
-        public static final int Combo01=0x7f050022;
-        public static final int DetailContent=0x7f05005e;
-        public static final int DetailContentText=0x7f05005f;
-        public static final int DetailTitle=0x7f05005d;
-        public static final int DetailWhen=0x7f050060;
-        public static final int DetailWhenText=0x7f050061;
-        public static final int DetailWhere=0x7f050062;
-        public static final int DetailWhereText=0x7f050063;
-        public static final int ItemImage=0x7f050026;
-        public static final int ItemText=0x7f05002d;
-        public static final int ItemTitle=0x7f05002c;
-        public static final int MyImageInItem=0x7f05002a;
-        public static final int MyListItem=0x7f050029;
-        public static final int MyListItemIn=0x7f05002b;
-        public static final int QpimageView1=0x7f050044;
-        public static final int QpimageView2=0x7f05004f;
-        public static final int ScanDetailLocation=0x7f05005b;
-        public static final int ScanDetailLocationText=0x7f05005c;
-        public static final int ScanDetailTime=0x7f050059;
-        public static final int ScanDetailTimeText=0x7f05005a;
-        public static final int ScanDetailUrl=0x7f050057;
-        public static final int ScanDetailUrlText=0x7f050058;
-        public static final int ScrollView01=0x7f05001e;
-        public static final int ScrollViewQPage=0x7f050049;
-        public static final int ScrollView_about=0x7f050012;
-        public static final int ScrollView_discovery=0x7f050023;
-        public static final int ScrollView_login=0x7f05002e;
-        public static final int TextView01=0x7f050020;
-        public static final int TextView02=0x7f050021;
-        public static final int accountEdit=0x7f050032;
-        public static final int action_settings=0x7f050075;
-        public static final int ad_bar=0x7f05001b;
-        public static final int add_to_favor=0x7f050071;
+        public static final int Combo01=0x7f060022;
+        public static final int DetailContent=0x7f060060;
+        public static final int DetailContentText=0x7f060061;
+        public static final int DetailTitle=0x7f06005f;
+        public static final int DetailWhen=0x7f060062;
+        public static final int DetailWhenText=0x7f060063;
+        public static final int DetailWhere=0x7f060064;
+        public static final int DetailWhereText=0x7f060065;
+        public static final int ItemImage=0x7f06002f;
+        public static final int ItemText=0x7f06002c;
+        public static final int ItemTitle=0x7f06002b;
+        public static final int MyImageInItem=0x7f060029;
+        public static final int MyListItem=0x7f060028;
+        public static final int MyListItemIn=0x7f06002a;
+        public static final int QpimageView1=0x7f060048;
+        public static final int QpimageView2=0x7f060051;
+        public static final int ScanDetailLocation=0x7f06005d;
+        public static final int ScanDetailLocationText=0x7f06005e;
+        public static final int ScanDetailTime=0x7f06005b;
+        public static final int ScanDetailTimeText=0x7f06005c;
+        public static final int ScanDetailUrl=0x7f060059;
+        public static final int ScanDetailUrlText=0x7f06005a;
+        public static final int ScrollView01=0x7f06001e;
+        public static final int ScrollViewQPage=0x7f06004d;
+        public static final int ScrollView_about=0x7f060012;
+        public static final int ScrollView_discovery=0x7f060023;
+        public static final int ScrollView_feedback=0x7f060026;
+        public static final int ScrollView_login=0x7f060032;
+        public static final int TextView01=0x7f060020;
+        public static final int TextView02=0x7f060021;
+        public static final int accountEdit=0x7f060036;
+        public static final int action_settings=0x7f060077;
+        public static final int ad_bar=0x7f06001b;
+        public static final int add_to_favor=0x7f060073;
         /**  Messages IDs 
          */
-        public static final int auto_focus=0x7f050005;
-        public static final int btn_about=0x7f050047;
-        public static final int btn_ad_bar=0x7f05001d;
-        public static final int btn_later=0x7f050037;
-        public static final int btn_login=0x7f050034;
-        public static final int btn_main_title_left=0x7f05003d;
-        public static final int btn_main_title_right=0x7f05003e;
-        public static final int btn_register=0x7f050036;
-        public static final int btn_reminder=0x7f050048;
-        public static final int btn_submit=0x7f05004b;
-        public static final int btn_title_left=0x7f05006d;
-        public static final int btn_title_right=0x7f05006e;
-        public static final int buttonScanQuit=0x7f05003b;
-        public static final int checkBox1=0x7f050035;
-        public static final int decode=0x7f050006;
-        public static final int decode_failed=0x7f050007;
-        public static final int decode_succeeded=0x7f050008;
-        public static final int delete_item=0x7f050074;
-        public static final int editText1=0x7f05004c;
-        public static final int encode_failed=0x7f050009;
-        public static final int encode_succeeded=0x7f05000a;
-        public static final int favorite_list=0x7f050025;
-        public static final int feedback=0x7f050070;
-        public static final int go_to_web=0x7f05006f;
-        public static final int gridview=0x7f050040;
-        public static final int history_list=0x7f050027;
-        public static final int hybrid=0x7f050004;
-        public static final int imageView1=0x7f050014;
-        public static final int imageView2=0x7f05001a;
-        public static final int instructions_view=0x7f05001f;
-        public static final int launch_product_query=0x7f05000b;
-        public static final int list_header_title=0x7f050028;
-        public static final int main_title_bar=0x7f05003f;
-        public static final int map=0x7f050064;
-        public static final int nameEdit=0x7f050033;
-        public static final int none=0x7f050000;
-        public static final int normal=0x7f050001;
-        public static final int passwordEdit=0x7f050031;
-        public static final int preview_view=0x7f050038;
-        public static final int progressBar1=0x7f05006b;
-        public static final int qpagebar=0x7f050046;
-        public static final int qpageinfo=0x7f05004a;
-        public static final int qpagetitle=0x7f050041;
-        public static final int quit=0x7f05000c;
-        public static final int relative_about=0x7f050013;
-        public static final int restart_preview=0x7f05000d;
-        public static final int return_scan_result=0x7f05000e;
-        public static final int satellite=0x7f050002;
-        public static final int scan_detail=0x7f050073;
-        public static final int scbutton1=0x7f050067;
-        public static final int scbutton2=0x7f050068;
-        public static final int scbutton3=0x7f050069;
-        public static final int scimageView1=0x7f050065;
-        public static final int sctextView1=0x7f050066;
-        public static final int search_book_contents_failed=0x7f05000f;
-        public static final int search_book_contents_succeeded=0x7f050010;
-        public static final int send_out=0x7f050072;
-        public static final int terrain=0x7f050003;
-        public static final int textView1=0x7f050045;
-        public static final int textView1_about=0x7f050015;
-        public static final int textView2=0x7f050043;
-        public static final int textView2_about=0x7f050016;
-        public static final int textView3=0x7f050042;
-        public static final int textView3_about=0x7f050017;
-        public static final int textView4=0x7f05004d;
-        public static final int textView4_about=0x7f050018;
-        public static final int textView5_about=0x7f050019;
-        public static final int textView8=0x7f05004e;
-        public static final int title_bar=0x7f050011;
-        public static final int top_title=0x7f05001c;
-        public static final int tvmaintitle=0x7f05003c;
-        public static final int tvtitle=0x7f05006c;
-        public static final int txtResult=0x7f05003a;
-        public static final int viewfinder_view=0x7f050039;
-        public static final int webview=0x7f050024;
-        public static final int widget32=0x7f05002f;
-        public static final int widget34=0x7f050030;
-        public static final int widget36=0x7f05006a;
-        public static final int widget56=0x7f050055;
-        public static final int widget57=0x7f050051;
-        public static final int widget58=0x7f050054;
-        public static final int widget59=0x7f050050;
-        public static final int widget60=0x7f050052;
-        public static final int widget61=0x7f050056;
-        public static final int widget62=0x7f050053;
+        public static final int auto_focus=0x7f060005;
+        public static final int btn_about=0x7f06004b;
+        public static final int btn_ad_bar=0x7f06001d;
+        public static final int btn_later=0x7f06003b;
+        public static final int btn_login=0x7f060038;
+        public static final int btn_main_title_left=0x7f060041;
+        public static final int btn_main_title_right=0x7f060042;
+        public static final int btn_register=0x7f06003a;
+        public static final int btn_reminder=0x7f06004c;
+        public static final int btn_submit=0x7f06002e;
+        public static final int btn_title_left=0x7f06006f;
+        public static final int btn_title_right=0x7f060070;
+        public static final int buttonScanQuit=0x7f06003f;
+        public static final int checkBox1=0x7f060039;
+        public static final int decode=0x7f060006;
+        public static final int decode_failed=0x7f060007;
+        public static final int decode_succeeded=0x7f060008;
+        public static final int delete_item=0x7f060076;
+        public static final int editText1=0x7f06002d;
+        public static final int encode_failed=0x7f060009;
+        public static final int encode_succeeded=0x7f06000a;
+        public static final int favorite_list=0x7f060025;
+        public static final int feedback=0x7f060072;
+        public static final int go_to_web=0x7f060071;
+        public static final int gridview=0x7f060044;
+        public static final int history_list=0x7f060030;
+        public static final int hybrid=0x7f060004;
+        public static final int imageView1=0x7f060014;
+        public static final int imageView2=0x7f06001a;
+        public static final int instructions_view=0x7f06001f;
+        public static final int launch_product_query=0x7f06000b;
+        public static final int list_header_title=0x7f060031;
+        public static final int main_title_bar=0x7f060043;
+        public static final int map=0x7f060066;
+        public static final int nameEdit=0x7f060037;
+        public static final int none=0x7f060000;
+        public static final int normal=0x7f060001;
+        public static final int passwordEdit=0x7f060035;
+        public static final int preview_view=0x7f06003c;
+        public static final int progressBar1=0x7f06006d;
+        public static final int qpagebar=0x7f06004a;
+        public static final int qpageinfo=0x7f06004e;
+        public static final int qpagetitle=0x7f060045;
+        public static final int quit=0x7f06000c;
+        public static final int relative_about=0x7f060013;
+        public static final int relative_feedback=0x7f060027;
+        public static final int restart_preview=0x7f06000d;
+        public static final int return_scan_result=0x7f06000e;
+        public static final int satellite=0x7f060002;
+        public static final int scan_detail=0x7f060075;
+        public static final int scbutton1=0x7f060069;
+        public static final int scbutton2=0x7f06006a;
+        public static final int scbutton3=0x7f06006b;
+        public static final int scimageView1=0x7f060067;
+        public static final int sctextView1=0x7f060068;
+        public static final int search_book_contents_failed=0x7f06000f;
+        public static final int search_book_contents_succeeded=0x7f060010;
+        public static final int send_out=0x7f060074;
+        public static final int terrain=0x7f060003;
+        public static final int textView1=0x7f060049;
+        public static final int textView1_about=0x7f060015;
+        public static final int textView2=0x7f060047;
+        public static final int textView2_about=0x7f060016;
+        public static final int textView3=0x7f060046;
+        public static final int textView3_about=0x7f060017;
+        public static final int textView4=0x7f06004f;
+        public static final int textView4_about=0x7f060018;
+        public static final int textView5_about=0x7f060019;
+        public static final int textView8=0x7f060050;
+        public static final int title_bar=0x7f060011;
+        public static final int top_title=0x7f06001c;
+        public static final int tvmaintitle=0x7f060040;
+        public static final int tvtitle=0x7f06006e;
+        public static final int txtResult=0x7f06003e;
+        public static final int viewfinder_view=0x7f06003d;
+        public static final int webview=0x7f060024;
+        public static final int widget32=0x7f060033;
+        public static final int widget34=0x7f060034;
+        public static final int widget36=0x7f06006c;
+        public static final int widget56=0x7f060057;
+        public static final int widget57=0x7f060053;
+        public static final int widget58=0x7f060056;
+        public static final int widget59=0x7f060052;
+        public static final int widget60=0x7f060054;
+        public static final int widget61=0x7f060058;
+        public static final int widget62=0x7f060055;
     }
     public static final class layout {
         public static final int about=0x7f030000;
@@ -331,108 +335,109 @@ containing a value of this type.
         public static final int dialog=0x7f030003;
         public static final int discovery=0x7f030004;
         public static final int favorite=0x7f030005;
-        public static final int gridviewitem=0x7f030006;
-        public static final int history=0x7f030007;
-        public static final int list_header=0x7f030008;
-        public static final int listitem=0x7f030009;
-        public static final int login=0x7f03000a;
-        public static final int main=0x7f03000b;
-        public static final int main_title_bar=0x7f03000c;
-        public static final int mainview=0x7f03000d;
-        public static final int qpage=0x7f03000e;
-        public static final int register=0x7f03000f;
-        public static final int scan_detail=0x7f030010;
-        public static final int scandetailview=0x7f030011;
-        public static final int scanpopup=0x7f030012;
-        public static final int scorll=0x7f030013;
-        public static final int splash=0x7f030014;
-        public static final int title_bar=0x7f030015;
+        public static final int feedback=0x7f030006;
+        public static final int gridviewitem=0x7f030007;
+        public static final int history=0x7f030008;
+        public static final int list_header=0x7f030009;
+        public static final int listitem=0x7f03000a;
+        public static final int login=0x7f03000b;
+        public static final int main=0x7f03000c;
+        public static final int main_title_bar=0x7f03000d;
+        public static final int mainview=0x7f03000e;
+        public static final int qpage=0x7f03000f;
+        public static final int register=0x7f030010;
+        public static final int scan_detail=0x7f030011;
+        public static final int scandetailview=0x7f030012;
+        public static final int scanpopup=0x7f030013;
+        public static final int scorll=0x7f030014;
+        public static final int splash=0x7f030015;
+        public static final int title_bar=0x7f030016;
     }
     public static final class menu {
-        public static final int action_chose=0x7f0a0000;
-        public static final int favor_chose=0x7f0a0001;
-        public static final int main=0x7f0a0002;
-        public static final int scan_offline=0x7f0a0003;
-        public static final int scan_online=0x7f0a0004;
+        public static final int action_chose=0x7f0b0000;
+        public static final int favor_chose=0x7f0b0001;
+        public static final int main=0x7f0b0002;
+        public static final int scan_offline=0x7f0b0003;
+        public static final int scan_online=0x7f0b0004;
     }
     public static final class raw {
-        public static final int beep=0x7f040000;
+        public static final int beep=0x7f050000;
     }
     public static final class string {
-        public static final int action_settings=0x7f060012;
-        public static final int add_to_favor=0x7f060015;
-        public static final int app_name=0x7f060011;
+        public static final int action_settings=0x7f070012;
+        public static final int add_to_favor=0x7f070015;
+        public static final int app_name=0x7f070011;
         /**   Title for notification shown when GooglePlayServices is unavailable [CHAR LIMIT=70] 
          */
-        public static final int auth_client_availability_notification_title=0x7f06000e;
+        public static final int auth_client_availability_notification_title=0x7f07000e;
         /**   Title for notification shown when GooglePlayServices is unavailable [CHAR LIMIT=42] 
          */
-        public static final int auth_client_play_services_err_notification_msg=0x7f06000f;
+        public static final int auth_client_play_services_err_notification_msg=0x7f07000f;
         /**   Requested by string saying which app requested the notification. [CHAR LIMIT=42] 
          */
-        public static final int auth_client_requested_by_msg=0x7f060010;
-        public static final int back=0x7f060019;
-        public static final int choose_action=0x7f060013;
+        public static final int auth_client_requested_by_msg=0x7f070010;
+        public static final int back=0x7f070019;
+        public static final int choose_action=0x7f070013;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 
          */
-        public static final int common_google_play_services_enable_button=0x7f060006;
+        public static final int common_google_play_services_enable_button=0x7f070006;
         /**  Message in confirmation dialog informing user they need to enable
         Google Play services in application settings [CHAR LIMIT=NONE] 
          */
-        public static final int common_google_play_services_enable_text=0x7f060005;
+        public static final int common_google_play_services_enable_text=0x7f070005;
         /**  Title of confirmation dialog informing user they need to enable
         Google Play services in application settings [CHAR LIMIT=40] 
          */
-        public static final int common_google_play_services_enable_title=0x7f060004;
+        public static final int common_google_play_services_enable_title=0x7f070004;
         /**  Button in confirmation dialog for installing Google Play services [CHAR LIMIT=40] 
          */
-        public static final int common_google_play_services_install_button=0x7f060003;
+        public static final int common_google_play_services_install_button=0x7f070003;
         /**  (For phones) Message in confirmation dialog informing user that
         they need to install Google Play services (from Play Store) [CHAR LIMIT=NONE] 
          */
-        public static final int common_google_play_services_install_text_phone=0x7f060001;
+        public static final int common_google_play_services_install_text_phone=0x7f070001;
         /**  (For tablets) Message in confirmation dialog informing user that
         they need to install Google Play services (from Play Store) [CHAR LIMIT=NONE] 
          */
-        public static final int common_google_play_services_install_text_tablet=0x7f060002;
+        public static final int common_google_play_services_install_text_tablet=0x7f070002;
         /**  Title of confirmation dialog informing user that they need to install
         Google Play services (from Play Store) [CHAR LIMIT=40] 
          */
-        public static final int common_google_play_services_install_title=0x7f060000;
+        public static final int common_google_play_services_install_title=0x7f070000;
         /**  Message in confirmation dialog informing user there is an unknown issue in Google Play
         services [CHAR LIMIT=NONE] 
          */
-        public static final int common_google_play_services_unknown_issue=0x7f060009;
+        public static final int common_google_play_services_unknown_issue=0x7f070009;
         /**  Message in confirmation dialog informing user that Google Play services is not supported on their device [CHAR LIMIT=NONE] 
          */
-        public static final int common_google_play_services_unsupported_text=0x7f06000b;
+        public static final int common_google_play_services_unsupported_text=0x7f07000b;
         /**  Title of confirmation dialog informing user that Google Play services is not supported on their device [CHAR LIMIT=40] 
          */
-        public static final int common_google_play_services_unsupported_title=0x7f06000a;
+        public static final int common_google_play_services_unsupported_title=0x7f07000a;
         /**  Button in confirmation dialog for updating Google Play services [CHAR LIMIT=40] 
          */
-        public static final int common_google_play_services_update_button=0x7f06000c;
+        public static final int common_google_play_services_update_button=0x7f07000c;
         /**  Message in confirmation dialog informing user that they need to update
         Google Play services (from Play Store) [CHAR LIMIT=NONE] 
          */
-        public static final int common_google_play_services_update_text=0x7f060008;
+        public static final int common_google_play_services_update_text=0x7f070008;
         /**  Title of confirmation dialog informing user that they need to update
         Google Play services (from Play Store) [CHAR LIMIT=40] 
          */
-        public static final int common_google_play_services_update_title=0x7f060007;
+        public static final int common_google_play_services_update_title=0x7f070007;
         /**  Long form sign-in button text. This is the placeholder text, used if we can't
         find the service-side assets. [CHAR LIMIT=25] 
          */
-        public static final int common_signin_button_text_long=0x7f06000d;
-        public static final int delete_item=0x7f060018;
-        public static final int feedback=0x7f06001b;
-        public static final int go_to_web=0x7f060014;
-        public static final int hello_world=0x7f060016;
-        public static final int qpage=0x7f06001a;
-        public static final int scan_detail=0x7f060017;
-        public static final int send_out=0x7f06001c;
+        public static final int common_signin_button_text_long=0x7f07000d;
+        public static final int delete_item=0x7f070018;
+        public static final int feedback=0x7f07001b;
+        public static final int go_to_web=0x7f070014;
+        public static final int hello_world=0x7f070016;
+        public static final int qpage=0x7f07001a;
+        public static final int scan_detail=0x7f070017;
+        public static final int send_out=0x7f07001c;
     }
     public static final class style {
         /** 
@@ -456,11 +461,14 @@ containing a value of this type.
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f090000;
+        public static final int AppBaseTheme=0x7f0a0000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f090001;
+        public static final int AppTheme=0x7f0a0001;
+    }
+    public static final class xml {
+        public static final int perference=0x7f040000;
     }
     public static final class styleable {
         /** Attributes that can be used with a MapAttrs.

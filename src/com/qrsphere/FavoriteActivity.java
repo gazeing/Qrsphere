@@ -178,7 +178,7 @@ public class FavoriteActivity extends Activity {
                 	break;
                 	
                 case R.id.feedback:
-
+                	feedback();
                 	;
                 	break;
                 case R.id.scan_detail:
@@ -201,6 +201,17 @@ public class FavoriteActivity extends Activity {
         });
         popup.show();  
 	}			
+	protected void feedback() {
+		// TODO Auto-generated method stub
+    	Qrcode qc = qrcodeGlobal;
+    	if (qc!=null){
+				Intent intent = new Intent(new Intent(FavoriteActivity.this,FeedbackActivity.class));
+				Bundle b = new Bundle();
+				b.putString("rawdata", qc.getRawdata());
+				intent.putExtras(b);
+				startActivity(intent);
+    	}
+	}
 	private void showQPage() {
 				// TODO Auto-generated method stub
     	Qrcode qc = qrcodeGlobal;

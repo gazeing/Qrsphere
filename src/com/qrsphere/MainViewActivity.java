@@ -165,6 +165,14 @@ public class MainViewActivity extends Activity{
     				
     				startActivityForResult(new Intent("com.qrsphere.scan.CaptureActivity"),nRet);
                }
+                else if (position == 3){
+	                
+                	startActivity(new Intent(MainViewActivity.this,SettingsActivity.class));
+                }
+                else if (position == 5){
+                	
+                	startActivity(new Intent(MainViewActivity.this,AboutActivity.class));
+                }
                 else if (isOnline){
                 
 	                if (position == 1){
@@ -172,16 +180,11 @@ public class MainViewActivity extends Activity{
 	                }else if (position == 2){
 	                	 startActivity(new Intent("com.qrsphere.FavoriteActivity"));
 	                }
-	                else if (position == 3){
-	                
-	                }
+
 	                else if (position == 4){
 	                	startActivity(new Intent("com.qrsphere.DiscoveryActivity"));
 	                }
-	                else if (position == 5){
-	                	
-	                	startActivity(new Intent(MainViewActivity.this,AboutActivity.class));
-	                }
+
                 }
                 else{
                 	MainViewActivity.this.finish();
@@ -344,7 +347,14 @@ public class MainViewActivity extends Activity{
 
 	private void feedback() {
 		// TODO Auto-generated method stub
-		
+    	Qrcode qc = qrcodeGlobal;
+    	if (qc!=null){
+				Intent intent = new Intent(new Intent(MainViewActivity.this,FeedbackActivity.class));
+				Bundle b = new Bundle();
+				b.putString("rawdata", qc.getRawdata());
+				intent.putExtras(b);
+				startActivity(intent);
+    	}
 	}
 
 	private void showScanDetails() {

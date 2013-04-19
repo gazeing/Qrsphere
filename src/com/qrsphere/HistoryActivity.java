@@ -193,6 +193,9 @@ public class HistoryActivity extends Activity {
                 case R.id.send_out:
                 	;
                 	break;
+                case R.id.feedback:
+                	feedback();
+                	break;
                 case R.id.delete_item:
                 	deleteSelectedRecord();
                 	break;
@@ -204,6 +207,18 @@ public class HistoryActivity extends Activity {
         });
         popup.show();  
     }
+    
+	protected void feedback() {
+		// TODO Auto-generated method stub
+    	Qrcode qc = qrcodeGlobal;
+    	if (qc!=null){
+				Intent intent = new Intent(new Intent(HistoryActivity.this,FeedbackActivity.class));
+				Bundle b = new Bundle();
+				b.putString("rawdata", qc.getRawdata());
+				intent.putExtras(b);
+				startActivity(intent);
+    	}
+	}
 
     public void showQPage(){
     	Qrcode qc = qrcodeGlobal;

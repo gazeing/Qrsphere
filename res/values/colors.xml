@@ -35,6 +35,7 @@
   <color name="share_view">#ffffffff</color>
   <color name="status_view">#50000000</color>
   <color name="status_text">#ffffffff</color>
+  <color name="white">#ffffffff</color>
   <color name="transparent">#00000000</color>
   <color name="viewfinder_frame">#ff000000</color>
   <color name="viewfinder_laser">#ff00ff00</color>

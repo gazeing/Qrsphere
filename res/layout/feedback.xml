@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/grey_background" >
+    
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/title_bar" />
+
+      <ScrollView
+          android:id="@+id/ScrollView_feedback"
+          android:layout_width="fill_parent"
+          android:layout_height="0dip"
+          android:layout_weight="0.67" >
+
+    <RelativeLayout
+        android:id="@+id/relative_feedback"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:autoLink="all">
+
+    	
+    	  <LinearLayout
+      		android:layout_width="fill_parent"   
+            android:orientation="horizontal"  
+            android:layout_height="45sp"   
+            android:id="@+id/MyListItem"   
+        	android:background="@color/white" 
+        	android:layout_marginTop="25sp"> 
+				<ImageView            
+		         	android:layout_width="wrap_content"   
+		            android:layout_height="fill_parent"   
+		            android:id="@+id/MyImageInItem"   
+		            android:paddingBottom="5dip"  
+		            android:paddingTop="5dip" 
+		            android:paddingLeft="5dip"
+		            android:contentDescription="icon"
+		            android:src="@drawable/qrcode_icon"
+		            >
+				</ImageView>
+				<LinearLayout   
+			            android:layout_width="fill_parent"   
+			            
+			            android:orientation="vertical"  
+			            android:layout_height="wrap_content"   
+			            android:id="@+id/MyListItemIn"   
+			            android:paddingBottom="3dip"   
+			            android:paddingLeft="10dip">  
+			            <TextView   
+			                    android:layout_height="wrap_content"   
+			                    android:layout_width="fill_parent"   
+			                    android:id="@+id/ItemTitle"   
+			                    android:textSize="20sp">  
+			            </TextView>  
+			            <TextView   
+			                    android:layout_height="wrap_content"   
+			                    android:layout_width="fill_parent" 
+			                    android:gravity="right"  
+			                    android:paddingRight="5sp"
+			                    android:textColor="#ffff6600"
+			                    android:id="@+id/ItemText">  
+			            </TextView>  
+			    </LinearLayout> 
+			</LinearLayout> 
+            <EditText
+            android:id="@+id/editText1"
+            android:layout_width="fill_parent"
+            android:layout_height="140sp"
+            android:layout_below="@+id/MyListItem"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="15sp"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:background="@drawable/edittext_bg"/>
+            
+            
+            <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/editText1"
+            android:layout_marginTop="10sp"
+            android:background="@drawable/btn_submit" />
+
+
+    	</RelativeLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/ad_bar"
+        layout="@layout/ad_bar" />
+
+</LinearLayout>
