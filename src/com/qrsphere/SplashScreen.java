@@ -15,7 +15,7 @@ import com.qrsphere.login.LoginProcess;
 public class SplashScreen extends Activity {
 
 	protected boolean _active = true;
-    protected int _splashTime = 5000;
+    protected int _splashTime = 0;
     
    // TextView tv;
     String strIntent;

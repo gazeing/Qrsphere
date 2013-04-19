@@ -108,7 +108,7 @@ public class ScanDetail{
 
 	@SuppressLint("SimpleDateFormat")
 	public static String TransferTimeFormat(long time){
-    	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
+    	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, HH:mm aa");
     	return sdf.format(new Date(time));
     }
 

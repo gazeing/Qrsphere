@@ -46,8 +46,9 @@ public class MainViewActivity extends Activity{
             R.drawable.history_icon,  
             R.drawable.fav_icon,  
             R.drawable.gear_icon,
-            R.drawable.about_icon,
             R.drawable.discover_icon,
+            R.drawable.about_icon,
+            
             
 
 
@@ -59,8 +60,9 @@ public class MainViewActivity extends Activity{
     		"History",
     		"Favorite",
     		"More",
+    		"Discover",
     		"About",
-    		"Discover"
+    		
     		
 
     		
@@ -174,10 +176,11 @@ public class MainViewActivity extends Activity{
 	                
 	                }
 	                else if (position == 4){
-		                
+	                	startActivity(new Intent("com.qrsphere.DiscoveryActivity"));
 	                }
 	                else if (position == 5){
-		                
+	                	
+	                	startActivity(new Intent(MainViewActivity.this,AboutActivity.class));
 	                }
                 }
                 else{

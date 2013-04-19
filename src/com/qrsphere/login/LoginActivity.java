@@ -173,7 +173,7 @@ public class LoginActivity extends Activity {
 			    				
 			    				checkLoginTickBox(json);
 			    				
-			    				Thread.sleep(5000);
+			    				//Thread.sleep(5000);
 			    				
 			    				//strResponse = res;
 

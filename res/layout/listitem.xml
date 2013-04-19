@@ -30,13 +30,14 @@
                     android:layout_height="wrap_content"   
                     android:layout_width="fill_parent"   
                     android:id="@+id/ItemTitle"   
-                    android:textSize="20dip">  
+                    android:textSize="20sp">  
             </TextView>  
             <TextView   
                     android:layout_height="wrap_content"   
                     android:layout_width="fill_parent" 
                     android:gravity="right"  
                     android:paddingRight="5sp"
+                    android:textColor="#ffff6600"
                     android:id="@+id/ItemText">  
             </TextView>  
     </LinearLayout>  

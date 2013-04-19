@@ -9,9 +9,10 @@ import com.qrsphere.network.SendDataToServer;
 public class LoginProcess {
 
 	public static boolean Login(JSONObject loginfo){
-		SendDataToServer sd = new SendDataToServer("http://192.168.15.141/RestTest.svc");
+		SendDataToServer sd = new SendDataToServer("http://192.168.15.119/api/qrcode");
 		Log.i("LoginPostData",loginfo.toString());
-		String res = sd.doPost(loginfo.toString(), "/json/100"/*"application/json"*/);
+		String test = "{\"QrCodeID\": 4291, \"IsDeleted\": true, \"QrCodeGUID\": \"5397d87e-80a8-4281-90fe-5aa0f6e3cb9b\"}";
+		String res = sd.doPost(test, "application/json");
 		
 
 		

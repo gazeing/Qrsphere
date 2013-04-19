@@ -1,8 +1,6 @@
 package com.qrsphere;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import org.json.JSONException;
@@ -15,6 +13,7 @@ import com.qrsphere.network.QPageProcess;
 import com.qrsphere.network.SuccessCode;
 import com.qrsphere.userinfo.CollectLocation;
 import com.qrsphere.widget.MyLog;
+import com.qrsphere.widget.ScanDetail;
 import com.qrsphere.widget.SeparatedListAdapter;
 import com.qrsphere.widget.StartBrowser;
 
@@ -298,11 +297,7 @@ public class FavoriteActivity extends Activity {
 	}
 	
 
-    @SuppressLint("SimpleDateFormat")
-	public static String TransferTimeFormat(long time){
-    	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm");
-    	return sdf.format(new Date(time));
-    }
+
     
 
 	protected SeparatedListAdapter addSections(SeparatedListAdapter adapter){
@@ -453,7 +448,7 @@ class SeparatedList{
 		HashMap<String, Object> map = new HashMap<String, Object>();  
         map.put("Qrcode",q);  
         map.put("ItemTitle", q.getQrcodeJSONData().getUrl());  
-        map.put("Time", FavoriteActivity.TransferTimeFormat(q.getTimeStamp()));
+        map.put("Time", ScanDetail.TransferTimeFormat(q.getTimeStamp()));
 		list.add(map);
 	}
 
