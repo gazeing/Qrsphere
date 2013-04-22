@@ -8,11 +8,14 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.zxing.BarcodeFormat;
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.login.LoginActivity;
 import com.qrsphere.network.AddToFavoriteProcess;
 import com.qrsphere.network.QPageProcess;
 import com.qrsphere.network.SuccessCode;
+import com.qrsphere.scan.Contents;
+import com.qrsphere.scan.Intents;
 import com.qrsphere.userinfo.CollectLocation;
 import com.qrsphere.widget.AddToFavorite;
 import com.qrsphere.widget.ComboBox;
@@ -191,7 +194,8 @@ public class HistoryActivity extends Activity {
                 	showScanDetails();
                 	break;
                 case R.id.send_out:
-                	;
+                	share();
+                	
                 	break;
                 case R.id.feedback:
                 	feedback();
@@ -208,8 +212,24 @@ public class HistoryActivity extends Activity {
         popup.show();  
     }
     
+	protected void share() {
+    	Qrcode qc = qrcodeGlobal;
+    	if (qc!=null){
+				Intent intent = new Intent(new Intent(HistoryActivity.this,ShareActivity.class));
+				Bundle b = new Bundle();
+				b.putString("rawdata", qc.getRawdata());
+				intent.putExtras(b);
+			    intent.setAction(Intents.Encode.ACTION);
+			    intent.putExtra(Intents.Encode.DATA, qc.getQrcodeJSONData().getUrl());
+			    intent.putExtra(Intents.Encode.TYPE, Contents.Type.TEXT);
+			    intent.putExtra(Intents.Encode.FORMAT, BarcodeFormat.QR_CODE);
+				startActivity(intent);
+    	}
+		
+	}
+
 	protected void feedback() {
-		// TODO Auto-generated method stub
+	
     	Qrcode qc = qrcodeGlobal;
     	if (qc!=null){
 				Intent intent = new Intent(new Intent(HistoryActivity.this,FeedbackActivity.class));

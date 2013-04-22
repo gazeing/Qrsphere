@@ -30,7 +30,7 @@
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"
       
-      android:background="@drawable/scan_box_for_silvio"/>
+      android:background="@drawable/scanner_box"/>
 
 
 
@@ -44,9 +44,9 @@
         android:id="@+id/buttonScanQuit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginLeft="580sp"
-        android:layout_marginTop="15sp"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="585sp"
+        android:layout_marginBottom="15sp"
         android:rotation="270"
 
         android:text="@string/back" />

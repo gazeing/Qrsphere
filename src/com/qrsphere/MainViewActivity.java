@@ -5,6 +5,9 @@ package com.qrsphere;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.qrsphere.scan.Contents;
+import com.qrsphere.scan.Intents;
+import com.google.zxing.BarcodeFormat;
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.login.LoginActivity;
 import com.qrsphere.network.AddToFavoriteProcess;
@@ -109,7 +112,7 @@ public class MainViewActivity extends Activity{
 	};
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+		
 		super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);  
         setContentView(R.layout.mainview); 
@@ -203,7 +206,7 @@ public class MainViewActivity extends Activity{
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				
 	    		StartBrowser sb = new StartBrowser("www.qrsphere.com",context);
 	    		sb.startBrowse();
 			}
@@ -213,7 +216,7 @@ public class MainViewActivity extends Activity{
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
-		// TODO Auto-generated method stub
+		
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
 	
@@ -222,52 +225,14 @@ public class MainViewActivity extends Activity{
 		if (q!=null){
 			this.pd = sdqGlobal.sentToServer(this, q);
 		}
-		 
-//		if (LoginActivity.isOnline(this)) {
-//		        pd = ProgressDialog.show(this, "", "Sending to server...", true,
-//		                false);
-//		        
-//		        MyLog.i("Dialog","pd = ProgressDialog.show(this, \"\", \"Sending to server...\", true,false);");
-//		        new Thread(new Runnable() {
-//
-//		            @Override
-//		            public void run() {
-//		                try {
-//
-//		    				
-//		    				Thread.sleep(5000);
-//		    				
-//		    				//strResponse = res;
-//
-//		                    handler.sendEmptyMessage(SuccessCode.DETAIL_SENT_SUCCESS);
-//		                } catch (Exception e) {
-//		                    System.out.println("In Cache :");
-//		                    handler.sendEmptyMessage(1);
-//		                }
-//		            }
-//		        }).start();
-//		    } else {
-//		    	LoginActivity.showNetworkAlert(this);
-//		    }
-//			
-//			if (res.compareTo("No result!")!=0){
-//				finish();
-//				startActivity(new Intent("com.example.clienttest.MainActivity"));
-//			}
-//			else{
-//				Toast.makeText(getBaseContext(), "Wrong password.", Toast.LENGTH_SHORT).show();
-//			}
 
-//			finishActivity(getParent());
-			//getParent().finish();
-		
 	}
 	protected void setPopupMenuAction(Qrcode q){
 		qrcodeGlobal = q;
 		android.content.DialogInterface.OnClickListener onselect = new android.content.DialogInterface.OnClickListener() {  
 			    @Override  
 			    public void onClick(DialogInterface dialog, int which) {  
-			        // TODO Auto-generated method stub  
+			         
 			        switch (which) {  
 			        case 0:  
 			            Toast.makeText(MainViewActivity.this, "0",Toast.LENGTH_SHORT).show(); 
@@ -293,17 +258,9 @@ public class MainViewActivity extends Activity{
 			        	break;
 			            	
 			    }  
-			        isFromPopupMenu = true;
-			        
+			        isFromPopupMenu = true;   
 			    }
-	
-				
-	
-	
-	
-	
-	
-			      
+
 			   };  
 		if (q!=null){
 	
@@ -312,7 +269,7 @@ public class MainViewActivity extends Activity{
 		}
 	}
 	private void addToFavorite() {
-		// TODO Auto-generated method stub
+		
 		DialogInterface.OnClickListener click =new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int arg1) {
 			// OK, go back to Main menu
@@ -334,7 +291,7 @@ public class MainViewActivity extends Activity{
 		
 	}
 	private void sendDataToFavorList() {
-		// TODO Auto-generated method stub
+		
 		if (cbGlobal!=null){
 			String cata = cbGlobal.getText();
 			qrcodeGlobal.addCatalogue(cata);
@@ -346,7 +303,7 @@ public class MainViewActivity extends Activity{
 	}
 
 	private void feedback() {
-		// TODO Auto-generated method stub
+		
     	Qrcode qc = qrcodeGlobal;
     	if (qc!=null){
 				Intent intent = new Intent(new Intent(MainViewActivity.this,FeedbackActivity.class));
@@ -358,24 +315,9 @@ public class MainViewActivity extends Activity{
 	}
 
 	private void showScanDetails() {
-		// TODO Auto-generated method stub
+		
     	if (qrcodeGlobal!=null){
-//    		DialogInterface.OnClickListener click =new android.content.DialogInterface.OnClickListener() {
-//   		     public void onClick(DialogInterface dialog, int arg1) {
-//   		      // go back to Main menu
-//   				setPopupMenuAction(qrcodeGlobal);
-//   				isFromPopupMenu = false;
-//   		     }
-//    		};
-//    		
-//    		DialogInterface.OnCancelListener cancel =new DialogInterface.OnCancelListener(){
-//     	  		    public void onCancel(DialogInterface dialog) {
-//     	  		     // go back to Main menu  
-//     	  				setPopupMenuAction(qrcodeGlobal);
-//     	  				isFromPopupMenu = false;
-//     	  		    }};
-//    		
-//    		ScanDetail.ScanDetailDialog(qrcodeGlobal,MainViewActivity.this,click,cancel);
+
     		Intent intent = new Intent(MainViewActivity.this, ScanDetailActivity.class);
     		Bundle b = new Bundle();
     		b.putString("Qrcode",qrcodeGlobal.getRawdata());
@@ -385,12 +327,25 @@ public class MainViewActivity extends Activity{
 	}
 
 	private void sendOutQrcode() {
-		// TODO Auto-generated method stub
+		
+		
+    	Qrcode qc = qrcodeGlobal;
+    	if (qc!=null){
+				Intent intent = new Intent(new Intent(MainViewActivity.this,ShareActivity.class));
+				Bundle b = new Bundle();
+				b.putString("rawdata", qc.getRawdata());
+				intent.putExtras(b);
+			    intent.setAction(Intents.Encode.ACTION);
+			    intent.putExtra(Intents.Encode.DATA, qc.getQrcodeJSONData().getUrl());
+			    intent.putExtra(Intents.Encode.TYPE, Contents.Type.TEXT);
+			    intent.putExtra(Intents.Encode.FORMAT, BarcodeFormat.QR_CODE);
+				startActivity(intent);
+    	}
 		
 	}
 
 	private void showQPage() {
-		// TODO Auto-generated method stub
+		
 		
 		this.pd = qpGlobal.sentToServer(context, qrcodeGlobal);
 		 MyLog.i("Dialog","ServerProcessDialog.sentToServer(this, handler, qrcodeGlobal, pd, 22, ");
@@ -399,8 +354,7 @@ public class MainViewActivity extends Activity{
 		if (requestCode ==0) {
 			if (resultCode == RESULT_OK) {
 				String contents = intent.getStringExtra("Url");
-//				Bitmap barcode = intent.getParcelableExtra("Bmp");
-//				tv.setText(contents);
+
                 Toast toast=Toast.makeText(getApplicationContext(),
                 		"you scan: "+contents, Toast.LENGTH_SHORT); 
                 toast.setGravity(Gravity.BOTTOM, 0, 0);  
@@ -416,52 +370,22 @@ public class MainViewActivity extends Activity{
 				}
 				setPopupMenuAction(qc);
 
-//				if (barcode != null)
-//				{
-//				        int width = barcode.getWidth();
-//				        int height = barcode.getHeight();
-////				        int newWidth = 200;
-////				        int newHeight = 200;
-////
-////				        // calculate the scale - in this case = 0.4f
-////				        float scaleWidth = ((float) newWidth) / width;
-////				        float scaleHeight = ((float) newHeight) / height;
-//
-//				        // createa matrix for the manipulation
-//				        Matrix matrix = new Matrix();
-//				        // resize the bit map
-//				        matrix.postScale(width, height);
-//				        // rotate the Bitmap
-//				        matrix.postRotate(180);
-//				        //mOptions.inSampleSize = 2;
-//				        // recreate the new Bitmap
-//				        Bitmap resizedBitmap = Bitmap.createBitmap(barcode, 0, 0,
-//				                          width/2, height/2, matrix, true);
-//
-//				        // make a Drawable from Bitmap to allow to set the BitMap
-//				        // to the ImageView, ImageButton or what ever
-//				        //@SuppressWarnings("deprecation")
-//						//BitmapDrawable bmd = new BitmapDrawable(resizedBitmap);
-//				        im.setImageBitmap(resizedBitmap);
-//				}
-			
-//				QrcodeDataOperator qdo = ((MainActivity) this.getParent()).getQdo();
-//				qdo.insert(new Qrcode(contents));
+
 				
 			} else if (resultCode == RESULT_CANCELED) {
 			// Handle cancel
 				System.out.println(" scan error!");
 		}
-		//((MainActivity) this.getParent()).getTabHost().setCurrentTabByTag("History");
+		
 	}
 	}
 	
 	
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
+		
 		super.onResume();
-//    	if(pd!=null&&pd.isShowing())
+
 		if(pd!=null){
     		pd.dismiss();
     		MyLog.i("dialog","    		pd.dismiss();");
@@ -494,66 +418,7 @@ public class MainViewActivity extends Activity{
             .setTitle(str)  
             .setItems(choices, (android.content.DialogInterface.OnClickListener) oc).create();  
 		dialog.show();  
-//		FrameLayout titil_bar= (FrameLayout) findViewById(R.id.title_bar);
-//        PopupMenu popup = new PopupMenu(this, titil_bar);  
-//        MenuInflater inflater = popup.getMenuInflater(); 
-//        int id = isOnline?R.menu.scan_online:R.menu.scan_offline;
-//        inflater.inflate(id, popup.getMenu());
-//        popup.
-//        popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-//        	 
-//            @Override
-//            //the logic to deal with the menu selection
-//            public boolean onMenuItemClick(MenuItem item) {
-//                Toast.makeText(getBaseContext(), "You selected the action : " + item.getTitle(), Toast.LENGTH_SHORT).show();
-//                switch(item.getItemId()){
-//                case R.id.go_to_web:
-//                	showQPage();
-//                	break;
-//                case R.id.add_to_favor:
-//                	addToFavorite();
-//                	break;
-//                case R.id.scan_detail:
-//
-//                	showScanDetails();
-//                	break;
-//                case R.id.send_out:
-//                	;
-//                	break;
-//                	
-//                case R.id.feedback:
-//                	;
-//                	break;
-//
-//                default:
-//                	break;
-//                }
-//                return true;
-//            }
-//
-//
-//
-//
-//        });
-//        popup.show();  
-		
-//	    LayoutInflater layoutInflater = (LayoutInflater)getBaseContext()
-//	      									.getSystemService(LAYOUT_INFLATER_SERVICE);  
-//	    View popupView = layoutInflater.inflate(R.layout.scanpopup, null);  
-//	    final PopupWindow popupWindow = new PopupWindow(popupView, 
-//	               									LayoutParams.WRAP_CONTENT,  
-//	               									LayoutParams.WRAP_CONTENT);  
-//	             
-//	             Button btnDismiss = (Button)popupView.findViewById(R.id.scbutton1);
-//	             btnDismiss.setOnClickListener(new Button.OnClickListener(){
-//
-//	     @Override
-//	     public void onClick(View v) {
-//	      // TODO Auto-generated method stub
-//	      popupWindow.dismiss();
-//	     }});
-//	               
-//	    popupWindow.showAsDropDown(v, -50, -30);
+
     }
 	
 
