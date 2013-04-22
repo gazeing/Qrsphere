@@ -24,6 +24,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -33,7 +34,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.SimpleAdapter;
@@ -95,6 +98,7 @@ public class FavoriteActivity extends Activity {
 		    }
 		};
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -110,7 +114,30 @@ public class FavoriteActivity extends Activity {
 		lView = (ListView) findViewById(R.id.favorite_list);
 		
 		TextView tv = (TextView) findViewById(R.id.tvtitle);
-		tv.setText("favorite");
+		Drawable back = getResources(). getDrawable(R.drawable.banner_favorite);
+		tv.setBackground(back);
+		
+		Button btn_back = (Button) findViewById(R.id.btn_title_left);
+		btn_back.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				FavoriteActivity.this.finish();
+			}
+		});
+		
+		Button btn_history = (Button) findViewById(R.id.btn_title_right);
+		back = getResources(). getDrawable(R.drawable.icon_history);
+		btn_history.setBackground(back);
+		btn_history.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				FavoriteActivity.this.finish();
+				startActivity(new Intent("com.qrsphere.HistoryActivity"));
+			}
+		});
 
 
 

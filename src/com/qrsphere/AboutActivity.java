@@ -1,11 +1,16 @@
 package com.qrsphere;
 
 import com.qrsphere.widget.MyLog;
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.view.View;
 import android.view.Window;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class AboutActivity extends Activity {
@@ -20,8 +25,22 @@ public class AboutActivity extends Activity {
 		init();
 	}
 
+	@SuppressLint("NewApi")
 	private void init() {
 		// TODO Auto-generated method stub
+		TextView tv = (TextView) findViewById(R.id.tvtitle);
+		Drawable back = getResources(). getDrawable(R.drawable.banner_about);
+		tv.setBackground(back);
+		
+		Button btn_back = (Button) findViewById(R.id.btn_title_left);
+		btn_back.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				AboutActivity.this.finish();
+			}
+		});
+		
 		String app_ver ="0.9";
 		try
 		{

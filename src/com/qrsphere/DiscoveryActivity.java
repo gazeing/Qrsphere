@@ -5,14 +5,19 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.Window;
+import android.view.View.OnClickListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.TextView;
 
 @SuppressLint({ "SetJavaScriptEnabled", "HandlerLeak" })
 public class DiscoveryActivity extends Activity {
@@ -48,7 +53,23 @@ public class DiscoveryActivity extends Activity {
         loadurl(wv,"http://www.google.com");
     }
 	
-	   public void init(){//
+	   @SuppressLint("NewApi")
+	public void init(){//
+		   
+			TextView tv = (TextView) findViewById(R.id.tvtitle);
+			Drawable back = getResources(). getDrawable(R.drawable.banner_discovery);
+			tv.setBackground(back);
+			
+			Button btn_back = (Button) findViewById(R.id.btn_title_left);
+			btn_back.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					DiscoveryActivity.this.finish();
+				}
+			});
+			
+			
 	    	wv=(WebView)findViewById(R.id.webview);
 	        wv.getSettings().setJavaScriptEnabled(true);//
 	        wv.setScrollBarStyle(0);//

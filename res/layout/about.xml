@@ -87,7 +87,7 @@
             android:layout_below="@+id/textView5_about"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="18sp"
-            android:src="@drawable/id_logo_title" />
+            android:src="@drawable/icon_qrcode_about" />
 
 
 
