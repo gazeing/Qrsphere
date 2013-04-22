@@ -77,7 +77,7 @@ private int scannerAlpha;
     scannerAlpha = 0;
     possibleResultPoints = new HashSet<ResultPoint>(5);
     
-    logoHeight = 132; // the height on the 720*1280 screen
+    logoHeight = 110; // the height on the 720*1280 screen
   }
 
   @SuppressLint("DrawAllocation")
