@@ -51,6 +51,15 @@ public class ShareActivity extends Activity{
 			
 		}
 		
+		Button btn_back = (Button) findViewById(R.id.btn_title_left);
+		btn_back.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				ShareActivity.this.finish();
+			}
+		});
+		
 		btn = (Button) findViewById(R.id.btn_submit);
 		btn.setOnClickListener(new OnClickListener() {
 			
