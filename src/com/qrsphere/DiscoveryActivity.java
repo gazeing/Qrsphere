@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -53,12 +52,12 @@ public class DiscoveryActivity extends Activity {
         loadurl(wv,"http://www.google.com");
     }
 	
-	   @SuppressLint("NewApi")
+	  
 	public void init(){//
 		   
 			TextView tv = (TextView) findViewById(R.id.tvtitle);
-			Drawable back = getResources(). getDrawable(R.drawable.banner_discovery);
-			tv.setBackground(back);
+			//Drawable back = getResources(). getDrawable(R.drawable.banner_discovery);
+			tv.setBackgroundResource(R.drawable.banner_discovery);
 			
 			Button btn_back = (Button) findViewById(R.id.btn_title_left);
 			btn_back.setOnClickListener(new OnClickListener() {

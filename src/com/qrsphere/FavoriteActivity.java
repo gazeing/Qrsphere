@@ -22,28 +22,25 @@ import com.qrsphere.widget.StartBrowser;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.PopupMenu.OnMenuItemClickListener;
 
 @SuppressLint("HandlerLeak")
 public class FavoriteActivity extends Activity {
@@ -98,7 +95,7 @@ public class FavoriteActivity extends Activity {
 		    }
 		};
 
-	@SuppressLint("NewApi")
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -114,8 +111,8 @@ public class FavoriteActivity extends Activity {
 		lView = (ListView) findViewById(R.id.favorite_list);
 		
 		TextView tv = (TextView) findViewById(R.id.tvtitle);
-		Drawable back = getResources(). getDrawable(R.drawable.banner_favorite);
-		tv.setBackground(back);
+		//Drawable back = getResources(). getDrawable(R.drawable.banner_favorite);
+		tv.setBackgroundResource(R.drawable.banner_favorite);
 		
 		Button btn_back = (Button) findViewById(R.id.btn_title_left);
 		btn_back.setOnClickListener(new OnClickListener() {
@@ -127,8 +124,8 @@ public class FavoriteActivity extends Activity {
 		});
 		
 		Button btn_history = (Button) findViewById(R.id.btn_title_right);
-		back = getResources(). getDrawable(R.drawable.icon_history);
-		btn_history.setBackground(back);
+		//back = getResources(). getDrawable(R.drawable.icon_history);
+		btn_history.setBackgroundResource(R.drawable.icon_history);
 		btn_history.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -183,55 +180,121 @@ public class FavoriteActivity extends Activity {
             public void onItemClick(AdapterView<?> parentView, View childView, int position, long id) {  
                 
 
-            	showPopup(childView);
+            	
                	qrDataGlobal = (String) ((HashMap<String, Object>)adapter.getItem(position)).get("ItemTitle");
             	qrcodeGlobal =  (Qrcode) ((HashMap<String, Object>)adapter.getItem(position)).get("Qrcode");
-            	
+            	showPopup(childView);
             }  
         });
 	}
-	@SuppressLint("NewApi")
+	
+
+
 	protected void showPopup(View childView) {
+//		if (CheckVersion.CheckVersion11()){
+//		
+//			PopupMenu popup = new PopupMenu(this, childView);  
+//	        MenuInflater inflater = popup.getMenuInflater();  
+//	        inflater.inflate(R.menu.favor_chose, popup.getMenu());  
+//	        popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+//	        	 
+//	            @Override
+//	            //the logic to deal with the menu selection
+//	            public boolean onMenuItemClick(MenuItem item) {
+//	                Toast.makeText(getBaseContext(), "You selected the action : " + item.getTitle(), Toast.LENGTH_SHORT).show();
+//	                switch(item.getItemId()){
+//	                case R.id.go_to_web:
+//	                	showQPage();
+//	                	break;
+//	                	
+//	                case R.id.feedback:
+//	                	feedback();
+//	                	;
+//	                	break;
+//	                case R.id.scan_detail:
+//
+//	                	showScanDetails();
+//	                	break;
+//	                case R.id.send_out:
+//	                	share();
+//	                	;
+//	                	break;
+//	                case R.id.delete_item:
+//	                	deleteSelectedRecord();
+//	                	break;
+//	                default:
+//	                	break;
+//	                }
+//	                return true;
+//	            }
+//
+//
+//	        });
+//	        popup.show(); 
+//		}
+//		else{
+			if (qrcodeGlobal!=null)
+				setPopupMenuAction(qrcodeGlobal);
+		//}
+		 
+	}	
+	protected void setPopupMenuAction(Qrcode q){
+		qrcodeGlobal = q;
+		android.content.DialogInterface.OnClickListener onselect = new android.content.DialogInterface.OnClickListener() {  
+			    @Override  
+			    public void onClick(DialogInterface dialog, int which) {  
+			         
+			        switch (which) {  
+			        case 0:  
+			            Toast.makeText(FavoriteActivity.this, "0",Toast.LENGTH_SHORT).show(); 
+			            showQPage();
+			            break;  
+			        case 1:  
+			            Toast.makeText(FavoriteActivity.this, "1",Toast.LENGTH_SHORT).show();
+			            share();
+			            break;  
+			        case 2:  
+			            Toast.makeText(FavoriteActivity.this, "2",Toast.LENGTH_SHORT).show(); 
+			            showScanDetails();
+			            break;  
+			        case 3:  
+			            Toast.makeText(FavoriteActivity.this, "3",Toast.LENGTH_SHORT).show();
+			            feedback();
+			            break;  
+			        case 4:  
+			            Toast.makeText(FavoriteActivity.this, "4",Toast.LENGTH_SHORT).show();
+			            deleteSelectedRecord();
+			            break; 
+			        default:
+			        	break;
+			            	
+			        }  
+ 
+			    }
+
+			   };  
+		if (q!=null){
+	
+			showPopup(q.getQrcodeJSONData().getUrl(),onselect);
+	
+		}
+	}
+	protected void showPopup(String str,android.content.DialogInterface.OnClickListener oc) {  
 		
-		PopupMenu popup = new PopupMenu(this, childView);  
-        MenuInflater inflater = popup.getMenuInflater();  
-        inflater.inflate(R.menu.favor_chose, popup.getMenu());  
-        popup.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-        	 
-            @Override
-            //the logic to deal with the menu selection
-            public boolean onMenuItemClick(MenuItem item) {
-                Toast.makeText(getBaseContext(), "You selected the action : " + item.getTitle(), Toast.LENGTH_SHORT).show();
-                switch(item.getItemId()){
-                case R.id.go_to_web:
-                	showQPage();
-                	break;
-                	
-                case R.id.feedback:
-                	feedback();
-                	;
-                	break;
-                case R.id.scan_detail:
+		String[] choices={this.getString(R.string.qpage) ,
+				this.getString(R.string.send_out),
+				this.getString(R.string.scan_detail),
+				this.getString(R.string.feedback),
+				this.getString(R.string.delete_item)};  
 
-                	showScanDetails();
-                	break;
-                case R.id.send_out:
-                	share();
-                	;
-                	break;
-                case R.id.delete_item:
-                	deleteSelectedRecord();
-                	break;
-                default:
-                	break;
-                }
-                return true;
-            }
+		
+		AlertDialog dialog = new AlertDialog.Builder(FavoriteActivity.this)  
+            .setIcon(R.drawable.qrcode_icon)  
+            .setTitle(str)  
+            .setItems(choices, (android.content.DialogInterface.OnClickListener) oc).create();  
+		dialog.show();  
 
-
-        });
-        popup.show();  
-	}			
+    }
 	protected void share() {
     	Qrcode qc = qrcodeGlobal;
     	if (qc!=null){

@@ -10,7 +10,7 @@
                    android:id="@+id/ItemImage"     
                    android:layout_width="wrap_content"   
                    android:src="@drawable/q_logo"  
-                   android:layout_marginTop="10sp" 
+                   android:layout_marginTop="30sp" 
                    android:layout_gravity="center_horizontal"
                    android:contentDescription="@string/app_name"/>   
                        

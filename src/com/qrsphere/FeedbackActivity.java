@@ -3,9 +3,7 @@ package com.qrsphere;
 import com.qrsphere.database.QrcodeJSONData;
 import com.qrsphere.widget.ScanDetail;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -26,13 +24,13 @@ public class FeedbackActivity extends Activity {
 		init();
 
 	}
-	@SuppressLint("NewApi")
+	
 	private void init() {
 		// TODO Auto-generated method stub
 		tv3= (TextView) findViewById(R.id.tvtitle);
 		if(tv3 != null){
-			Drawable back = getResources(). getDrawable(R.drawable.banner_feedback);
-			tv3.setBackground(back);
+			//Drawable back = getResources(). getDrawable(R.drawable.banner_feedback);
+			tv3.setBackgroundResource(R.drawable.banner_feedback);
 			}
 		
 		tv1 = (TextView) findViewById(R.id.ItemTitle);

@@ -1,9 +1,7 @@
 package com.qrsphere;
 
 import com.qrsphere.widget.MyLog;
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -25,12 +23,12 @@ public class AboutActivity extends Activity {
 		init();
 	}
 
-	@SuppressLint("NewApi")
+
 	private void init() {
 		// TODO Auto-generated method stub
 		TextView tv = (TextView) findViewById(R.id.tvtitle);
-		Drawable back = getResources(). getDrawable(R.drawable.banner_about);
-		tv.setBackground(back);
+		//Drawable back = getResources(). getDrawable(R.drawable.banner_about);
+		tv.setBackgroundResource(R.drawable.banner_about);
 		
 		Button btn_back = (Button) findViewById(R.id.btn_title_left);
 		btn_back.setOnClickListener(new OnClickListener() {

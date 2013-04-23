@@ -400,7 +400,7 @@ public class MainViewActivity extends Activity{
 	
 
 
-	@SuppressLint("NewApi")
+	
 	protected void showPopup(String str,android.content.DialogInterface.OnClickListener oc) {  
 		
 		String[] choicesOnline={this.getString(R.string.qpage) ,
@@ -414,7 +414,7 @@ public class MainViewActivity extends Activity{
 		String[] choices = isOnline?choicesOnline:choicesOffline;
 		
 		AlertDialog dialog = new AlertDialog.Builder(MainViewActivity.this)  
-            .setIcon(R.drawable.scan_icon)  
+            .setIcon(R.drawable.qrcode_icon)  
             .setTitle(str)  
             .setItems(choices, (android.content.DialogInterface.OnClickListener) oc).create();  
 		dialog.show();  

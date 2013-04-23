@@ -155,20 +155,21 @@ public class LoginActivity extends Activity {
 			    if (isOnline(LoginActivity.this)) {
 			        pd = ProgressDialog.show(LoginActivity.this, "", "Login to server...", true,
 			                false);
-			        new Thread(new Runnable() {
-
-			            @Override
-			            public void run() {
-			                try {
-			    				String name = etName.getText().toString();
-			    				String account = etAccount.getText().toString();
-			    				String password = etPassword.getText().toString();
-			    				
-			    				JSONObject json = new JSONObject();  
-			                    json.put("Name", name);  
-			                    json.put("Account", account);  
-			                    json.put("Password", password); 
-			    				isLoginOK = LoginProcess.Login(json);
+//			        new Thread(new Runnable() {
+//
+//			            @Override
+//			            public void run() {
+//			                try {
+//			    				String name = etName.getText().toString();
+//			    				String account = etAccount.getText().toString();
+//			    				String password = etPassword.getText().toString();
+//			    				
+//			    				JSONObject json = new JSONObject();  
+//			                    json.put("Name", name);  
+//			                    json.put("Account", account);  
+//			                    json.put("Password", password); 
+			                    LoginProcess lp = new LoginProcess();
+			    				isLoginOK = lp.Login(json,handler);
 			    				Log.i("LoginPostResult",isLoginOK+"");
 			    				
 			    				checkLoginTickBox(json);
@@ -176,14 +177,14 @@ public class LoginActivity extends Activity {
 			    				//Thread.sleep(5000);
 			    				
 			    				//strResponse = res;
-
-			                    handler.sendEmptyMessage(11);
-			                } catch (Exception e) {
-			                    System.out.println("In Cache :");
-			                    handler.sendEmptyMessage(1);
-			                }
-			            }
-			        }).start();
+//
+//			                    handler.sendEmptyMessage(11);
+//			                } catch (Exception e) {
+//			                    System.out.println("In Cache :");
+//			                    handler.sendEmptyMessage(1);
+//			                }
+//			            }
+//			        }).start();
 			    } else {
 			        showNetworkAlert(LoginActivity.this);
 			    }

@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.qrsphere.widget.MyLog;
+
 import android.util.Log;
 
 public class SendDataToServer {
@@ -37,11 +39,12 @@ public class SendDataToServer {
 			//res = ho.HttpClientPostMethod();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			MyLog.i("HttpAsyncTask",res);
 		} 
 			if (res==""||res==null)
 				res = "No result!";
-			Log.i("HTTPresponce",res);
+			MyLog.i("HTTPresponce",res);
 		
 		
 		return res;
@@ -51,15 +54,17 @@ public class SendDataToServer {
     public String doPost( String data, String contentType)  {
     	String res="";
     	HttpOperation ho = new HttpOperation(url);
-    	HttpAsyncTask hat = new HttpAsyncTask(ho);
+    	
 
 
 		try {
+			
+			HttpAsyncTask hat = new HttpAsyncTask(ho);
 			res = hat.execute(data,contentType).get();
 			//res = ho.HttpClientPostMethod();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			MyLog.i("HttpAsyncTask",res);
 		} 
 			if (res==""||res==null)
 				res = "No result!";

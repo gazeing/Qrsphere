@@ -44,11 +44,11 @@
         android:id="@+id/buttonScanQuit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="585sp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="3sp"
         android:layout_marginBottom="15sp"
-        android:rotation="270"
+        android:background="@drawable/icon_back_rotate_left"
 
-        android:text="@string/back" />
+         />
 
 </FrameLayout>

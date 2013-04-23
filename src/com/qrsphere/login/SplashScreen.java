@@ -11,6 +11,7 @@ import android.view.Window;
 
 import com.qrsphere.R;
 import com.qrsphere.database.QrcodeDataOperator;
+import com.qrsphere.widget.MyLog;
 
 public class SplashScreen extends Activity {
 
@@ -55,6 +56,7 @@ public class SplashScreen extends Activity {
                    isLoginOK = judgeAccountInfo(info);
                 } catch(Exception e) {
                     // do nothing
+                	MyLog.i(e.getMessage());
                 } finally {
 
 
@@ -129,7 +131,8 @@ public boolean judgeAccountInfo(String jsonStr){
 			if (json!=null){
 				String password = json.getString("Password");
 				if (password.length()>0){
-					if (LoginProcess.Login(json))
+					LoginProcess lp = new LoginProcess();
+					if (lp.Login(json,null))
 						return true;
 					else
 						return false;
