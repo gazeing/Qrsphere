@@ -17,6 +17,7 @@
 package com.qrsphere.scan;
 
 import com.qrsphere.R;
+import com.qrsphere.widget.MyLog;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;
@@ -70,12 +71,15 @@ final class DecodeHandler extends Handler {
   private void decode(byte[] data, int width, int height) {
     long start = System.currentTimeMillis();
     Result rawResult = null;
-    PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(data, width, height);
-    BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+    PlanarYUVLuminanceSource source = null;
     try {
-      rawResult = multiFormatReader.decodeWithState(bitmap);
-    } catch (ReaderException re) {
+    	source = CameraManager.get().buildLuminanceSource(data, width, height);
+    	BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
+    	if (bitmap != null)
+    		rawResult = multiFormatReader.decodeWithState(bitmap);
+    } catch (Exception re) {
       // continue
+    	//MyLog.i(re.getMessage());
     } finally {
       multiFormatReader.reset();
     }

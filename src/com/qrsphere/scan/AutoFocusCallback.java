@@ -43,9 +43,9 @@ final class AutoFocusCallback implements Camera.AutoFocusCallback {
       //Log.d(TAG, "Got auto-focus callback; requesting another");
       autoFocusHandler.sendMessageDelayed(message, AUTOFOCUS_INTERVAL_MS);
       autoFocusHandler = null;
-      Log.d(TAG, "Got auto-focus callback: "+message.toString());
+      //Log.d(TAG, "Got auto-focus callback: "+message.toString());
     } else {
-      Log.d(TAG, "Got auto-focus callback, but no handler for it");
+      //Log.d(TAG, "Got auto-focus callback, but no handler for it");
     }
   }
 
