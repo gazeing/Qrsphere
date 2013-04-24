@@ -3,25 +3,68 @@ package com.qrsphere.login;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
+import android.widget.ProgressBar;
 
 import com.qrsphere.R;
 import com.qrsphere.database.QrcodeDataOperator;
+import com.qrsphere.network.SuccessCode;
 import com.qrsphere.widget.MyLog;
 
+@SuppressLint("HandlerLeak")
 public class SplashScreen extends Activity {
 
 	protected boolean _active = true;
-    protected int _splashTime = 0;
+    protected int _splashTime = 1000;//TODO: consider its length when published
     
    // TextView tv;
     String strIntent;
     boolean isLoginOK = false;
     String info;
+    ProgressBar pd;
+    
+    private Handler handler = new Handler() {
+ 	   
+		public void handleMessage(Message msg) {
+	      
+	    	if(pd!=null){
+	    		pd.setVisibility(View.INVISIBLE);
+	    		
+	    		//MyLog.i("Dialog","pd.dismiss(); pd.getProgress() = "+pd.getProgress());
+
+	    	}
+	        if (msg.what == SuccessCode.DETAIL_SENT_SUCCESS) {
+	        	
+                finish();
+                // start mainActivity
+				Intent intent = new Intent(new Intent(getIntentStr()));
+				Bundle b = new Bundle();
+				b.putBoolean("IsOnline", isLoginOK);
+				b.putString("username", getUsernameFromInfo(info));
+				intent.putExtras(b);
+
+				startActivity(intent);
+
+	        } else if (msg.what == SuccessCode.ERROR) {
+
+	        } else if (msg.what == SuccessCode.QPAGE_SUCCESS) {
+	        	//qpGlobal.startQPage(MainViewActivity.this);
+	        	
+	        }else if (msg.what == SuccessCode.ADD_TO_FAVORITE_SUCCESS) {
+	        	
+	        }else {
+	            LoginActivity.showNetworkAlert(SplashScreen.this);
+	        }
+	    }
+	};
    
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,6 +75,7 @@ public class SplashScreen extends Activity {
 //        iv.setBackgroundColor(Color.TRANSPARENT);
         setContentView(R.layout.splash);
         //tv = (TextView) findViewById(R.id.splashTextView1);
+        pd = (ProgressBar) findViewById(R.id.progressBar1);
         
     	final QrcodeDataOperator qdo = new QrcodeDataOperator(this);
     	String mac = new com.qrsphere.userinfo.CollectPhoneInformation(getApplication()).getMacAddress();
@@ -43,16 +87,16 @@ public class SplashScreen extends Activity {
 			@Override
             public void run() {
                 try {
-//                    int waited = 0;
-//                    while(_active && (waited < _splashTime)) {
-//                        sleep(100);
-//                        if(_active) {
-//                            waited += 100;
-//                        }
+                    int waited = 0;
+                    while(_active && (waited < _splashTime)) {
+                        sleep(100);
+                        if(_active) {
+                            waited += 100;
+                        }
                     
                 	
-//                }
-                	sleep(_splashTime);
+               }
+                	
                    isLoginOK = judgeAccountInfo(info);
                 } catch(Exception e) {
                     // do nothing
@@ -60,20 +104,8 @@ public class SplashScreen extends Activity {
                 } finally {
 
 
-                    finish();
-                    // start mainActivity
-    				Intent intent = new Intent(new Intent(getIntentStr()));
-    				Bundle b = new Bundle();
-    				b.putBoolean("IsOnline", isLoginOK);
-    				b.putString("username", getUsernameFromInfo(info));
-    				intent.putExtras(b);
-					//String name = "User.Test";
-					
-    				startActivity(intent);
-                    //startActivity(new Intent(getIntentStr()));
-                    // stop(); //android does not support stop() any more, following code could be a way to exit
-//                  shouldContinue = false;
-//                  join();
+
+
               }
           }
       };
@@ -115,7 +147,7 @@ public static String getUsernameFromInfo(String jsonStr){
 						return null;
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			return null;
 		}
@@ -132,7 +164,7 @@ public boolean judgeAccountInfo(String jsonStr){
 				String password = json.getString("Password");
 				if (password.length()>0){
 					LoginProcess lp = new LoginProcess();
-					if (lp.Login(json,null))
+					if (lp.Login(json,handler))
 						return true;
 					else
 						return false;
@@ -144,7 +176,7 @@ public boolean judgeAccountInfo(String jsonStr){
 				return false;
 		}
 	} catch (JSONException e) {
-		// TODO Auto-generated catch block
+		
 		e.printStackTrace();
 	}
 	  

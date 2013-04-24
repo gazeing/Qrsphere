@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.qrsphere.network.SendDataToServer;
+import com.qrsphere.network.SuccessCode;
 
 public class LoginProcess {
 
@@ -17,7 +18,7 @@ public class LoginProcess {
 		
 
 		if (hd != null)
-			hd.sendEmptyMessage(11);
+			hd.sendEmptyMessage(SuccessCode.DETAIL_SENT_SUCCESS);
 		return judgeLoginResponse(res);
 		
 	}
@@ -28,6 +29,6 @@ public class LoginProcess {
 			return true;
 		
 		
-		return true;// TODO: will be set to "false" after test finish.
+		return false;// TODO: will be set to "false" after test finish.
 	}
 }

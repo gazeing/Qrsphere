@@ -559,6 +559,7 @@ public class HistoryActivity extends Activity {
 				json.put("IsFavorite", true);
 				json.put("Latitude", cl.getLatitude());
 				json.put("Longitude", cl.getLongitude());
+				json.put("TimeStamp",now-oneDay*i );
 			} catch (JSONException e) {
 				
 				e.printStackTrace();

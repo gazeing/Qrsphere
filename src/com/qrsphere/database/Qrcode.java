@@ -20,7 +20,7 @@ public class Qrcode {
 		super();
 		this.rawdata = rawdata;
 		this.timestamp = System.currentTimeMillis();
-		this.hashcode = "";
+		
 		
 		this.hashcode = SimpleSHA1.sha1Hash(rawdata);
 
@@ -29,7 +29,7 @@ public class Qrcode {
 		super();
 		this.rawdata = generateRawdataByUrl(url, context);
 		this.timestamp = System.currentTimeMillis();
-		this.hashcode = "";
+		
 		
 		this.hashcode = SimpleSHA1.sha1Hash(rawdata);
 	}

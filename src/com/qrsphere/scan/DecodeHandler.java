@@ -17,11 +17,9 @@
 package com.qrsphere.scan;
 
 import com.qrsphere.R;
-import com.qrsphere.widget.MyLog;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;
-import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 
