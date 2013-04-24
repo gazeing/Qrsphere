@@ -3,14 +3,21 @@ package com.qrsphere.widget;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.json.JSONObject;
+
 
 import com.qrsphere.R;
 import com.qrsphere.database.Qrcode;
+import com.qrsphere.userinfo.CollectLocation;
+import com.qrsphere.userinfo.CollectPhoneInformation;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.location.Location;
+import android.location.LocationListener;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -111,5 +118,53 @@ public class ScanDetail{
     	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, HH:mm aa");
     	return sdf.format(new Date(time));
     }
+	
+	  public static JSONObject buildUserInfo(Context context){
+	    	
+	    	LocationListener ll = new LocationListener(){
+
+				@Override
+				public void onLocationChanged(Location location) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onProviderDisabled(String provider) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onProviderEnabled(String provider) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onStatusChanged(String provider, int status,
+						Bundle extras) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+			};
+			CollectLocation cl = new CollectLocation(context,ll);
+	    	JSONObject json = new JSONObject();
+			try {
+				json.put("Latitude", cl.getLatitude());
+				json.put("Longitude", cl.getLongitude());
+				json.put("DeviceModel", new CollectPhoneInformation(context).getDeviceName());
+				json.put("DateTime", ScanDetail.TransferTimeFormat(System.currentTimeMillis()));
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		  
+		  
+		  return json;
+	  }
 
 }

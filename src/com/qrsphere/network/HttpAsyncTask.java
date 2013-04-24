@@ -26,6 +26,8 @@ public class HttpAsyncTask extends AsyncTask<String, Void, String> {
 		try {
 			if (arg0.length==2)
 				tmp = ho.doPost(arg0[0],arg0[1]);
+			else if ((arg0.length==3)&&(arg0[2]=="login"))
+				tmp = ho.loginPost(arg0[0], arg0[1], arg0[2]);
 			else
 				tmp= ho.HttpClientPostMethod();
 		} catch (Exception e) {

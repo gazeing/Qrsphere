@@ -18,6 +18,7 @@ import com.qrsphere.R;
 import com.qrsphere.database.QrcodeDataOperator;
 import com.qrsphere.network.SuccessCode;
 import com.qrsphere.widget.MyLog;
+import com.qrsphere.widget.ScanDetail;
 
 @SuppressLint("HandlerLeak")
 public class SplashScreen extends Activity {
@@ -36,7 +37,7 @@ public class SplashScreen extends Activity {
 		public void handleMessage(Message msg) {
 	      
 	    	if(pd!=null){
-	    		pd.setVisibility(View.INVISIBLE);
+	    		pd.setVisibility(View.GONE);
 	    		
 	    		//MyLog.i("Dialog","pd.dismiss(); pd.getProgress() = "+pd.getProgress());
 
@@ -87,6 +88,7 @@ public class SplashScreen extends Activity {
 			@Override
             public void run() {
                 try {
+                	pd.setVisibility(View.VISIBLE);
                     int waited = 0;
                     while(_active && (waited < _splashTime)) {
                         sleep(100);
@@ -98,12 +100,14 @@ public class SplashScreen extends Activity {
                }
                 	
                    isLoginOK = judgeAccountInfo(info);
+                   
+                	   
                 } catch(Exception e) {
                     // do nothing
                 	MyLog.i(e.getMessage());
                 } finally {
 
-
+                	handler.sendEmptyMessage(SuccessCode.DETAIL_SENT_SUCCESS);
 
 
               }
@@ -112,6 +116,7 @@ public class SplashScreen extends Activity {
       splashTread.start();
   }
  
+  
   @Override
   public boolean onTouchEvent(MotionEvent event) {
       if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -164,13 +169,17 @@ public boolean judgeAccountInfo(String jsonStr){
 				String password = json.getString("Password");
 				if (password.length()>0){
 					LoginProcess lp = new LoginProcess();
-					if (lp.Login(json,handler))
+					if (lp.Login(json,ScanDetail.buildUserInfo(SplashScreen.this),null))
 						return true;
-					else
+					else{
+						
 						return false;
+					}
 				}
-				else
+				else{
+					
 					return false;
+				}
 			}
 			else
 				return false;
@@ -180,6 +189,7 @@ public boolean judgeAccountInfo(String jsonStr){
 		e.printStackTrace();
 	}
 	  
+	
 	  return false;
   }
  

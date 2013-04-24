@@ -8,6 +8,8 @@ import org.json.JSONObject;
 import com.qrsphere.MainViewActivity;
 import com.qrsphere.R;
 import com.qrsphere.database.QrcodeDataOperator;
+import com.qrsphere.widget.ScanDetail;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -169,7 +171,7 @@ public class LoginActivity extends Activity {
 //			                    json.put("Account", account);  
 //			                    json.put("Password", password); 
 			                    LoginProcess lp = new LoginProcess();
-			    				isLoginOK = lp.Login(json,handler);
+			    				isLoginOK = lp.Login(json,ScanDetail.buildUserInfo(LoginActivity.this),handler);
 			    				Log.i("LoginPostResult",isLoginOK+"");
 			    				
 			    				checkLoginTickBox(json);
@@ -208,6 +210,7 @@ public class LoginActivity extends Activity {
 			}
 		});
 	}
+
 	public static Boolean isOnline(Context context) {
 	    ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 	    NetworkInfo netInfo = cm.getActiveNetworkInfo();

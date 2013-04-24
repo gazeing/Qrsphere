@@ -2,8 +2,13 @@ package com.qrsphere;
 
 
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.qrsphere.scan.Contents;
 import com.qrsphere.scan.Intents;
@@ -16,6 +21,7 @@ import com.qrsphere.network.SendDetailProcess;
 import com.qrsphere.network.SuccessCode;
 import com.qrsphere.widget.AddToFavorite;
 import com.qrsphere.widget.ComboBox;
+import com.qrsphere.widget.GroupAdapter;
 import com.qrsphere.widget.MyLog;
 import com.qrsphere.widget.StartBrowser;
 import android.annotation.SuppressLint;
@@ -25,18 +31,25 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.ContextMenu;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +83,11 @@ public class MainViewActivity extends Activity{
 
     		
     };
+    
+    PopupWindow popupWindow;
+    private ListView lv_group;
+    private View view;
+    private List<String> groups;
     
 	private ProgressDialog pd;
     GridView mGridView;
@@ -201,6 +219,7 @@ public class MainViewActivity extends Activity{
               
         });  
         
+        //click on the logo of titlebar will open the browser and go to website.
         bt_ad = (Button) findViewById(R.id.btn_ad_bar);
         bt_ad.setOnClickListener(new OnClickListener() {
 			
@@ -209,6 +228,67 @@ public class MainViewActivity extends Activity{
 				
 	    		StartBrowser sb = new StartBrowser("www.qrsphere.com",context);
 	    		sb.startBrowse();
+			}
+		});
+        
+        
+        Button bt_portrait = (Button) findViewById(R.id.btn_main_title_right);
+        bt_portrait.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showWindow(v);
+				
+			}
+		});
+	}
+	@SuppressWarnings("deprecation")
+	private void showWindow(View parent) {
+
+		if (popupWindow == null) {
+			LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	
+			view = layoutInflater.inflate(R.layout.group_list, null);
+	
+			lv_group = (ListView) view.findViewById(R.id.lvGroup);
+			// add data
+			groups = new ArrayList<String>();
+			groups.add("Change Portrait");
+			groups.add("logout");
+	
+	
+			GroupAdapter groupAdapter = new GroupAdapter(this, groups);
+			lv_group.setAdapter(groupAdapter);
+			//create
+			popupWindow = new PopupWindow(view,400,400);
+		}
+
+		// focus
+		popupWindow.setFocusable(true);
+		// allow outside touch to dismiss
+		popupWindow.setOutsideTouchable(true);
+
+		// 
+		popupWindow.setBackgroundDrawable(new BitmapDrawable());
+		WindowManager windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+		// set position
+		int xPos = windowManager.getDefaultDisplay().getWidth() / 2
+		- popupWindow.getWidth() / 2;
+		MyLog.i("coder", "xPos:" + xPos);
+
+		popupWindow.showAsDropDown(parent, xPos, 0);
+
+		lv_group.setOnItemClickListener(new OnItemClickListener() {
+	
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view,
+			int position, long id) {
+	
+
+	
+				if (popupWindow != null) {
+				popupWindow.dismiss();
+				}
 			}
 		});
 	}
@@ -422,6 +502,35 @@ public class MainViewActivity extends Activity{
     }
 	
 
+	public Object fetch(String address) throws MalformedURLException,
+    IOException {
+        URL url = new URL(address);
+        Object content = url.getContent();
+        return content;
+    }  
+
+    private Drawable ImageOperations( String url) {
+        try {
+            InputStream is = (InputStream)fetch(url);
+            Drawable d = Drawable.createFromStream(is, "src");
+            return d;
+        } catch (MalformedURLException e) {
+            return null;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+	@SuppressWarnings("deprecation")
+	void showUserPortrait(String url){
+		if (url != null){
+			Drawable d = ImageOperations(url);
+			Button iv = (Button) findViewById(R.id.btn_main_title_right);
+			if(d != null)
+				iv.setBackgroundDrawable(d);
+		}
+		
+	}
 	
 
 

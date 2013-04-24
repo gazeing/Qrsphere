@@ -192,6 +192,32 @@ public class HttpOperation {
 
         }
     
+    public String loginPost(String data, String auth,String posttype)
+    throws Exception{
+    	String strResp = ""; 
+    	if(posttype=="login"){
+    		HttpPost post = new HttpPost(urlStr);  
+    		post.addHeader("Authorization","Basic " +  auth);
+            StringEntity se = new StringEntity(data, HTTP.UTF_8);  
+            se.setContentType("application/json");  
+            post.setEntity(se);
+            HttpClient httpclient = new DefaultHttpClient();
+            try{
+            HttpResponse resp = httpclient.execute(post);  
+            if (resp.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK)  
+                strResp = EntityUtils.toString(resp.getEntity()); 
+            }catch(Exception e){
+            	throw e;
+            }
+             
+
+    	}
+
+    	
+    	return strResp;
+    	
+    }
+    
     
     public String doPost( String data, String contentType)   
     throws Exception {  

@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 
 import com.qrsphere.widget.MyLog;
 
+import android.util.Base64;
 import android.util.Log;
 
 public class SendDataToServer {
@@ -61,6 +62,28 @@ public class SendDataToServer {
 			
 			HttpAsyncTask hat = new HttpAsyncTask(ho);
 			res = hat.execute(data,contentType).get();
+			//res = ho.HttpClientPostMethod();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			MyLog.i("HttpAsyncTask",res);
+		} 
+			if (res==""||res==null)
+				res = "No result!";
+			Log.i("HTTPresponce",res);
+    	
+    	return res;
+    }
+    public String login(String username,String password,String rawdata){
+    	String res="";
+    	HttpOperation ho = new HttpOperation(url);
+    	
+
+
+		try {
+			byte[] data=(username+":"+password).getBytes("ASCII");
+			String auth = new String(Base64.encode(data,  Base64.NO_WRAP),"ASCII");
+			HttpAsyncTask hat = new HttpAsyncTask(ho);
+			res = hat.execute(rawdata,auth,"login").get();
 			//res = ho.HttpClientPostMethod();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
