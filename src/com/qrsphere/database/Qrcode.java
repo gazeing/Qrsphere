@@ -9,6 +9,7 @@ import android.location.LocationListener;
 import android.os.Bundle;
 
 import com.qrsphere.userinfo.CollectLocation;
+import com.qrsphere.widget.MyLog;
 
 public class Qrcode {
 	String rawdata;
@@ -67,9 +68,9 @@ public class Qrcode {
 	
 			JSONObject json = new JSONObject();
 			try {		
-				json.put("Catalogue", "");
-				json.put("URL", url);
-				json.put("IsFavorite", false);
+				json.put("CategoryName", "");
+				json.put("ScanContent", url);
+				json.put("IsFav", false);
 				json.put("Latitude", cl.getLatitude());
 				json.put("Longitude", cl.getLongitude());
 				json.put("TimeStamp", System.currentTimeMillis());
@@ -92,18 +93,18 @@ public class Qrcode {
 	public Qrcode addCatalogue(String cata){
 		try {
 			JSONObject json = new JSONObject(rawdata);
-			String url = json.getString("URL");
-			String catalogue = json.getString("Catalogue");
-			boolean isFavorite = json.getBoolean("IsFavorite");
+			String url = json.getString("ScanContent");
+			String catalogue = json.getString("CategoryName");
+			boolean isFavorite = json.getBoolean("IsFav");
 			double latitude = json.getDouble("Latitude");
 			double longitude = json.getDouble("Longitude");
 			catalogue = cata;
 			
 			JSONObject jsonnew = new JSONObject();
 			
-			jsonnew.put("Catalogue", catalogue);
-			jsonnew.put("URL", url);
-			jsonnew.put("IsFavorite", isFavorite);
+			jsonnew.put("CategoryName", catalogue);
+			jsonnew.put("ScanContent", url);
+			jsonnew.put("IsFav", isFavorite);
 			jsonnew.put("Latitude", latitude);
 			jsonnew.put("Longitude", longitude);
 			jsonnew.put("TimeStamp", this.timestamp);
@@ -111,8 +112,8 @@ public class Qrcode {
 			this.rawdata = jsonnew.toString();
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			MyLog.i(e.getMessage());
 		}
 		
 		return this;

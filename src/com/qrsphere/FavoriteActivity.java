@@ -469,9 +469,9 @@ public class FavoriteActivity extends Activity {
 		for (int i =0; i<5;i++){
 			JSONObject json = new JSONObject();
 			try {		
-				json.put("Catalogue", "test");
-				json.put("URL", "www.facebook.com");
-				json.put("IsFavorite", true);
+				json.put("CategoryName", "test");
+				json.put("ScanContent", "www.facebook.com");
+				json.put("IsFav", true);
 				json.put("Latitude", cl.getLatitude());
 				json.put("Longitude", cl.getLongitude());
 			} catch (JSONException e) {
@@ -484,9 +484,9 @@ public class FavoriteActivity extends Activity {
 		for (int i =0; i<5;i++){
 			JSONObject json = new JSONObject();
 			try {		
-				json.put("Catalogue", "test2");
-				json.put("URL", "www.hoopchina.com");
-				json.put("IsFavorite", true);
+				json.put("CategoryName", "test2");
+				json.put("ScanContent", "www.hoopchina.com");
+				json.put("IsFav", true);
 				json.put("Latitude", cl.getLatitude());
 				json.put("Longitude", cl.getLongitude());
 			} catch (JSONException e) {
@@ -500,9 +500,9 @@ public class FavoriteActivity extends Activity {
 		for (int i =0; i<5;i++){
 			JSONObject json = new JSONObject();
 			try {		
-				json.put("Catalogue", "My Best Codes");
-				json.put("URL", "www.weibo.com");
-				json.put("IsFavorite", true);
+				json.put("CategoryName", "My Best Codes");
+				json.put("ScanContent", "www.weibo.com");
+				json.put("IsFav", true);
 				json.put("Latitude", cl.getLatitude());
 				json.put("Longitude", cl.getLongitude());
 			} catch (JSONException e) {

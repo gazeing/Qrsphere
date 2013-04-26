@@ -6,6 +6,7 @@ public class SuccessCode {
 	public final static int DETAIL_SENT_SUCCESS = 11;
 	public final static int QPAGE_SUCCESS = 22; 
 	public final static int ADD_TO_FAVORITE_SUCCESS = 33;
+	public final static int GET_LIST_SUCCESS = 44;
 
 	
 //	SuccessCode(int value) {

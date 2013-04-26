@@ -15,6 +15,7 @@ import com.qrsphere.scan.Intents;
 import com.google.zxing.BarcodeFormat;
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.login.LoginActivity;
+import com.qrsphere.login.LoginAuth;
 import com.qrsphere.network.AddToFavoriteProcess;
 import com.qrsphere.network.QPageProcess;
 import com.qrsphere.network.SendDetailProcess;
@@ -284,6 +285,14 @@ public class MainViewActivity extends Activity{
 			public void onItemClick(AdapterView<?> adapterView, View view,
 			int position, long id) {
 	
+				if (position ==1){
+					LoginAuth.setAuth(null);
+					MainViewActivity.this.finish();
+					MainViewActivity.this
+						.startActivity(new Intent
+								(MainViewActivity.this,LoginActivity.class));
+				}
+					
 
 	
 				if (popupWindow != null) {
@@ -446,7 +455,7 @@ public class MainViewActivity extends Activity{
 					sentScanDetailToServer(qc);
 				}
 				else{
-					
+					sentScanDetailToServer(qc);
 				}
 				setPopupMenuAction(qc);
 

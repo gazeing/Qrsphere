@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.qrsphere.login.LoginAuth;
 import com.qrsphere.widget.MyLog;
 
-import android.util.Base64;
 import android.util.Log;
 
 public class SendDataToServer {
@@ -80,8 +80,7 @@ public class SendDataToServer {
 
 
 		try {
-			byte[] data=(username+":"+password).getBytes("ASCII");
-			String auth = new String(Base64.encode(data,  Base64.NO_WRAP),"ASCII");
+			String auth = LoginAuth.setAuth(username, password);
 			HttpAsyncTask hat = new HttpAsyncTask(ho);
 			res = hat.execute(rawdata,auth,"login").get();
 			//res = ho.HttpClientPostMethod();
@@ -90,7 +89,7 @@ public class SendDataToServer {
 			MyLog.i("HttpAsyncTask",res);
 		} 
 			if (res==""||res==null)
-				res = "No result!";
+				res = "err";
 			Log.i("HTTPresponce",res);
     	
     	return res;

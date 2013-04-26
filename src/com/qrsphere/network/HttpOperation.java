@@ -24,6 +24,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
+import com.qrsphere.login.LoginAuth;
+import com.qrsphere.widget.MyLog;
+
 import android.util.Log;
 
 public class HttpOperation {
@@ -206,6 +209,8 @@ public class HttpOperation {
             HttpResponse resp = httpclient.execute(post);  
             if (resp.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK)  
                 strResp = EntityUtils.toString(resp.getEntity()); 
+            else 
+            	strResp += resp.getStatusLine().getStatusCode();
             }catch(Exception e){
             	throw e;
             }
@@ -226,17 +231,27 @@ public class HttpOperation {
         // add params to request  
         StringEntity se = new StringEntity(data, HTTP.UTF_8);  
         se.setContentType(contentType);  
-        post.setEntity(se);  
+        post.setEntity(se); 
+        if (LoginAuth.getAuth() != null){
+        	post.addHeader("Authorization","Basic " +  LoginAuth.getAuth());
+        	MyLog.i("add header: "+"Authorization"+": "
+        			+"Basic " +  LoginAuth.getAuth());
+        }
         // send request  
-        Log.v("http", "doPost:" + urlStr);  
+        MyLog.i("http", "doPost:" + urlStr); 
+        MyLog.i("postData: " + data); 
         HttpClient httpclient = new DefaultHttpClient();
         HttpResponse resp = httpclient.execute(post);  
         String strResp = "";  
         if (resp.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK)  
             strResp = EntityUtils.toString(resp.getEntity());  
-        else  
+        else  {
+        	strResp += resp.getStatusLine().getStatusCode();
             // if status code is not OK, throw exception
-            throw new Exception("Error Response:" + resp.getStatusLine().toString());  
+        	MyLog.i("Error Response:"+resp.getStatusLine().getStatusCode()+" "+
+        			resp.getStatusLine().getReasonPhrase());
+            //throw new Exception("Error Response:" + resp.getStatusLine().toString());
+        }
         return strResp;  
     }  
     finally {  

@@ -1,6 +1,11 @@
 package com.qrsphere.network;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.qrsphere.database.Qrcode;
+import com.qrsphere.userinfo.CollectPhoneInformation;
+import com.qrsphere.widget.MyLog;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,15 +19,48 @@ public class SendDetailProcess extends NetworkingProcess{
 	}
 
 	@Override
-	protected String getResult() {
+	protected String getResult(Context context,Qrcode qc) {
 		// TODO Auto-generated method stub
-		return null;
+		String str = null;
+		try {
+			JSONObject jsonRequest = new JSONObject();
+			String url = qc.getQrcodeJSONData().getUrl();
+			if (parseGUID(url).length()>0)
+				jsonRequest.put("QrCodeGUID", parseGUID(url));
+			jsonRequest.put("ScanContent", url);
+			JSONObject json = new JSONObject();
+			json.put("RequestContent", jsonRequest);
+			json.put("Latitude", qc.getQrcodeJSONData().getLatitude());
+			json.put("Longitude", qc.getQrcodeJSONData().getLongitude());
+			CollectPhoneInformation cl = new CollectPhoneInformation(context);
+			json.put("DeviceModel", cl.getDeviceName());
+			json.put("DateTime", qc.getQrcodeJSONData().getTimeStamp());
+			String data = json.toString();
+			SendDataToServer sd = new SendDataToServer
+								("http://192.168.15.119/api/AddHistory");
+			str = sd.doPost(data, "application/json");
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			MyLog.i(e.getMessage());
+		}
+		return str;
 	}
 
 	public ProgressDialog sentToServer(Context context,
 			Qrcode qc) {
 		// TODO Auto-generated method stub
 		return super.sentToServer(context, qc, SuccessCode.DETAIL_SENT_SUCCESS, "Sending to server...");
+	}
+	
+	public String parseGUID(String originUrl){
+		String result = "";
+		if (originUrl != null){
+			if (originUrl.startsWith("http://www.qrorb.com?GUID="))
+				result=originUrl.substring(originUrl.indexOf("GUID=")+5);
+		}
+		
+		return result;
 	}
 
 }

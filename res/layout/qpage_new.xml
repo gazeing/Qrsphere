@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/qpagetitle"
+        android:layout_width="match_parent"
+        android:layout_height="110sp"
+        android:background="@drawable/background_orange" >
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView2"
+            android:layout_below="@+id/textView2"
+            android:text="" />
+
+
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="18sp"
+            android:layout_marginTop="35sp"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView1"
+            android:layout_below="@+id/textView1"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/qpagebar"
+        android:layout_width="fill_parent"
+        android:layout_height="0sp"
+        android:background="@drawable/background" >
+
+        <Button
+            android:id="@+id/btn_about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/btn_about" />
+
+        <Button
+            android:id="@+id/btn_reminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignTop="@+id/btn_about"
+            android:layout_toLeftOf="@+id/btn_about"
+            android:background="@drawable/btn_reminder" />
+
+    </RelativeLayout>
+   <ScrollView android:id="@+id/ScrollViewQPage" 
+            android:layout_width="fill_parent" 
+            android:layout_height="310sp" > 
+    <RelativeLayout
+        android:id="@+id/qpageinfo"
+        android:layout_width="fill_parent"
+        android:layout_height="310sp"
+        android:background="@drawable/background" >
+
+
+
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="23dp"
+            android:text="" />
+
+
+        
+
+
+
+
+        <ImageView
+            android:id="@+id/QpimageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="30sp"
+            android:layout_marginRight="30sp"
+            android:src="@drawable/qr_logo" 
+            android:contentDescription="for show company qr code"/>
+        
+         <ImageView
+            android:id="@+id/QpimageViewBottom"
+            android:layout_width="108sp"
+            android:layout_height="22sp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="30sp"
+            android:layout_marginBottom="10sp"
+            android:src="@drawable/logo_login_page" 
+            android:contentDescription="id logo"/>
+    
+    </RelativeLayout>
+    </ScrollView>
+    
+    <include
+        android:id="@+id/ad_bar"
+        layout="@layout/ad_bar" />
+
+   
+ 
+
+</LinearLayout>

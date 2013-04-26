@@ -25,7 +25,7 @@ public class QPageProcess extends NetworkingProcess{
 		return super.sentToServer(context, qc, SuccessCode.QPAGE_SUCCESS, "Generating Qpage...");
 	}
 	
-	protected String getResult(){
+	protected String getResult(Context context,Qrcode qc){
 		
 		JSONObject json = new JSONObject();
 		try {		

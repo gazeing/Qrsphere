@@ -26,9 +26,9 @@ public class QrcodeJSONData {
 		
 		try {
 			JSONObject json = new JSONObject(rawData);
-			this.url = json.getString("URL");
-			this.catalogue = json.getString("Catalogue");
-			this.isFavorite = json.getBoolean("IsFavorite");
+			this.url = json.getString("ScanContent");
+			this.catalogue = json.getString("CategoryName");
+			this.isFavorite = json.getBoolean("IsFav");
 			this.latitude = json.getDouble("Latitude");
 			this.longitude = json.getDouble("Longitude");
 			this.timeStamp = json.getLong("TimeStamp");

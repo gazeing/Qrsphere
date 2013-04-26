@@ -71,27 +71,21 @@ public class SplashScreen extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-//        ImageView iv = new ImageView(this);
-//        iv.setImageResource(R.drawable.q_logo);	
-//        iv.setBackgroundColor(Color.TRANSPARENT);
+
         setContentView(R.layout.splash);
-        //tv = (TextView) findViewById(R.id.splashTextView1);
+
         pd = (ProgressBar) findViewById(R.id.progressBar1);
         
     	final QrcodeDataOperator qdo = new QrcodeDataOperator(this);
     	String mac = new com.qrsphere.userinfo.CollectPhoneInformation(getApplication()).getMacAddress();
     	info = qdo.withdrawUserInfo(mac);
 
-    	//tv.setText(info);
-        Thread splashTread = new Thread() {
 
-			@Override
-            public void run() {
                 try {
                 	pd.setVisibility(View.VISIBLE);
                     int waited = 0;
                     while(_active && (waited < _splashTime)) {
-                        sleep(100);
+                        Thread.sleep(100);
                         if(_active) {
                             waited += 100;
                         }
@@ -111,9 +105,7 @@ public class SplashScreen extends Activity {
 
 
               }
-          }
-      };
-      splashTread.start();
+
   }
  
   

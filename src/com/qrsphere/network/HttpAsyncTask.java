@@ -1,5 +1,7 @@
 package com.qrsphere.network;
 
+import com.qrsphere.widget.MyLog;
+
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -26,13 +28,14 @@ public class HttpAsyncTask extends AsyncTask<String, Void, String> {
 		try {
 			if (arg0.length==2)
 				tmp = ho.doPost(arg0[0],arg0[1]);
-			else if ((arg0.length==3)&&(arg0[2]=="login"))
-				tmp = ho.loginPost(arg0[0], arg0[1], arg0[2]);
+			else if ((arg0.length==3)&&true)
+					if (arg0[2]=="login")
+						tmp = ho.loginPost(arg0[0], arg0[1], arg0[2]);
 			else
 				tmp= ho.HttpClientPostMethod();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			MyLog.i(e.getMessage());
 		}
 		return tmp;
 		//return ho.HttpClientGetMethod();

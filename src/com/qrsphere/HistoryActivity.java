@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,6 +13,7 @@ import com.google.zxing.BarcodeFormat;
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.login.LoginActivity;
 import com.qrsphere.network.AddToFavoriteProcess;
+import com.qrsphere.network.GetHistoryListProcess;
 import com.qrsphere.network.QPageProcess;
 import com.qrsphere.network.SuccessCode;
 import com.qrsphere.scan.Contents;
@@ -73,6 +75,7 @@ public class HistoryActivity extends Activity {
 	
 	 QPageProcess qpGlobal = null;
 	 AddToFavoriteProcess atpGlobal= null;
+	 GetHistoryListProcess ghhGlobal = null;
 	 ProgressDialog pd;
 	 @SuppressLint("HandlerLeak")
 		private Handler handler = new Handler() {
@@ -87,7 +90,14 @@ public class HistoryActivity extends Activity {
 		    	}
 		        if (msg.what == SuccessCode.DETAIL_SENT_SUCCESS) {
 
-		        } else if (msg.what == SuccessCode.ERROR) {
+		        }else if(msg.what == SuccessCode.GET_LIST_SUCCESS){
+		        	
+		        	classfyListByDate();
+		        	lView.invalidateViews();
+		        	
+		        }
+		        else if (msg.what == SuccessCode.ERROR) {
+		        
 
 		        } else if (msg.what == SuccessCode.QPAGE_SUCCESS) {
 		        	qpGlobal.startQPage(HistoryActivity.this);
@@ -110,6 +120,7 @@ public class HistoryActivity extends Activity {
 		
 		qpGlobal = new QPageProcess(pd, handler);
 		atpGlobal = new AddToFavoriteProcess(pd, handler);
+		ghhGlobal = new GetHistoryListProcess(pd, handler);
 		
 
 		setContentView(R.layout.history);
@@ -190,6 +201,8 @@ public class HistoryActivity extends Activity {
             	showPopup(childView);
             }  
         }); 
+		
+		sendListRequest();
 	}
 	
 
@@ -378,43 +391,7 @@ public class HistoryActivity extends Activity {
     
 
     
-//	protected void InstructionsDialog(String text,String title,
-//							ArrayAdapter<String> list){
-//
-//		  AlertDialog.Builder ad = new AlertDialog.Builder(this);
-//		  ad.setIcon(R.drawable.ic_launcher);
-//		  ad.setTitle(title);
-//		  LayoutInflater linf = LayoutInflater.from(this);
-//		  final View inflator = linf.inflate(R.layout.dialog, null);
-//		  ad.setView(inflator);
-//
-//		  ad.setPositiveButton("OK", 
-//		    new android.content.DialogInterface.OnClickListener() {
-//		     public void onClick(DialogInterface dialog, int arg1) {
-//		      // OK, go back to Main menu
-//		    	 sendDataToFavorList();
-//		     }
-//
-//
-//		    }
-//		   );
-//
-//		   ad.setOnCancelListener(new DialogInterface.OnCancelListener(){
-//		    public void onCancel(DialogInterface dialog) {
-//		     // OK, go back to Main menu   
-//		    }}
-//		   );
-//		   
-//			  TextView tv =(TextView)(inflator.findViewById(R.id.TextView01));
-//			  if (tv!=null)
-//				tv.setText(text);
-//			  ComboBox cb = (ComboBox) (inflator.findViewById(R.id.Combo01));
-//			  if (cb!= null)
-//				  cb.setSuggestionSource(list);
-//
-//		  ad.show();
-//
-//		 }
+
 	
 	private void sendDataToFavorList() {
 		// TODO Auto-generated method stub
@@ -429,7 +406,7 @@ public class HistoryActivity extends Activity {
 	}
 
 	public void showScanDetails(){
-//    	String text = "";
+
     	
    
     	
@@ -441,11 +418,7 @@ public class HistoryActivity extends Activity {
 			intent.putExtras(b);
 			startActivity(intent);
     	}
-//    		text = "Rawdata: \n"+qc.getRawdata()+"\nHashcode: \n"+qc.getHashcode()+"\nTime: \n"+TransferTimeFormat(qc.getTimeStamp());
-//    	Dialog dialog = new AlertDialog.Builder(this).setIcon(R.drawable.ic_launcher)
-//    				.setView(new ScanDetail(this,text))
-//    				.setTitle("Scan Details").show();
-//    	dialog.show();
+
     	
     	
     }
@@ -456,9 +429,16 @@ public class HistoryActivity extends Activity {
 		
 		super.onResume();
 
-		classfyListByDate();
+		//classfyListByDate();
+		
 		lView.invalidateViews();
 	}
+	private void sendListRequest() {
+		pd = ghhGlobal.sentToServer(this, null);
+		
+	}
+
+
 	@SuppressWarnings("deprecation")
 	@SuppressLint("SimpleDateFormat")
 	protected long getTodayMidnight(){
@@ -512,7 +492,28 @@ public class HistoryActivity extends Activity {
 	}
 
 	public List<Qrcode> getQrcodes(){
-		return generateTestQrcode();
+		String contents= ghhGlobal.getStrJSON();
+		JSONObject jObject;
+		List<Qrcode> list = new ArrayList<Qrcode>();
+		try {
+			jObject = new JSONObject(contents.trim());
+			JSONArray qrs = jObject.getJSONArray("ResponseContent");
+			  for(int i = 0; i < qrs.length() ; i++){
+				  JSONObject jsonObj = ((JSONObject)qrs.opt(i)) ;
+	            if( jsonObj != null ){
+	            	
+	            	String url = jsonObj.getString("ScanContent");
+	            	Qrcode q = new Qrcode(url,HistoryActivity.this);
+	            	list.add(q);
+	            }
+	        }
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			MyLog.i(e.getMessage());
+		}
+		return list;
+	        
+		//return generateTestQrcode();
 	}
 
 	
@@ -554,9 +555,9 @@ public class HistoryActivity extends Activity {
 		for (int i = 0;i<20;i++){
 			JSONObject json = new JSONObject();
 			try {		
-				json.put("Catalogue", "test");
-				json.put("URL", "www.facebook.com");
-				json.put("IsFavorite", true);
+				json.put("CategoryName", "test");
+				json.put("ScanContent", "www.facebook.com");
+				json.put("IsFav", true);
 				json.put("Latitude", cl.getLatitude());
 				json.put("Longitude", cl.getLongitude());
 				json.put("TimeStamp",now-oneDay*i );

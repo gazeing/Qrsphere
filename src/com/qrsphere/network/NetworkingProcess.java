@@ -26,7 +26,7 @@ public abstract class NetworkingProcess {
 	}
 
 
-	public ProgressDialog sentToServer (Context context, Qrcode qc,
+	public ProgressDialog sentToServer (final Context context, final Qrcode qc,
 			final int succussCode, String processText){
 
 			if (LoginActivity.isOnline(context)) {
@@ -42,7 +42,7 @@ public abstract class NetworkingProcess {
 					
 						Thread.sleep(1500);
 						//TODO add server communication code here
-						strJSON = getResult();
+						strJSON = getResult(context,qc);
 					    handler.sendEmptyMessage(succussCode);
 					    MyLog.i("Dialog","handler.sendEmptyMessage(succussCode);");
 					} catch (Exception e) {
@@ -61,7 +61,7 @@ public abstract class NetworkingProcess {
 	}
 
 	//get response of server here
-	abstract protected String getResult();
+	abstract protected String getResult(Context context,Qrcode qc);
 	//implement the sending logic here
 	abstract public ProgressDialog sentToServer (Context context, Qrcode qc);
 }

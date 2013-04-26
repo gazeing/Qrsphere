@@ -118,6 +118,8 @@ public class LoginActivity extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				//startActivity(new Intent("com.example.clienttest.login.RegisterActivity"));
+				LoginAuth.setAuth(null);
+				
 				Intent intent = new Intent(LoginActivity.this,MainViewActivity.class);
 				Bundle b = new Bundle();
 				b.putBoolean("IsOnline", false);
@@ -149,58 +151,25 @@ public class LoginActivity extends Activity {
                 json.put("Account", account);  
                 json.put("Password", password); 
                 
-//                String result = client.doPost(mServerBaseUrl + SET_DATA,   
-//                        json.toString(), "application/json"); 
-                
+          
 
 				
 			    if (isOnline(LoginActivity.this)) {
+			    	btLogin.setClickable(false);//avoid user click twice or more
 			        pd = ProgressDialog.show(LoginActivity.this, "", "Login to server...", true,
 			                false);
-//			        new Thread(new Runnable() {
-//
-//			            @Override
-//			            public void run() {
-//			                try {
-//			    				String name = etName.getText().toString();
-//			    				String account = etAccount.getText().toString();
-//			    				String password = etPassword.getText().toString();
-//			    				
-//			    				JSONObject json = new JSONObject();  
-//			                    json.put("Name", name);  
-//			                    json.put("Account", account);  
-//			                    json.put("Password", password); 
+
 			                    LoginProcess lp = new LoginProcess();
 			    				isLoginOK = lp.Login(json,ScanDetail.buildUserInfo(LoginActivity.this),handler);
 			    				Log.i("LoginPostResult",isLoginOK+"");
 			    				
 			    				checkLoginTickBox(json);
 			    				
-			    				//Thread.sleep(5000);
-			    				
-			    				//strResponse = res;
-//
-//			                    handler.sendEmptyMessage(11);
-//			                } catch (Exception e) {
-//			                    System.out.println("In Cache :");
-//			                    handler.sendEmptyMessage(1);
-//			                }
-//			            }
-//			        }).start();
+
 			    } else {
 			        showNetworkAlert(LoginActivity.this);
 			    }
-				
-//				if (res.compareTo("No result!")!=0){
-//					finish();
-//					startActivity(new Intent("com.example.clienttest.MainActivity"));
-//				}
-//				else{
-//					Toast.makeText(getBaseContext(), "Wrong password.", Toast.LENGTH_SHORT).show();
-//				}
 
-//				finishActivity(getParent());
-				//getParent().finish();
 			}
 			catch(Exception e)
 			{

@@ -14,7 +14,7 @@ public class AddToFavoriteProcess extends NetworkingProcess{
 	}
 
 	@Override
-	protected String getResult() {
+	protected String getResult(Context context,Qrcode qc) {
 		// TODO Auto-generated method stub
 		return null;
 	}

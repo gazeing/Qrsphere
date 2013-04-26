@@ -24,6 +24,7 @@ public class DiscoveryActivity extends Activity {
 	WebView wv;
 	ProgressDialog pd;
 	Handler handler;
+	AlertDialog ad;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,10 +105,10 @@ public class DiscoveryActivity extends Activity {
 	        return super.onKeyDown(keyCode, event);   
 	    }
 	    public void ConfirmExit(){//
-	    	AlertDialog.Builder ad=new AlertDialog.Builder(DiscoveryActivity.this);
-	    	ad.setTitle("quit");
-	    	ad.setMessage("quit?");
-	    	ad.setPositiveButton("Ok", new DialogInterface.OnClickListener() {//
+	    	AlertDialog.Builder adb=new AlertDialog.Builder(DiscoveryActivity.this);
+	    	adb.setTitle("quit");
+	    	adb.setMessage("quit?");
+	    	adb.setPositiveButton("Ok", new DialogInterface.OnClickListener() {//
 				@Override
 				public void onClick(DialogInterface dialog, int i) {
 					// TODO Auto-generated method stub
@@ -115,13 +116,13 @@ public class DiscoveryActivity extends Activity {
 	 
 				}
 			});
-	    	ad.setNegativeButton("No",new DialogInterface.OnClickListener() {
+	    	adb.setNegativeButton("No",new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int i) {
 					//
 				}
 			});
-	    	ad.show();//
+	    	ad = adb.show();//
 	    }
 	    public void loadurl(final WebView view,final String url){
 	    	new Thread(){
@@ -132,5 +133,15 @@ public class DiscoveryActivity extends Activity {
 	        }.start();
 	    }
 
+
+		@Override
+		protected void onPause() {
+			// TODO Auto-generated method stub
+			super.onPause();
+			ad.dismiss();
+			pd.dismiss();
+		}
+
+	    
 	
 }

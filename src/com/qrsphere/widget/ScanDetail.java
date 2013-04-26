@@ -118,6 +118,14 @@ public class ScanDetail{
     	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, HH:mm aa");
     	return sdf.format(new Date(time));
     }
+	@SuppressLint("SimpleDateFormat")
+	public static String TransferServerTimeFormat(long time){
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    	String date = sdf.format(new Date(time));
+    	date = date.substring(0, date.length()-2) + ":" + date.substring(date.length()-2); 
+    	return date;
+
+    }
 	
 	  public static JSONObject buildUserInfo(Context context){
 	    	
