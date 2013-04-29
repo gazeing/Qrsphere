@@ -3,9 +3,6 @@ package com.qrsphere;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.google.zxing.BarcodeFormat;
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.database.QrcodeJSONData;
@@ -16,7 +13,6 @@ import com.qrsphere.network.QPageProcess;
 import com.qrsphere.network.SuccessCode;
 import com.qrsphere.scan.Contents;
 import com.qrsphere.scan.Intents;
-import com.qrsphere.userinfo.CollectLocation;
 import com.qrsphere.widget.MyLog;
 import com.qrsphere.widget.ScanDetail;
 import com.qrsphere.widget.SeparatedListAdapter;
@@ -28,8 +24,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -449,87 +443,87 @@ public class FavoriteActivity extends Activity {
 		return adapter;
     }
 
-	public List<Qrcode> generateTestQrcode(){
-		List<Qrcode> qrs = new ArrayList<Qrcode>();
-		LocationListener ll = new LocationListener(){
-
-			@Override
-			public void onLocationChanged(Location location) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onProviderDisabled(String provider) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onProviderEnabled(String provider) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onStatusChanged(String provider, int status,
-					Bundle extras) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		};
-		CollectLocation cl = new CollectLocation(this,ll);
-		long now = System.currentTimeMillis();
-		final long oneDay = 1000*60*60*24;
-		for (int i =0; i<5;i++){
-			JSONObject json = new JSONObject();
-			try {		
-				json.put("CategoryName", "test");
-				json.put("ScanContent", "www.facebook.com");
-				json.put("IsFav", true);
-				json.put("Latitude", cl.getLatitude());
-				json.put("Longitude", cl.getLongitude());
-			} catch (JSONException e) {
-				
-				MyLog.i(e.toString());
-			}
-			Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i,"testHashCode");
-			qrs.add(q1);
-		}
-		for (int i =0; i<5;i++){
-			JSONObject json = new JSONObject();
-			try {		
-				json.put("CategoryName", "test2");
-				json.put("ScanContent", "www.hoopchina.com");
-				json.put("IsFav", true);
-				json.put("Latitude", cl.getLatitude());
-				json.put("Longitude", cl.getLongitude());
-			} catch (JSONException e) {
-				
-				MyLog.i(e.toString());
-			}
-			Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i*32,"testHashCode");
-			qrs.add(q1);
-		}
-
-		for (int i =0; i<5;i++){
-			JSONObject json = new JSONObject();
-			try {		
-				json.put("CategoryName", "My Best Codes");
-				json.put("ScanContent", "www.weibo.com");
-				json.put("IsFav", true);
-				json.put("Latitude", cl.getLatitude());
-				json.put("Longitude", cl.getLongitude());
-			} catch (JSONException e) {
-				
-				MyLog.i(e.toString());
-			}
-			Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i*12,"testHashCode");
-			qrs.add(q1);
-		}
-		return qrs;
-	}
+//	public List<Qrcode> generateTestQrcode(){
+//		List<Qrcode> qrs = new ArrayList<Qrcode>();
+//		LocationListener ll = new LocationListener(){
+//
+//			@Override
+//			public void onLocationChanged(Location location) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void onProviderDisabled(String provider) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void onProviderEnabled(String provider) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void onStatusChanged(String provider, int status,
+//					Bundle extras) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//		};
+//		CollectLocation cl = new CollectLocation(this,ll);
+//		long now = System.currentTimeMillis();
+//		final long oneDay = 1000*60*60*24;
+//		for (int i =0; i<5;i++){
+//			JSONObject json = new JSONObject();
+//			try {		
+//				json.put("CategoryName", "test");
+//				json.put("ScanContent", "www.facebook.com");
+//				json.put("IsFav", true);
+//				json.put("Latitude", cl.getLatitude());
+//				json.put("Longitude", cl.getLongitude());
+//			} catch (JSONException e) {
+//				
+//				MyLog.i(e.toString());
+//			}
+//			Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i,"testHashCode");
+//			qrs.add(q1);
+//		}
+//		for (int i =0; i<5;i++){
+//			JSONObject json = new JSONObject();
+//			try {		
+//				json.put("CategoryName", "test2");
+//				json.put("ScanContent", "www.hoopchina.com");
+//				json.put("IsFav", true);
+//				json.put("Latitude", cl.getLatitude());
+//				json.put("Longitude", cl.getLongitude());
+//			} catch (JSONException e) {
+//				
+//				MyLog.i(e.toString());
+//			}
+//			Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i*32,"testHashCode");
+//			qrs.add(q1);
+//		}
+//
+//		for (int i =0; i<5;i++){
+//			JSONObject json = new JSONObject();
+//			try {		
+//				json.put("CategoryName", "My Best Codes");
+//				json.put("ScanContent", "www.weibo.com");
+//				json.put("IsFav", true);
+//				json.put("Latitude", cl.getLatitude());
+//				json.put("Longitude", cl.getLongitude());
+//			} catch (JSONException e) {
+//				
+//				MyLog.i(e.toString());
+//			}
+//			Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i*12,"testHashCode");
+//			qrs.add(q1);
+//		}
+//		return qrs;
+//	}
 	protected List<Qrcode> getQrcodeList(){
 		
 		List<Qrcode> list =null;
@@ -588,7 +582,10 @@ class SeparatedList{
 		HashMap<String, Object> map = new HashMap<String, Object>();  
         map.put("Qrcode",q);  
         map.put("ItemTitle", q.getQrcodeJSONData().getUrl());  
-        map.put("Time", ScanDetail.TransferTimeFormat(q.getTimeStamp()));
+        map.put("Time", ScanDetail.TransferTimeFormat(
+				ScanDetail.getLongFromServerTimeFormat(
+						q.getQrcodeJSONData().getDateTime()))); 
+        
 		list.add(map);
 	}
 

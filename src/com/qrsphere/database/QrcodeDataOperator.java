@@ -33,7 +33,7 @@ public class QrcodeDataOperator {
         
         values.put("hashcode", p.getHashcode());  
         values.put("rawdata", p.getRawdata());
-        values.put("time", p.getTimeStamp());
+      //  values.put("time", p.getTimeStamp());
           
         // insert with contentvalues
         db.insert("qrcode", "id", values);        
@@ -48,7 +48,7 @@ public class QrcodeDataOperator {
         
         values.put("hashcode", p.getHashcode());  
         values.put("rawdata", p.getRawdata());
-        values.put("time", p.getTimeStamp());
+       // values.put("time", p.getTimeStamp());
           
         // insert with contentvalues
         db.insert("favor", "id", values);        
@@ -88,8 +88,8 @@ public class QrcodeDataOperator {
         Cursor c = db.query(false, "qrcode", new String[]{"id","rawdata", "time","hashcode"}, null, null, null, null, "id DESC", null);  
           
         List<Qrcode> qrcodes = new ArrayList<Qrcode>();  
-        while (c.moveToNext())  
-        	qrcodes.add(new Qrcode( c.getString(1),c.getLong(2),c.getString(3)));  
+//        while (c.moveToNext())  
+//        	qrcodes.add(new Qrcode( c.getString(1),c.getLong(2),c.getString(3)));  
         c.close();  
         db.close();  
         return qrcodes;  
@@ -101,8 +101,8 @@ public class QrcodeDataOperator {
         Cursor c = db.query(false, "favor", new String[]{"id","rawdata", "time","hashcode"}, null, null, null, null, "id ASC", null);  
           
         List<Qrcode> qrcodes = new ArrayList<Qrcode>();  
-        while (c.moveToNext())  
-        	qrcodes.add(new Qrcode( c.getString(1),c.getLong(2),c.getString(3)));  
+//        while (c.moveToNext())  
+//        	qrcodes.add(new Qrcode( c.getString(1),c.getLong(2),c.getString(3)));  
         c.close();  
         db.close();  
         return qrcodes;  
@@ -116,9 +116,9 @@ public class QrcodeDataOperator {
           
         Qrcode p = null;  
        
-        if (c.moveToNext())  
-            
-            p = new Qrcode( c.getString(1), c.getLong(2),c.getString(3));  
+//        if (c.moveToNext())  
+//            
+//            p = new Qrcode( c.getString(1), c.getLong(2),c.getString(3));  
           
         
         c.close();  
@@ -133,9 +133,9 @@ public class QrcodeDataOperator {
           
         Qrcode p = null;  
         
-        if (c.moveToNext())  
-             
-            p = new Qrcode( c.getString(1), c.getLong(2),c.getString(3));  
+//        if (c.moveToNext())  
+//             
+//            p = new Qrcode( c.getString(1), c.getLong(2),c.getString(3));  
           
        
         c.close();  
@@ -150,9 +150,9 @@ public class QrcodeDataOperator {
           
         Qrcode p = null;  
         
-        if (c.moveToNext())  
-             
-            p = new Qrcode( c.getString(1), c.getLong(2),c.getString(3));  
+//        if (c.moveToNext())  
+//             
+//            p = new Qrcode( c.getString(1), c.getLong(2),c.getString(3));  
           
        
         c.close();  

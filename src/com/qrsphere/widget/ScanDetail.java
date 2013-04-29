@@ -1,5 +1,6 @@
 package com.qrsphere.widget;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -17,12 +18,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.location.Location;
 import android.location.LocationListener;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-@SuppressLint("ViewConstructor")
+@SuppressLint({ "ViewConstructor", "SimpleDateFormat" })
 public class ScanDetail{
     public  static void ScanDetailDialog(Qrcode qc, Context context) {
     	AlertDialog.Builder ad = new AlertDialog.Builder(context);
@@ -60,9 +62,9 @@ public class ScanDetail{
 			  TextView tv2 =(TextView)(inflator.findViewById(R.id.ScanDetailTime));
 			  if (tv2!=null)
 				tv2.setText("Scan Time: ");
-			  TextView tv3 =(TextView)(inflator.findViewById(R.id.ScanDetailTimeText));
-			  if (tv3!=null)
-				tv3.setText(TransferTimeFormat(qc.getTimeStamp()));
+//			  TextView tv3 =(TextView)(inflator.findViewById(R.id.ScanDetailTimeText));
+//			  if (tv3!=null)
+//				tv3.setText(TransferTimeFormat(qc.getTimeStamp()));
 			  TextView tv4 =(TextView)(inflator.findViewById(R.id.ScanDetailLocation));
 			  if (tv4!=null)
 				tv4.setText("Location: ");
@@ -97,9 +99,9 @@ public class ScanDetail{
 			  TextView tv2 =(TextView)(inflator.findViewById(R.id.ScanDetailTime));
 			  if (tv2!=null)
 				tv2.setText("Scan Time: ");
-			  TextView tv3 =(TextView)(inflator.findViewById(R.id.ScanDetailTimeText));
-			  if (tv3!=null)
-				tv3.setText(TransferTimeFormat(qc.getTimeStamp()));
+//			  TextView tv3 =(TextView)(inflator.findViewById(R.id.ScanDetailTimeText));
+//			  if (tv3!=null)
+//				tv3.setText(TransferTimeFormat(qc.getTimeStamp()));
 			  TextView tv4 =(TextView)(inflator.findViewById(R.id.ScanDetailLocation));
 			  if (tv4!=null)
 				tv4.setText("Location: ");
@@ -113,19 +115,34 @@ public class ScanDetail{
 	}
 
 
-	@SuppressLint("SimpleDateFormat")
+
 	public static String TransferTimeFormat(long time){
     	SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, HH:mm aa");
     	return sdf.format(new Date(time));
     }
-	@SuppressLint("SimpleDateFormat")
+
 	public static String TransferServerTimeFormat(long time){
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'000'Z");
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     	String date = sdf.format(new Date(time));
     	date = date.substring(0, date.length()-2) + ":" + date.substring(date.length()-2); 
     	return date;
 
     }
+	
+	public static long getLongFromServerTimeFormat(String format){
+		long qu = 0;
+		if (format != null){
+			try {
+	    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+	        qu = sdf.parse(format).getTime();
+
+	      } catch (ParseException e) {
+	        e.printStackTrace();
+	      }
+		}
+
+	    return qu;
+	}
 	
 	  public static JSONObject buildUserInfo(Context context){
 	    	
@@ -163,7 +180,7 @@ public class ScanDetail{
 				json.put("Latitude", cl.getLatitude());
 				json.put("Longitude", cl.getLongitude());
 				json.put("DeviceModel", new CollectPhoneInformation(context).getDeviceName());
-				json.put("DateTime", ScanDetail.TransferTimeFormat(System.currentTimeMillis()));
+				json.put("DateTime", ScanDetail.TransferServerTimeFormat(System.currentTimeMillis()));
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

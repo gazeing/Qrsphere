@@ -41,7 +41,9 @@ public class FeedbackActivity extends Activity {
 			if (tv1 != null)
 				tv1.setText(q.getUrl());
 			if (tv2 != null)
-				tv2.setText(ScanDetail.TransferTimeFormat(q.getTimeStamp()));
+				tv2.setText(ScanDetail.TransferTimeFormat(
+						ScanDetail.getLongFromServerTimeFormat(q.getDateTime()))); 
+	        
 			
 		}
 		

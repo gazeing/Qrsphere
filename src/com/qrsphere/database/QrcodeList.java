@@ -73,9 +73,7 @@ public class QrcodeList {
 			  for(int i = 0; i < qrs.length() ; i++){
 				  JSONObject jsonObj = ((JSONObject)qrs.opt(i)) ;
 	            if( jsonObj != null ){
-	            	
-	            	String url = jsonObj.getString("ScanContent");
-	            	Qrcode q = new Qrcode(url,context);
+	            	Qrcode q = new Qrcode(jsonObj.toString());
 	            	list.add(q);
 	            }
 	        }
@@ -95,9 +93,8 @@ public class QrcodeList {
 		JSONArray jArray = new JSONArray();
 		try {
 			for (Qrcode q:m_list){
-				JSONObject jObject = new JSONObject();
-				jObject.put("ScanContent", q.getQrcodeJSONData().getUrl());
-				
+				JSONObject jObject = new JSONObject(q.getRawdata());
+
 				jArray.put(jObject);
 				
 			}

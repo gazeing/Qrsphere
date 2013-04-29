@@ -10,7 +10,7 @@ public class AddToFavoriteProcess extends NetworkingProcess{
 
 	public AddToFavoriteProcess(ProgressDialog pd, Handler handler) {
 		super(pd, handler);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override

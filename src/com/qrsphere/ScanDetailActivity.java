@@ -7,8 +7,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.qrsphere.database.QrcodeJSONData;
 import com.qrsphere.userinfo.CollectAddress;
-import com.qrsphere.widget.ScanDetail;
-
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Window;
@@ -45,7 +43,7 @@ public class ScanDetailActivity extends FragmentActivity {
 					tv.setText(q.getUrl());
 				tv = (TextView) findViewById(R.id.DetailWhenText);
 				if (tv != null)
-					tv.setText(ScanDetail.TransferTimeFormat(q.getTimeStamp()));
+					tv.setText(q.getDateTime());
 				ll = new LatLng(q.getLatitude(),q.getLongitude());
 				
 				

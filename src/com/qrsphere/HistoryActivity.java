@@ -5,9 +5,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.google.zxing.BarcodeFormat;
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.database.QrcodeList;
@@ -18,7 +15,6 @@ import com.qrsphere.network.QPageProcess;
 import com.qrsphere.network.SuccessCode;
 import com.qrsphere.scan.Contents;
 import com.qrsphere.scan.Intents;
-import com.qrsphere.userinfo.CollectLocation;
 import com.qrsphere.widget.AddToFavorite;
 import com.qrsphere.widget.ComboBox;
 import com.qrsphere.widget.MyLog;
@@ -36,8 +32,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -479,9 +473,12 @@ public class HistoryActivity extends Activity {
 	        HashMap<String, Object> map = new HashMap<String, Object>();  
 	        map.put("Qrcode",q);  
 	        map.put("ItemTitle", q.getQrcodeJSONData().getUrl());  
-	        map.put("ItemText", ScanDetail.TransferTimeFormat(q.getTimeStamp())); 
+	        map.put("ItemText", ScanDetail.TransferTimeFormat(
+					ScanDetail.getLongFromServerTimeFormat(
+							q.getQrcodeJSONData().getDateTime()))); 
 	        
-	        long longTime = q.getTimeStamp();
+	        long longTime = ScanDetail.getLongFromServerTimeFormat(
+	        						q.getQrcodeJSONData().getDateTime());
 	        if (((longTime-longMid)<oneDay)&&((longTime-longMid)>=0))
 	        	hashlist1.add(map);
 	        else if (((longMid-longTime)<(oneDay)*6)&&((longMid-longTime)>=0))
@@ -507,66 +504,66 @@ public class HistoryActivity extends Activity {
 	}
 
 	
-	public List<Qrcode> generateTestQrcode()
-	{
-		List<Qrcode> qrs = new ArrayList<Qrcode>();
-		//for test
-		LocationListener ll = new LocationListener(){
-
-			@Override
-			public void onLocationChanged(Location location) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onProviderDisabled(String provider) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onProviderEnabled(String provider) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onStatusChanged(String provider, int status,
-					Bundle extras) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		};
-		CollectLocation cl = new CollectLocation(this,ll);
-		long now = System.currentTimeMillis();
-		final long oneDay = 1000*60*60*24;
-		for (int i = 0;i<20;i++){
-			JSONObject json = new JSONObject();
-			try {		
-				json.put("CategoryName", "test");
-				json.put("ScanContent", "www.facebook.com");
-				json.put("IsFav", true);
-				json.put("Latitude", cl.getLatitude());
-				json.put("Longitude", cl.getLongitude());
-				json.put("TimeStamp",now-oneDay*i );
-			} catch (JSONException e) {
-				
-				e.printStackTrace();
-			}
-			Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i,"testHashCode");
-			//qdo.insert(q1);
-			qrs.add(q1);
-		}
-		
-		
-
-		
-		//test end
-		
-		return qrs;
-	}
+//	public List<Qrcode> generateTestQrcode()
+//	{
+//		List<Qrcode> qrs = new ArrayList<Qrcode>();
+//		//for test
+//		LocationListener ll = new LocationListener(){
+//
+//			@Override
+//			public void onLocationChanged(Location location) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void onProviderDisabled(String provider) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void onProviderEnabled(String provider) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void onStatusChanged(String provider, int status,
+//					Bundle extras) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//		};
+//		CollectLocation cl = new CollectLocation(this,ll);
+//		long now = System.currentTimeMillis();
+//		final long oneDay = 1000*60*60*24;
+//		for (int i = 0;i<20;i++){
+//			JSONObject json = new JSONObject();
+//			try {		
+//				json.put("CategoryName", "test");
+//				json.put("ScanContent", "www.facebook.com");
+//				json.put("IsFav", true);
+//				json.put("Latitude", cl.getLatitude());
+//				json.put("Longitude", cl.getLongitude());
+//				json.put("TimeStamp",now-oneDay*i );
+//			} catch (JSONException e) {
+//				
+//				e.printStackTrace();
+//			}
+//			Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i,"testHashCode");
+//			//qdo.insert(q1);
+//			qrs.add(q1);
+//		}
+//		
+//		
+//
+//		
+//		//test end
+//		
+//		return qrs;
+//	}
 
 
 }

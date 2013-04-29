@@ -16,42 +16,50 @@ public class SendDetailProcess extends NetworkingProcess{
 
 	public SendDetailProcess(ProgressDialog pd, Handler handler) {
 		super(pd, handler);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override
 	protected String getResult(Context context,Qrcode qc) {
-		// TODO Auto-generated method stub
+		
 		String str = null;
 		try {
-			JSONObject jsonRequest = new JSONObject();
+			JSONObject json = new JSONObject();
 			String url = qc.getQrcodeJSONData().getUrl();
 			if (parseGUID(url).length()>0)
-				jsonRequest.put("QrCodeGUID", parseGUID(url));
-			jsonRequest.put("ScanContent", url);
-			JSONObject json = new JSONObject();
-			json.put("RequestContent", jsonRequest);
+				json.put("QrCodeGUID", parseGUID(url));
+			json.put("ScanContent", url);
+			
+			//json.put("RequestContent", jsonRequest);
 			json.put("Latitude", qc.getQrcodeJSONData().getLatitude());
 			json.put("Longitude", qc.getQrcodeJSONData().getLongitude());
 			CollectPhoneInformation cl = new CollectPhoneInformation(context);
 			json.put("DeviceModel", cl.getDeviceName());
-			json.put("DateTime", ScanDetail.TransferServerTimeFormat(
-										qc.getQrcodeJSONData().getTimeStamp()));
+			json.put("ScanDateTime", ScanDetail.TransferServerTimeFormat(
+													System.currentTimeMillis()));
 			String data = json.toString();
 			SendDataToServer sd = new SendDataToServer
 								("http://192.168.15.119/api/AddHistory");
 			str = sd.doPost(data, "application/json");
+			if (str != null){
+				json = new JSONObject(str);
+				if (json != null){
+					str = json.getInt("ResponseContent")+"";
+				}
+				
+			}
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+			
 			MyLog.i(e.getMessage());
 		}
+
 		return str;
 	}
 
 	public ProgressDialog sentToServer(Context context,
 			Qrcode qc) {
-		// TODO Auto-generated method stub
+		
 		return super.sentToServer(context, qc, SuccessCode.DETAIL_SENT_SUCCESS, "Sending to server...");
 	}
 	

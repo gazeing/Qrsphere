@@ -33,6 +33,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -109,7 +110,8 @@ public class MainViewActivity extends Activity{
     
     ComboBox  cbGlobal = null;
     
-
+    int historyIDGlobal = 0;
+    
     QrcodeList qrcodeList = null;
     
 	public QrcodeList getQrcodeList() {
@@ -129,9 +131,10 @@ public class MainViewActivity extends Activity{
 	    	}
 	        if (msg.what == SuccessCode.DETAIL_SENT_SUCCESS) {
 	        	pd = qrcodeList.sendListRequest();
-
+	        	historyIDGlobal = Integer.parseInt(sdqGlobal.getStrJSON());
 	        }else if(msg.what == SuccessCode.GET_LIST_SUCCESS){
 	        	qrcodeList.update();
+	        	setPopupMenuAction();
 	        }
 	        else if (msg.what == SuccessCode.ERROR) {
 
@@ -341,8 +344,8 @@ public class MainViewActivity extends Activity{
 		}
 
 	}
-	protected void setPopupMenuAction(Qrcode q){
-		qrcodeGlobal = q;
+	protected void setPopupMenuAction(){
+		//qrcodeGlobal = q;
 		android.content.DialogInterface.OnClickListener onselect = new android.content.DialogInterface.OnClickListener() {  
 			    @Override  
 			    public void onClick(DialogInterface dialog, int which) {  
@@ -376,9 +379,9 @@ public class MainViewActivity extends Activity{
 			    }
 
 			   };  
-		if (q!=null){
+		if (qrcodeGlobal!=null){
 	
-			showPopup(q.getQrcodeJSONData().getUrl(),onselect);
+			showPopup(qrcodeGlobal.getQrcodeJSONData().getUrl(),onselect);
 	
 		}
 	}
@@ -482,7 +485,7 @@ public class MainViewActivity extends Activity{
 				else{
 					sentScanDetailToServer(qc);
 				}
-				setPopupMenuAction(qc);
+				qrcodeGlobal = qc;
 
 
 				
@@ -505,7 +508,7 @@ public class MainViewActivity extends Activity{
     		MyLog.i("dialog","    		pd.dismiss();");
 		}
 		if (isFromPopupMenu){
-			setPopupMenuAction(qrcodeGlobal);
+			setPopupMenuAction();
 			isFromPopupMenu = false;
 		}
 			
@@ -531,6 +534,14 @@ public class MainViewActivity extends Activity{
             .setIcon(R.drawable.qrcode_icon)  
             .setTitle(str)  
             .setItems(choices, (android.content.DialogInterface.OnClickListener) oc).create();  
+		dialog.setOnCancelListener(new OnCancelListener() {
+			
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				// when user cancel the window, do not pop it when resume
+				isFromPopupMenu = false;
+			}
+		});
 		dialog.show();  
 
     }
