@@ -120,7 +120,7 @@ public class ScanDetail{
     }
 	@SuppressLint("SimpleDateFormat")
 	public static String TransferServerTimeFormat(long time){
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'000'Z");
     	String date = sdf.format(new Date(time));
     	date = date.substring(0, date.length()-2) + ":" + date.substring(date.length()-2); 
     	return date;

@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.zxing.BarcodeFormat;
 import com.qrsphere.database.Qrcode;
+import com.qrsphere.database.QrcodeList;
 import com.qrsphere.login.LoginActivity;
 import com.qrsphere.network.AddToFavoriteProcess;
 import com.qrsphere.network.GetHistoryListProcess;
@@ -77,6 +77,9 @@ public class HistoryActivity extends Activity {
 	 AddToFavoriteProcess atpGlobal= null;
 	 GetHistoryListProcess ghhGlobal = null;
 	 ProgressDialog pd;
+	 
+	 QrcodeList qrcodeListGlobal = null;
+	 
 	 @SuppressLint("HandlerLeak")
 		private Handler handler = new Handler() {
 		   
@@ -91,7 +94,7 @@ public class HistoryActivity extends Activity {
 		        if (msg.what == SuccessCode.DETAIL_SENT_SUCCESS) {
 
 		        }else if(msg.what == SuccessCode.GET_LIST_SUCCESS){
-		        	
+		        	qrcodeListGlobal.update();
 		        	classfyListByDate();
 		        	lView.invalidateViews();
 		        	
@@ -122,7 +125,9 @@ public class HistoryActivity extends Activity {
 		atpGlobal = new AddToFavoriteProcess(pd, handler);
 		ghhGlobal = new GetHistoryListProcess(pd, handler);
 		
-
+		String listString = getIntent().getExtras().getString("ListString");
+		if (listString != null)
+			qrcodeListGlobal = new QrcodeList(this, ghhGlobal, pd, listString);
 		setContentView(R.layout.history);
 		lView = (ListView) findViewById(R.id.history_list);
 		
@@ -147,7 +152,9 @@ public class HistoryActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				HistoryActivity.this.finish();
-				startActivity(new Intent("com.qrsphere.FavoriteActivity"));
+				Intent intent = new Intent(HistoryActivity.this,FavoriteActivity.class);
+            	intent.putExtra("ListString",qrcodeListGlobal.getJSONArrayString());
+            	startActivity(intent);
 			}
 		});
 
@@ -202,7 +209,8 @@ public class HistoryActivity extends Activity {
             }  
         }); 
 		
-		sendListRequest();
+		classfyListByDate();
+		//sendListRequest();
 	}
 	
 
@@ -433,16 +441,13 @@ public class HistoryActivity extends Activity {
 		
 		lView.invalidateViews();
 	}
-	private void sendListRequest() {
-		pd = ghhGlobal.sentToServer(this, null);
-		
-	}
+
 
 
 	@SuppressWarnings("deprecation")
 	@SuppressLint("SimpleDateFormat")
 	protected long getTodayMidnight(){
-;
+
 		Date today = new Date();
 		int year = today.getYear();
 		int month = today.getMonth();
@@ -492,24 +497,9 @@ public class HistoryActivity extends Activity {
 	}
 
 	public List<Qrcode> getQrcodes(){
-		String contents= ghhGlobal.getStrJSON();
-		JSONObject jObject;
-		List<Qrcode> list = new ArrayList<Qrcode>();
-		try {
-			jObject = new JSONObject(contents.trim());
-			JSONArray qrs = jObject.getJSONArray("ResponseContent");
-			  for(int i = 0; i < qrs.length() ; i++){
-				  JSONObject jsonObj = ((JSONObject)qrs.opt(i)) ;
-	            if( jsonObj != null ){
-	            	
-	            	String url = jsonObj.getString("ScanContent");
-	            	Qrcode q = new Qrcode(url,HistoryActivity.this);
-	            	list.add(q);
-	            }
-	        }
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			MyLog.i(e.getMessage());
+		List<Qrcode> list =null;
+		if (qrcodeListGlobal != null){
+			list = qrcodeListGlobal.getHistoryList();
 		}
 		return list;
 	        

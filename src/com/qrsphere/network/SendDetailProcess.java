@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.userinfo.CollectPhoneInformation;
 import com.qrsphere.widget.MyLog;
+import com.qrsphere.widget.ScanDetail;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -34,7 +35,8 @@ public class SendDetailProcess extends NetworkingProcess{
 			json.put("Longitude", qc.getQrcodeJSONData().getLongitude());
 			CollectPhoneInformation cl = new CollectPhoneInformation(context);
 			json.put("DeviceModel", cl.getDeviceName());
-			json.put("DateTime", qc.getQrcodeJSONData().getTimeStamp());
+			json.put("DateTime", ScanDetail.TransferServerTimeFormat(
+										qc.getQrcodeJSONData().getTimeStamp()));
 			String data = json.toString();
 			SendDataToServer sd = new SendDataToServer
 								("http://192.168.15.119/api/AddHistory");
@@ -56,7 +58,8 @@ public class SendDetailProcess extends NetworkingProcess{
 	public String parseGUID(String originUrl){
 		String result = "";
 		if (originUrl != null){
-			if (originUrl.startsWith("http://www.qrorb.com?GUID="))
+			if (originUrl.startsWith("http://www.qrorb.com?" +
+					"QrCodeGUID="))
 				result=originUrl.substring(originUrl.indexOf("GUID=")+5);
 		}
 		

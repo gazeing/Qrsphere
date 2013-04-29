@@ -14,9 +14,11 @@ import com.qrsphere.scan.Contents;
 import com.qrsphere.scan.Intents;
 import com.google.zxing.BarcodeFormat;
 import com.qrsphere.database.Qrcode;
+import com.qrsphere.database.QrcodeList;
 import com.qrsphere.login.LoginActivity;
 import com.qrsphere.login.LoginAuth;
 import com.qrsphere.network.AddToFavoriteProcess;
+import com.qrsphere.network.GetHistoryListProcess;
 import com.qrsphere.network.QPageProcess;
 import com.qrsphere.network.SendDetailProcess;
 import com.qrsphere.network.SuccessCode;
@@ -89,6 +91,8 @@ public class MainViewActivity extends Activity{
     private ListView lv_group;
     private View view;
     private List<String> groups;
+    boolean isFromPopupMenu = false;//to identify if the page jumping is from popup menu
+	// if true, when back to main page, menu will be shown again
     
 	private ProgressDialog pd;
     GridView mGridView;
@@ -96,14 +100,22 @@ public class MainViewActivity extends Activity{
     Context context;
     boolean isOnline = false;
     
-    boolean isFromPopupMenu = false;
+
     Qrcode qrcodeGlobal =  null;
     QPageProcess qpGlobal = null;
     SendDetailProcess sdqGlobal = null;
     AddToFavoriteProcess atpGlobal= null;
+    GetHistoryListProcess ghhGlobal = null;
     
     ComboBox  cbGlobal = null;
     
+
+    QrcodeList qrcodeList = null;
+    
+	public QrcodeList getQrcodeList() {
+		return qrcodeList;
+	}
+
 	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {
 	   
@@ -116,8 +128,12 @@ public class MainViewActivity extends Activity{
 
 	    	}
 	        if (msg.what == SuccessCode.DETAIL_SENT_SUCCESS) {
+	        	pd = qrcodeList.sendListRequest();
 
-	        } else if (msg.what == SuccessCode.ERROR) {
+	        }else if(msg.what == SuccessCode.GET_LIST_SUCCESS){
+	        	qrcodeList.update();
+	        }
+	        else if (msg.what == SuccessCode.ERROR) {
 
 	        } else if (msg.what == SuccessCode.QPAGE_SUCCESS) {
 	        	qpGlobal.startQPage(MainViewActivity.this);
@@ -140,12 +156,15 @@ public class MainViewActivity extends Activity{
        
         Init();
 	}
-	
+
 	private void Init(){
 		context = this;
 		qpGlobal = new QPageProcess(pd, handler);
 		sdqGlobal = new SendDetailProcess(pd, handler);
 		atpGlobal = new AddToFavoriteProcess(pd, handler);
+		ghhGlobal = new GetHistoryListProcess(pd, handler);
+		
+		qrcodeList = new QrcodeList(this, ghhGlobal, pd);
 		
 		Bundle b= getIntent().getExtras();
 		if (b!=null){
@@ -154,6 +173,9 @@ public class MainViewActivity extends Activity{
 			TextView tvTitle = (TextView) findViewById(R.id.tvmaintitle);
 			tvTitle.setText(str);
 		}
+		if (isOnline)
+			pd = qrcodeList.sendListRequest();
+		
 		
 		mGridView=(GridView) findViewById(R.id.gridview);  
         //  
@@ -198,13 +220,16 @@ public class MainViewActivity extends Activity{
                 else if (isOnline){
                 
 	                if (position == 1){
-	                	 startActivity(new Intent("com.qrsphere.HistoryActivity"));
+	                	Intent intent = new Intent(MainViewActivity.this,HistoryActivity.class);
+	                	intent.putExtra("ListString",qrcodeList.getJSONArrayString());
+	                	startActivity(intent);
 	                }else if (position == 2){
-	                	 startActivity(new Intent("com.qrsphere.FavoriteActivity"));
+	                	Intent intent = new Intent(MainViewActivity.this,FavoriteActivity.class);
+	                	intent.putExtra("ListString",qrcodeList.getJSONArrayString());
+	                	startActivity(intent);
 	                }
-
 	                else if (position == 4){
-	                	startActivity(new Intent("com.qrsphere.DiscoveryActivity"));
+	                	startActivity(new Intent(MainViewActivity.this,DiscoveryActivity.class));
 	                }
 
                 }

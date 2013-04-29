@@ -9,7 +9,9 @@ import org.json.JSONObject;
 import com.google.zxing.BarcodeFormat;
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.database.QrcodeJSONData;
+import com.qrsphere.database.QrcodeList;
 import com.qrsphere.login.LoginActivity;
+import com.qrsphere.network.GetHistoryListProcess;
 import com.qrsphere.network.QPageProcess;
 import com.qrsphere.network.SuccessCode;
 import com.qrsphere.scan.Contents;
@@ -70,6 +72,9 @@ public class FavoriteActivity extends Activity {
 	
 	 QPageProcess qpGlobal = null;
 	 ProgressDialog pd;
+	 GetHistoryListProcess ghhGlobal = null;
+	 
+	 QrcodeList qrcodeListGlobal = null;
 	 
 	 @SuppressLint("HandlerLeak")
 		private Handler handler = new Handler() {
@@ -84,6 +89,11 @@ public class FavoriteActivity extends Activity {
 		    	}
 		        if (msg.what == SuccessCode.DETAIL_SENT_SUCCESS) {
 
+		        }else if(msg.what == SuccessCode.GET_LIST_SUCCESS){
+		        	qrcodeListGlobal.update();
+		        	classfyListByCatalogue();
+		        	lView.invalidateViews();
+		        	
 		        } else if (msg.what == SuccessCode.ERROR) {
 
 		        } else if (msg.what == SuccessCode.QPAGE_SUCCESS) {
@@ -103,8 +113,10 @@ public class FavoriteActivity extends Activity {
 		//qdo = new QrcodeDataOperator(this);
 		
 		qpGlobal = new QPageProcess(pd, handler);
-		
-		
+		ghhGlobal = new GetHistoryListProcess(pd, handler);
+		String listString = getIntent().getExtras().getString("ListString");
+		if (listString != null)
+			qrcodeListGlobal = new QrcodeList(this, ghhGlobal, pd, listString);
 		
 
 		setContentView(R.layout.favorite);
@@ -132,7 +144,9 @@ public class FavoriteActivity extends Activity {
 			public void onClick(View v) {
 				
 				FavoriteActivity.this.finish();
-				startActivity(new Intent("com.qrsphere.HistoryActivity"));
+            	Intent intent = new Intent(FavoriteActivity.this,HistoryActivity.class);
+            	intent.putExtra("ListString",qrcodeListGlobal.getJSONArrayString());
+            	startActivity(intent);
 			}
 		});
 
@@ -186,6 +200,8 @@ public class FavoriteActivity extends Activity {
             	showPopup(childView);
             }  
         });
+		
+		classfyListByCatalogue();
 	}
 	
 
@@ -412,7 +428,7 @@ public class FavoriteActivity extends Activity {
 		
 		super.onResume();
 
-		classfyListByCatalogue();
+		//classfyListByCatalogue();
 		lView.invalidateViews();
 	}
 	
@@ -516,7 +532,11 @@ public class FavoriteActivity extends Activity {
 	}
 	protected List<Qrcode> getQrcodeList(){
 		
-		return generateTestQrcode();
+		List<Qrcode> list =null;
+		if (qrcodeListGlobal != null){
+			list = qrcodeListGlobal.getFavoriteList();
+		}
+		return list;
 	}
 	
 

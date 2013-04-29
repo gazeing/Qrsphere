@@ -73,14 +73,8 @@
         </activity>
                 <activity
             android:name="com.qrsphere.FavoriteActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="com.qrsphere.FavoriteActivity" />
+            android:label="@string/app_name" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-               
         <activity
             android:name="com.qrsphere.ScanActivity"
             android:label="@string/app_name" >
@@ -128,14 +122,8 @@
         </activity>
             <activity
             android:name="com.qrsphere.HistoryActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="com.qrsphere.HistoryActivity" />
+            android:label="@string/app_name"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-
-        </activity>
 
             <activity
             android:name="com.qrsphere.QPageActivity"
@@ -160,14 +148,8 @@
         </activity>
         <activity
             android:name="com.qrsphere.DiscoveryActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="com.qrsphere.DiscoveryActivity" />
+            android:label="@string/app_name" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-
-        </activity>
         
             
         
