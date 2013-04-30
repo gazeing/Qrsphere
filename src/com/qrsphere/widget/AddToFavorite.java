@@ -1,6 +1,8 @@
 package com.qrsphere.widget;
 
 import com.qrsphere.R;
+import com.qrsphere.database.Qrcode;
+import com.qrsphere.database.QrcodeList;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,8 +15,8 @@ import android.widget.TextView;
 public class AddToFavorite {
 
 	public ComboBox show(Context context,String qrData,DialogInterface.OnClickListener click,
-			DialogInterface.OnCancelListener cancel){
-    	ArrayAdapter<String> adp = getSuggestion(context);
+			DialogInterface.OnCancelListener cancel,QrcodeList list){
+    	ArrayAdapter<String> adp = getSuggestion(context,list);
 
     	return InstructionsDialog(context,"You have chose "+ qrData +". " +
     			"\nPlease give a description of it. Or you can chose " +
@@ -24,12 +26,14 @@ public class AddToFavorite {
 	}
 
 	
-    public ArrayAdapter<String> getSuggestion(Context context){
+    public ArrayAdapter<String> getSuggestion(Context context,QrcodeList list){
     	ArrayAdapter<String> adp = new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line);
-    	int i = 4;
-    	while(i-->0){
-
-    		adp.add("Suggest"+i);
+    	adp.add("My Best Codes");
+    	//add category to list, if it is not existed
+    	for (Qrcode q:list.getFavoriteList()){
+    		if (q.getQrcodeJSONData().getCatalogue() != null)
+    			if (adp.getPosition(q.getQrcodeJSONData().getCatalogue())==-1) 
+    				adp.add(q.getQrcodeJSONData().getCatalogue());  
     	}
     	return adp;
     }

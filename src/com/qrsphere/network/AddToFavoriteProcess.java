@@ -39,7 +39,7 @@ public class AddToFavoriteProcess extends NetworkingProcess{
 			String data = json.toString();
 			SendDataToServer sd = new SendDataToServer
 								("http://192.168.15.119/api/AddHistoryFav");
-			str = sd.doPost(data, "application/json");
+			str = super.post(sd,data, "application/json");
 
 			
 		} catch (JSONException e) {

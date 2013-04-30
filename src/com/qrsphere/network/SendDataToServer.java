@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import com.qrsphere.login.LoginAuth;
 import com.qrsphere.widget.MyLog;
 
+import android.os.Handler;
 import android.util.Log;
 
 public class SendDataToServer {
@@ -20,7 +21,7 @@ public class SendDataToServer {
 	}
 
 
-	public String doPost(Map<String,String> params){
+	public String doPost(Map<String,String> params,Handler handler, int succussCode){
 		HttpOperation ho = new HttpOperation(url);
 		 if (params != null) {  
 	            Iterator<Entry<String, String>> iter = params.entrySet().iterator();  
@@ -31,7 +32,7 @@ public class SendDataToServer {
 	            }  
 		 }
 		
-		HttpAsyncTask hat = new HttpAsyncTask(ho);
+		HttpAsyncTask hat = new HttpAsyncTask(ho, handler, succussCode);
 //		try {
 			//String res = ho.HttpClientPostMethod("q", "helloworld");
 		String res ="";
@@ -52,7 +53,7 @@ public class SendDataToServer {
 		
 	}
 	
-    public String doPost( String data, String contentType)  {
+    public String doPost( String data, String contentType,Handler handler, int succussCode)  {
     	String res="";
     	HttpOperation ho = new HttpOperation(url);
     	
@@ -60,7 +61,7 @@ public class SendDataToServer {
 
 		try {
 			
-			HttpAsyncTask hat = new HttpAsyncTask(ho);
+			HttpAsyncTask hat = new HttpAsyncTask(ho, handler, succussCode);
 			res = hat.execute(data,contentType).get();
 			//res = ho.HttpClientPostMethod();
 		} catch (Exception e) {
@@ -73,7 +74,7 @@ public class SendDataToServer {
     	
     	return res;
     }
-    public String login(String username,String password,String rawdata){
+    public String login(String username,String password,String rawdata,Handler handler, int succussCode){
     	String res="";
     	HttpOperation ho = new HttpOperation(url);
     	
@@ -81,7 +82,7 @@ public class SendDataToServer {
 
 		try {
 			String auth = LoginAuth.setAuth(username, password);
-			HttpAsyncTask hat = new HttpAsyncTask(ho);
+			HttpAsyncTask hat = new HttpAsyncTask(ho, handler, succussCode);
 			res = hat.execute(rawdata,auth,"login").get();
 			//res = ho.HttpClientPostMethod();
 		} catch (Exception e) {

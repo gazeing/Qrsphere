@@ -40,7 +40,7 @@ public class SendDetailProcess extends NetworkingProcess{
 			String data = json.toString();
 			SendDataToServer sd = new SendDataToServer
 								("http://192.168.15.119/api/AddHistory");
-			str = sd.doPost(data, "application/json");
+			str = super.post(sd,data, "application/json");
 			if (str != null){
 				json = new JSONObject(str);
 				if (json != null){

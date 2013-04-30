@@ -144,7 +144,7 @@ public class MainViewActivity extends Activity{
 	        	qpGlobal.startQPage(MainViewActivity.this);
 	        	
 	        }else if (msg.what == SuccessCode.ADD_TO_FAVORITE_SUCCESS) {
-	        	
+	        	pd = ghhGlobal.sentToServer(MainViewActivity.this, null);
 	        }else {
 	            LoginActivity.showNetworkAlert(MainViewActivity.this);
 	        }
@@ -406,7 +406,7 @@ public class MainViewActivity extends Activity{
 			
 		AddToFavorite af = new AddToFavorite();
 		cbGlobal = af.show(this, qrcodeGlobal.getQrcodeJSONData().getUrl(),
-				click, cancel);
+				click, cancel,qrcodeList);
 		
 	}
 	private void sendDataToFavorList() {

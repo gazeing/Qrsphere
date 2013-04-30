@@ -14,6 +14,7 @@ public abstract class NetworkingProcess {
 	Handler  handler = null;
 	String strJSON = null;
 	Qrcode qrcode=null;
+	int m_successCode;
 	
 	public String getStrJSON() {
 		return strJSON;
@@ -27,8 +28,8 @@ public abstract class NetworkingProcess {
 
 
 	public ProgressDialog sentToServer (final Context context, final Qrcode qc,
-			final int succussCode, String processText){
-
+			int succussCode, String processText){
+			m_successCode = succussCode;
 			if (LoginActivity.isOnline(context)) {
 				pd = ProgressDialog.show(context, "", processText, true,
 				false);
@@ -40,24 +41,28 @@ public abstract class NetworkingProcess {
 				public void run() {
 					try {
 					
-						Thread.sleep(1500);
+						//Thread.sleep(1500);
 						//TODO add server communication code here
 						strJSON = getResult(context,qc);
-					    handler.sendEmptyMessage(succussCode);
+					   // handler.sendEmptyMessage(m_successCode);
 					    MyLog.i("Dialog","handler.sendEmptyMessage(succussCode);");
 					} catch (Exception e) {
-					    System.out.println("In Cache :");
-					    handler.sendEmptyMessage(SuccessCode.ERROR);
-					    MyLog.i("Dialog","handler.sendEmptyMessage(ERROR);");
+					  //  System.out.println("In Cache :");
+					   
+					    MyLog.i(e.getMessage());
 					}
 				}
 
 			}).start();
 			// pd.dismiss();
 			} else {
-				
+				 handler.sendEmptyMessage(SuccessCode.ERROR);
 			}
 			return pd;
+	}
+
+	protected String post(SendDataToServer sd,String data, String contentType){
+		return sd.doPost(data, contentType, handler, m_successCode);
 	}
 
 	//get response of server here

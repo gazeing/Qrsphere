@@ -3,12 +3,15 @@ package com.qrsphere.network;
 import com.qrsphere.widget.MyLog;
 
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
 
 public class HttpAsyncTask extends AsyncTask<String, Void, String> {
 
 	//String strUrl;
 	HttpOperation ho;
+	Handler  handler = null;
+	int succussCode;
 	@Override
     protected void onPreExecute() {
         Log.i("AsyncTask", "onPreExecute");
@@ -46,14 +49,19 @@ public class HttpAsyncTask extends AsyncTask<String, Void, String> {
 			ho = new HttpOperation("http://49.156.19.75");
 		
 	}
-	public HttpAsyncTask(HttpOperation ho) {
+
+	public HttpAsyncTask(HttpOperation ho, Handler handler, int succussCode) {
 		super();
 		this.ho = ho;
+		this.handler = handler;
+		this.succussCode = succussCode;
 	}
 	protected void onPostExecute(String res) {
         if (isCancelled()) {
         	res = null;
         }
+        if (handler != null)
+        	handler.sendEmptyMessage(succussCode);
         Log.i("AsyncTask", "onPostExecute");
 	}
 

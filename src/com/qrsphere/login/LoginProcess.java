@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.qrsphere.network.SendDataToServer;
 import com.qrsphere.network.SuccessCode;
+import com.qrsphere.widget.MyLog;
 
 public class LoginProcess {
 
@@ -22,16 +23,16 @@ public class LoginProcess {
 			passwd = loginfo.getString("Password");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			MyLog.i(e.getMessage());
 		}
 		//String res = sd.login("sonal@qrsphere.com", "password", userinfo.toString());
 		String res = "";
 		if ((acc!=null)&&(passwd!=null))
-			res = sd.login(acc, passwd, userinfo.toString());
+			res = sd.login(acc, passwd, userinfo.toString(),hd,SuccessCode.DETAIL_SENT_SUCCESS);
 		
 
-		if (hd != null)
-			hd.sendEmptyMessage(SuccessCode.DETAIL_SENT_SUCCESS);
+//		if (hd != null)
+//			hd.sendEmptyMessage(SuccessCode.DETAIL_SENT_SUCCESS);
 		return judgeLoginResponse(res);
 		
 	}

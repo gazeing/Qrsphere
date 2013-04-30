@@ -60,12 +60,14 @@ public class LoginActivity extends Activity {
 					startActivity(intent);
 				}
 				else{
+					btLogin.setClickable(true);
 					Toast.makeText(getBaseContext(), "Account dosen't exist or password is incorrect.", Toast.LENGTH_SHORT).show();
 				}
 	        	
 	        } else if (msg.what == 0) {
-
+	        	btLogin.setClickable(true);
 	        } else {
+	        	btLogin.setClickable(true);
 	            showNetworkAlert(LoginActivity.this);
 	        }
 	    }

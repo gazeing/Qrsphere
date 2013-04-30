@@ -407,7 +407,7 @@ public class HistoryActivity extends Activity {
 			};
 			
 		AddToFavorite af = new AddToFavorite();
-		cbGlobal = af.show(this, qrDataGlobal, click, cancel);
+		cbGlobal = af.show(this, qrDataGlobal, click, cancel,qrcodeListGlobal);
     }
     
 
