@@ -342,7 +342,7 @@ public class MainViewActivity extends Activity{
 	public void sentScanDetailToServer(Qrcode q){
 		
 		if (q!=null){
-			this.pd = sdqGlobal.sentToServer(this, q);
+			pd = sdqGlobal.sentToServer(this, q);
 		}
 
 	}

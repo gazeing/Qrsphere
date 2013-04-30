@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.Handler;
 
 import com.qrsphere.database.Qrcode;
+import com.qrsphere.widget.MyLog;
 
 public class GetHistoryListProcess extends NetworkingProcess {
 	
@@ -15,7 +16,7 @@ public class GetHistoryListProcess extends NetworkingProcess {
 
 	public GetHistoryListProcess(ProgressDialog pd, Handler handler) {
 		super(pd, handler);
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override
@@ -26,8 +27,7 @@ public class GetHistoryListProcess extends NetworkingProcess {
 		try {
 			json.put("test", "test");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			MyLog.i(e.getMessage());
 		}
 		String data = json.toString();
 		SendDataToServer sd = new SendDataToServer
@@ -41,7 +41,7 @@ public class GetHistoryListProcess extends NetworkingProcess {
 
 	@Override
 	public ProgressDialog sentToServer(Context context, Qrcode qc) {
-		// TODO Auto-generated method stub
+		
 		return super.sentToServer(context, qc, SuccessCode.GET_LIST_SUCCESS, "Retrieving data...");
 	}
 
