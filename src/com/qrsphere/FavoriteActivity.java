@@ -63,7 +63,7 @@ public class FavoriteActivity extends Activity {
 
 	
 	SeparatedListAdapter adapter;
-	
+	SeparatedList origin_sl;
 	 QPageProcess qpGlobal = null;
 	 ProgressDialog pd;
 	 GetHistoryListProcess ghhGlobal = null;
@@ -150,8 +150,8 @@ public class FavoriteActivity extends Activity {
 		
 		
 
-		SeparatedList sl = new SeparatedList("My Best Codes");
-		lists.add(sl);
+		origin_sl = new SeparatedList("My Best Codes");
+		lists.add(origin_sl);
 		
 		//for test
 //		int i = 3;
@@ -543,6 +543,8 @@ public class FavoriteActivity extends Activity {
 			QrcodeJSONData qJson = q.getQrcodeJSONData();
 			
 			String catalogue = qJson.getCatalogue();
+			if (catalogue.length()==0)
+				origin_sl.addItem(q);//if it has none category, it will be put under "my best code".
 			
 			boolean isfound = false; //it is the flag show if the catalog exists now.
 			for (SeparatedList sl:lists){

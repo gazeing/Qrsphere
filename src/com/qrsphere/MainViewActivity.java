@@ -131,11 +131,13 @@ public class MainViewActivity extends Activity{
 	    	}
 	        if (msg.what == SuccessCode.DETAIL_SENT_SUCCESS) {
 	        	pd = qrcodeList.sendListRequest();
-	        	historyIDGlobal = Integer.parseInt(sdqGlobal.getStrJSON());
+	        	if (sdqGlobal.getStrJSON() != null)
+	        		historyIDGlobal = Integer.parseInt(sdqGlobal.getStrJSON());
 	        }else if(msg.what == SuccessCode.GET_LIST_SUCCESS){
 	        	qrcodeList.update();
 	        	setPopupMenuAction();
 	        }
+	        
 	        else if (msg.what == SuccessCode.ERROR) {
 
 	        } else if (msg.what == SuccessCode.QPAGE_SUCCESS) {
@@ -411,9 +413,11 @@ public class MainViewActivity extends Activity{
 		
 		if (cbGlobal!=null){
 			String cata = cbGlobal.getText();
-			qrcodeGlobal.addCatalogue(cata);
+			
 	    	Qrcode qc = qrcodeGlobal;
 	    	if (qc!=null){
+	    		qc.addCatalogue(cata);
+	    		qc.addHistoryId(historyIDGlobal);
 	    		this.pd =atpGlobal.sentToServer(this, qc);
 	    	}
 		}

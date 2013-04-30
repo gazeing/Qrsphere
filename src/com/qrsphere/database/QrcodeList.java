@@ -57,6 +57,18 @@ public class QrcodeList {
 		}
 		return list;
 	}
+	//delete the item with specific history id from list
+	public boolean deleteItem(int historyId){
+		for (int i=0;i<m_list.size();i++){
+			Qrcode q = m_list.get(i);
+			if (q.getQrcodeJSONData().getQrScanHistoryID()==historyId){
+				m_list.remove(i);
+				return true;
+			}
+				
+		}
+		return false;
+	}
 	
 	public boolean update(){
 		m_list.clear();

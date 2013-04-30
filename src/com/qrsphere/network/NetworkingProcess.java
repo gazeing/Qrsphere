@@ -48,7 +48,7 @@ public abstract class NetworkingProcess {
 					} catch (Exception e) {
 					    System.out.println("In Cache :");
 					    handler.sendEmptyMessage(SuccessCode.ERROR);
-					    MyLog.i("Dialog","handler.sendEmptyMessage(1);");
+					    MyLog.i("Dialog","handler.sendEmptyMessage(ERROR);");
 					}
 				}
 

@@ -10,6 +10,7 @@ import com.qrsphere.database.Qrcode;
 import com.qrsphere.database.QrcodeList;
 import com.qrsphere.login.LoginActivity;
 import com.qrsphere.network.AddToFavoriteProcess;
+import com.qrsphere.network.DeleteItemProcess;
 import com.qrsphere.network.GetHistoryListProcess;
 import com.qrsphere.network.QPageProcess;
 import com.qrsphere.network.SuccessCode;
@@ -70,6 +71,7 @@ public class HistoryActivity extends Activity {
 	 QPageProcess qpGlobal = null;
 	 AddToFavoriteProcess atpGlobal= null;
 	 GetHistoryListProcess ghhGlobal = null;
+	 DeleteItemProcess dipGlobal = null;
 	 ProgressDialog pd;
 	 
 	 QrcodeList qrcodeListGlobal = null;
@@ -93,6 +95,23 @@ public class HistoryActivity extends Activity {
 		        	lView.invalidateViews();
 		        	
 		        }
+		        else if(msg.what == SuccessCode.DELETE_SUCCESS){
+		        	 Toast.makeText(getBaseContext(), "Success Deleted" , Toast.LENGTH_SHORT).show();
+		        	 
+		        	 if (qrcodeGlobal != null){
+		        		 if (qrcodeGlobal.getQrcodeJSONData().getQrScanHistoryID()!=-1){
+				        	 qrcodeListGlobal.deleteItem(qrcodeGlobal.getQrcodeJSONData().getQrScanHistoryID());
+				        	 classfyListByDate();
+				        	 lView.invalidateViews();
+		        		 }else{
+		        			 pd = ghhGlobal.sentToServer(HistoryActivity.this, null);
+		        		 }
+		        		}
+		        	else{
+		        		pd = ghhGlobal.sentToServer(HistoryActivity.this, null);
+		        	}
+		        		
+		        }
 		        else if (msg.what == SuccessCode.ERROR) {
 		        
 
@@ -100,7 +119,7 @@ public class HistoryActivity extends Activity {
 		        	qpGlobal.startQPage(HistoryActivity.this);
 		        	
 		        }else if (msg.what == SuccessCode.ADD_TO_FAVORITE_SUCCESS) {
-		        	
+		        	pd = ghhGlobal.sentToServer(HistoryActivity.this, null);
 		        }else {
 		            LoginActivity.showNetworkAlert(HistoryActivity.this);
 		        }
@@ -118,6 +137,7 @@ public class HistoryActivity extends Activity {
 		qpGlobal = new QPageProcess(pd, handler);
 		atpGlobal = new AddToFavoriteProcess(pd, handler);
 		ghhGlobal = new GetHistoryListProcess(pd, handler);
+		dipGlobal = new DeleteItemProcess(pd, handler);
 		
 		String listString = getIntent().getExtras().getString("ListString");
 		if (listString != null)
@@ -145,10 +165,7 @@ public class HistoryActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				HistoryActivity.this.finish();
-				Intent intent = new Intent(HistoryActivity.this,FavoriteActivity.class);
-            	intent.putExtra("ListString",qrcodeListGlobal.getJSONArrayString());
-            	startActivity(intent);
+				jumpToFavorite();
 			}
 		});
 
@@ -208,6 +225,15 @@ public class HistoryActivity extends Activity {
 	}
 	
 
+
+
+
+	protected void jumpToFavorite(){
+		HistoryActivity.this.finish();
+		Intent intent = new Intent(HistoryActivity.this,FavoriteActivity.class);
+    	intent.putExtra("ListString",qrcodeListGlobal.getJSONArrayString());
+    	startActivity(intent);
+	}
     //the function that responds user's click on list item, show the popup menu
 	protected void showPopup(View v) {  
 //    	if (CheckVersion.CheckVersion11()){
@@ -249,40 +275,34 @@ public class HistoryActivity extends Activity {
 //    	}else{
 		if (qrcodeGlobal!=null)
 			setPopupMenuAction(qrcodeGlobal);    		
-//    	}
+
     	
           
     }
     
 	protected void setPopupMenuAction(Qrcode q){
-		qrcodeGlobal = q;
+		//qrcodeGlobal = q;
 		android.content.DialogInterface.OnClickListener onselect = new android.content.DialogInterface.OnClickListener() {  
 			    @Override  
 			    public void onClick(DialogInterface dialog, int which) {  
 			         
 			        switch (which) {  
 			        case 0:  
-			            Toast.makeText(HistoryActivity.this, "0",Toast.LENGTH_SHORT).show(); 
 			            showQPage();
 			            break;  
 			        case 1:  
-			            Toast.makeText(HistoryActivity.this, "1",Toast.LENGTH_SHORT).show();
 			            share();
 			            break;  
 			        case 2:  
-			            Toast.makeText(HistoryActivity.this, "2",Toast.LENGTH_SHORT).show(); 
 			            showScanDetails();
 			            break;  
 			        case 3:  
-			            Toast.makeText(HistoryActivity.this, "3",Toast.LENGTH_SHORT).show();
 			            feedback();
 			            break;  
 			        case 4:  
-			            Toast.makeText(HistoryActivity.this, "4",Toast.LENGTH_SHORT).show();
 			            deleteSelectedRecord();
 			            break; 
 			        case 5:  
-			            Toast.makeText(HistoryActivity.this, "5",Toast.LENGTH_SHORT).show();
 			            addToFavorite();
 			            break; 
 			        default:
@@ -363,11 +383,10 @@ public class HistoryActivity extends Activity {
 
     public void deleteSelectedRecord(){
     	
-//    	Qrcode qc = qrcodeGlobal;
-//    	if (qc!=null){
-//    		qdo.delete(qrDataGlobal);
-//    		onResume();
-//    	}
+    	Qrcode qc = qrcodeGlobal;
+    	if (qc!=null){
+    		pd = dipGlobal.sentToServer(HistoryActivity.this, qc);
+    	}
     }
 
 	public void addToFavorite(){
@@ -396,13 +415,19 @@ public class HistoryActivity extends Activity {
 
 	
 	private void sendDataToFavorList() {
-		// TODO Auto-generated method stub
 		if (cbGlobal!=null){
 			String cata = cbGlobal.getText();
-			qrcodeGlobal.addCatalogue(cata);
+
 	    	Qrcode qc = qrcodeGlobal;
 	    	if (qc!=null){
-	    		this.pd =atpGlobal.sentToServer(this, qc);
+	    		if (qc.getQrcodeJSONData().isFavorite()){
+	    			jumpToFavorite();// if the item has already been in favorite, just
+	    								//jump to favorite page.
+	    		}else{
+	    			qc.addCatalogue(cata);
+	    			this.pd =atpGlobal.sentToServer(this, qc);
+	    		}
+	    		
 	    	}
 		}
 	}
@@ -431,7 +456,7 @@ public class HistoryActivity extends Activity {
 		
 		super.onResume();
 
-		//classfyListByDate();
+
 		
 		lView.invalidateViews();
 	}
@@ -454,10 +479,10 @@ public class HistoryActivity extends Activity {
 	
 	protected void classfyListByDate(){
 		
-		//QrcodeDataOperator qdo = getQdo();
+
 
 		long longMid = getTodayMidnight();
-		//Log.i("the middlenight is :",TransferTimeFormat(longMid));
+
 		final long oneDay = 1000*60*60*24;
 		hashlist1.clear();
 		hashlist2.clear();
@@ -465,7 +490,7 @@ public class HistoryActivity extends Activity {
 		hashlist4.clear();
 
 		
-		//List<Qrcode> qrs = qdo.queryAll();
+
 		List<Qrcode> qrs = getQrcodes();
 
 		for (Qrcode q : qrs){
@@ -500,70 +525,10 @@ public class HistoryActivity extends Activity {
 		}
 		return list;
 	        
-		//return generateTestQrcode();
+		
 	}
 
 	
-//	public List<Qrcode> generateTestQrcode()
-//	{
-//		List<Qrcode> qrs = new ArrayList<Qrcode>();
-//		//for test
-//		LocationListener ll = new LocationListener(){
-//
-//			@Override
-//			public void onLocationChanged(Location location) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void onProviderDisabled(String provider) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void onProviderEnabled(String provider) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void onStatusChanged(String provider, int status,
-//					Bundle extras) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//		};
-//		CollectLocation cl = new CollectLocation(this,ll);
-//		long now = System.currentTimeMillis();
-//		final long oneDay = 1000*60*60*24;
-//		for (int i = 0;i<20;i++){
-//			JSONObject json = new JSONObject();
-//			try {		
-//				json.put("CategoryName", "test");
-//				json.put("ScanContent", "www.facebook.com");
-//				json.put("IsFav", true);
-//				json.put("Latitude", cl.getLatitude());
-//				json.put("Longitude", cl.getLongitude());
-//				json.put("TimeStamp",now-oneDay*i );
-//			} catch (JSONException e) {
-//				
-//				e.printStackTrace();
-//			}
-//			Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i,"testHashCode");
-//			//qdo.insert(q1);
-//			qrs.add(q1);
-//		}
-//		
-//		
-//
-//		
-//		//test end
-//		
-//		return qrs;
-//	}
 
 
 }

@@ -15,7 +15,7 @@ public class QrcodeJSONData {
 	double longitude;
 	double latitude;
 	String dateTime;
-	int qrScanHistoryID;
+	int qrScanHistoryID=-1;
 	
 	
 	public String getDateTime() {

@@ -55,28 +55,39 @@ public class Qrcode {
 //		
 //		this.hashcode = hashcode;
 //	}
-	
+	public Qrcode addHistoryId(int id){
+		
+		try {
+			JSONObject json = new JSONObject(rawdata);
+			json.put("QrScanHistoryID",id);
+			this.rawdata = json.toString();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return this;
+	}
 	public Qrcode addCatalogue(String cata){
 		try {
 			JSONObject json = new JSONObject(rawdata);
-			String url = json.getString("ScanContent");
-			String catalogue = json.getString("CategoryName");
-			boolean isFavorite = json.getBoolean("IsFav");
-			double latitude = json.getDouble("Latitude");
-			double longitude = json.getDouble("Longitude");
-			String dateTime = json.getString("ScanDateTime");
-			catalogue = cata;
+//			String url = json.getString("ScanContent");
+//			String catalogue = json.getString("CategoryName");
+//			boolean isFavorite = json.getBoolean("IsFav");
+//			double latitude = json.getDouble("Latitude");
+//			double longitude = json.getDouble("Longitude");
+//			String dateTime = json.getString("ScanDateTime");
+//			catalogue = cata;
 			
-			JSONObject jsonnew = new JSONObject();
+//			JSONObject jsonnew = new JSONObject();
 			
-			jsonnew.put("CategoryName", catalogue);
-			jsonnew.put("ScanContent", url);
-			jsonnew.put("IsFav", isFavorite);
-			jsonnew.put("Latitude", latitude);
-			jsonnew.put("Longitude", longitude);
-			jsonnew.put("ScanDateTime", dateTime);
-			
-			this.rawdata = jsonnew.toString();
+			json.put("CategoryName", cata);
+//			jsonnew.put("ScanContent", url);
+//			jsonnew.put("IsFav", isFavorite);
+//			jsonnew.put("Latitude", latitude);
+//			jsonnew.put("Longitude", longitude);
+//			jsonnew.put("ScanDateTime", dateTime);
+//			
+			this.rawdata = json.toString();
 			
 		} catch (JSONException e) {
 			
