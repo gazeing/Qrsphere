@@ -367,30 +367,34 @@ public class MainViewActivity extends Activity{
 			         
 			        switch (which) {  
 			        case 0:  
-			            Toast.makeText(MainViewActivity.this, "0",Toast.LENGTH_SHORT).show(); 
-			            showQPage();
+			           
+			        	isFromPopupMenu = true;   
+			        	showQPage();
 			            break;  
 			        case 1:  
-			            Toast.makeText(MainViewActivity.this, "1",Toast.LENGTH_SHORT).show();
-			            sendOutQrcode();
+			          
+			        	isFromPopupMenu = true;   
+			        	sendOutQrcode();
 			            break;  
 			        case 2:  
-			            Toast.makeText(MainViewActivity.this, "2",Toast.LENGTH_SHORT).show(); 
-			            showScanDetails();
+			         
+			        	isFromPopupMenu = true;   
+			        	showScanDetails();
 			            break;  
 			        case 3:  
-			            Toast.makeText(MainViewActivity.this, "3",Toast.LENGTH_SHORT).show();
-			            feedback();
+			          
+			        	isFromPopupMenu = true;   
+			        	feedback();
 			            break;  
 			        case 4:  
-			            Toast.makeText(MainViewActivity.this, "4",Toast.LENGTH_SHORT).show();
+			         
 			            addToFavorite();
 			            break; 
 			        default:
 			        	break;
 			            	
 			    }  
-			        isFromPopupMenu = true;   
+			        
 			    }
 
 			   };  
