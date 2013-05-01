@@ -8,7 +8,7 @@ import com.qrsphere.database.Qrcode;
 import com.qrsphere.database.QrcodeJSONData;
 import com.qrsphere.database.QrcodeList;
 import com.qrsphere.login.LoginActivity;
-import com.qrsphere.network.GetHistoryListProcess;
+import com.qrsphere.network.GetHistoryList;
 import com.qrsphere.network.QPageProcess;
 import com.qrsphere.network.SuccessCode;
 import com.qrsphere.scan.Contents;
@@ -66,7 +66,7 @@ public class FavoriteActivity extends Activity {
 	SeparatedList origin_sl;
 	 QPageProcess qpGlobal = null;
 	 ProgressDialog pd;
-	 GetHistoryListProcess ghhGlobal = null;
+	 GetHistoryList ghhGlobal = null;
 	 
 	 QrcodeList qrcodeListGlobal = null;
 	 
@@ -107,7 +107,7 @@ public class FavoriteActivity extends Activity {
 		//qdo = new QrcodeDataOperator(this);
 		
 		qpGlobal = new QPageProcess(pd, handler);
-		ghhGlobal = new GetHistoryListProcess(pd, handler);
+		ghhGlobal = new GetHistoryList(FavoriteActivity.this, handler);
 		String listString = getIntent().getExtras().getString("ListString");
 		if (listString != null)
 			qrcodeListGlobal = new QrcodeList(this, ghhGlobal, pd, listString);

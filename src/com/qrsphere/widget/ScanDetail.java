@@ -180,7 +180,7 @@ public class ScanDetail{
 				json.put("Latitude", cl.getLatitude());
 				json.put("Longitude", cl.getLongitude());
 				json.put("DeviceModel", new CollectPhoneInformation(context).getDeviceName());
-				json.put("DateTime", ScanDetail.TransferServerTimeFormat(System.currentTimeMillis()));
+				json.put("ScanDateTime", ScanDetail.TransferServerTimeFormat(System.currentTimeMillis()));
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

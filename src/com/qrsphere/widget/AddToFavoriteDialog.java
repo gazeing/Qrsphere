@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class AddToFavorite {
+public class AddToFavoriteDialog {
 
 	public ComboBox show(Context context,String qrData,DialogInterface.OnClickListener click,
 			DialogInterface.OnCancelListener cancel,QrcodeList list){

@@ -10,19 +10,19 @@ import org.json.JSONObject;
 import android.app.ProgressDialog;
 import android.content.Context;
 
-import com.qrsphere.network.GetHistoryListProcess;
+import com.qrsphere.network.GetHistoryList;
 import com.qrsphere.widget.MyLog;
 
 public class QrcodeList {
 	
 	List<Qrcode> m_list;
 	Context context;
-	GetHistoryListProcess ghhGlobal = null;
+	GetHistoryList ghhGlobal = null;
 	ProgressDialog pd;
 
 
 	
-	public QrcodeList(Context context, GetHistoryListProcess ghhGlobal,
+	public QrcodeList(Context context, GetHistoryList ghhGlobal,
 			ProgressDialog pd) {
 		super();
 		this.context = context;
@@ -30,7 +30,7 @@ public class QrcodeList {
 		this.pd = pd;
 		this.m_list = new ArrayList<Qrcode>();
 	}
-	public QrcodeList(Context context, GetHistoryListProcess ghhGlobal,
+	public QrcodeList(Context context, GetHistoryList ghhGlobal,
 			ProgressDialog pd,String jsonString) {
 		super();
 		this.context = context;
@@ -39,7 +39,7 @@ public class QrcodeList {
 		this.m_list=parseJSONString(jsonString);
 	}
 	
-	public void changeContext(Context context, GetHistoryListProcess ghhGlobal,
+	public void changeContext(Context context, GetHistoryList ghhGlobal,
 			ProgressDialog pd){
 		this.context = context;
 		this.ghhGlobal = ghhGlobal;
@@ -96,8 +96,8 @@ public class QrcodeList {
 		return list;
 	}
 	public ProgressDialog sendListRequest() {
-		pd = ghhGlobal.sentToServer(context, null);
-		return pd;
+
+		return ghhGlobal.postData(new Qrcode(""));
 	}
 	
 	public String getJSONArrayString(){

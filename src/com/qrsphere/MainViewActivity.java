@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONObject;
+
 import com.qrsphere.scan.Contents;
 import com.qrsphere.scan.Intents;
 import com.google.zxing.BarcodeFormat;
@@ -17,12 +19,13 @@ import com.qrsphere.database.Qrcode;
 import com.qrsphere.database.QrcodeList;
 import com.qrsphere.login.LoginActivity;
 import com.qrsphere.login.LoginAuth;
-import com.qrsphere.network.AddToFavoriteProcess;
-import com.qrsphere.network.GetHistoryListProcess;
+import com.qrsphere.network.AddToFavorite;
+import com.qrsphere.network.GetHistoryList;
 import com.qrsphere.network.QPageProcess;
-import com.qrsphere.network.SendDetailProcess;
+import com.qrsphere.network.SendDetail;
 import com.qrsphere.network.SuccessCode;
-import com.qrsphere.widget.AddToFavorite;
+
+import com.qrsphere.widget.AddToFavoriteDialog;
 import com.qrsphere.widget.ComboBox;
 import com.qrsphere.widget.GroupAdapter;
 import com.qrsphere.widget.MyLog;
@@ -104,9 +107,9 @@ public class MainViewActivity extends Activity{
 
     Qrcode qrcodeGlobal =  null;
     QPageProcess qpGlobal = null;
-    SendDetailProcess sdqGlobal = null;
-    AddToFavoriteProcess atpGlobal= null;
-    GetHistoryListProcess ghhGlobal = null;
+    SendDetail sdqGlobal = null;
+    AddToFavorite atpGlobal= null;
+    GetHistoryList ghhGlobal = null;
     
     ComboBox  cbGlobal = null;
     
@@ -131,20 +134,29 @@ public class MainViewActivity extends Activity{
 	    	}
 	        if (msg.what == SuccessCode.DETAIL_SENT_SUCCESS) {
 	        	pd = qrcodeList.sendListRequest();
-	        	if (sdqGlobal.getStrJSON() != null)
-	        		historyIDGlobal = Integer.parseInt(sdqGlobal.getStrJSON());
+	        	if (sdqGlobal.getStrJSON() != null){
+    					try {
+    						JSONObject json = new JSONObject(sdqGlobal.getStrJSON());
+    						if (json != null){
+    						historyIDGlobal = json.getInt("ResponseContent");
+
+    						}
+						} catch (Exception e) {
+							MyLog.i(e.getMessage());
+						}
+	        	}
 	        }else if(msg.what == SuccessCode.GET_LIST_SUCCESS){
 	        	qrcodeList.update();
 	        	setPopupMenuAction();
 	        }
 	        
 	        else if (msg.what == SuccessCode.ERROR) {
-
+	        	Toast.makeText(MainViewActivity.this, "Network error!",Toast.LENGTH_SHORT).show(); 
 	        } else if (msg.what == SuccessCode.QPAGE_SUCCESS) {
 	        	qpGlobal.startQPage(MainViewActivity.this);
 	        	
 	        }else if (msg.what == SuccessCode.ADD_TO_FAVORITE_SUCCESS) {
-	        	pd = ghhGlobal.sentToServer(MainViewActivity.this, null);
+	    		pd = ghhGlobal.postData(new Qrcode(""));
 	        }else {
 	            LoginActivity.showNetworkAlert(MainViewActivity.this);
 	        }
@@ -164,10 +176,10 @@ public class MainViewActivity extends Activity{
 
 	private void Init(){
 		context = this;
-		qpGlobal = new QPageProcess(pd, handler);
-		sdqGlobal = new SendDetailProcess(pd, handler);
-		atpGlobal = new AddToFavoriteProcess(pd, handler);
-		ghhGlobal = new GetHistoryListProcess(pd, handler);
+		qpGlobal = new QPageProcess(pd,  handler);
+		sdqGlobal = new SendDetail(MainViewActivity.this, handler);
+		atpGlobal = new AddToFavorite(MainViewActivity.this,handler);
+		ghhGlobal = new GetHistoryList(MainViewActivity.this, handler);
 		
 		qrcodeList = new QrcodeList(this, ghhGlobal, pd);
 		
@@ -342,7 +354,8 @@ public class MainViewActivity extends Activity{
 	public void sentScanDetailToServer(Qrcode q){
 		
 		if (q!=null){
-			pd = sdqGlobal.sentToServer(this, q);
+			
+			pd= sdqGlobal.postData(q);
 		}
 
 	}
@@ -404,7 +417,7 @@ public class MainViewActivity extends Activity{
 				}
 			};
 			
-		AddToFavorite af = new AddToFavorite();
+		AddToFavoriteDialog af = new AddToFavoriteDialog();
 		cbGlobal = af.show(this, qrcodeGlobal.getQrcodeJSONData().getUrl(),
 				click, cancel,qrcodeList);
 		
@@ -418,7 +431,8 @@ public class MainViewActivity extends Activity{
 	    	if (qc!=null){
 	    		qc.addCatalogue(cata);
 	    		qc.addHistoryId(historyIDGlobal);
-	    		this.pd =atpGlobal.sentToServer(this, qc);
+	    		
+	    		this.pd = atpGlobal.postData(qc);
 	    	}
 		}
 	}

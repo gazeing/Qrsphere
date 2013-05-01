@@ -1,48 +1,97 @@
 package com.qrsphere.network;
 
+import com.qrsphere.login.LoginActivity;
 import com.qrsphere.widget.MyLog;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
 
-public class AsyncNetworkingProcess extends AsyncTask<String, Void, String>{
+public abstract class AsyncNetworkingProcess extends AsyncTask<String, Void, String>{
 
-	HttpOperation ho;
+	
 	Handler  handler = null;
 	int succussCode;
+	Context context;
+	ProgressDialog pd = null;
+	String strJSON = null;
+	String dialogText = "Loading...";
+	//Qrcode qrcode=null;
+	final protected String PREFIX = "http://192.168.15.119/api/";
+	final protected String CONTENTTYPE ="application/json";
+	boolean isPostSuccuess = false;
 	
 	
-	public AsyncNetworkingProcess(HttpOperation ho, Handler handler,
-			int succussCode) {
+	
+
+	
+    public AsyncNetworkingProcess( Handler handler,
+			int succussCode, Context context,String dialogText) {
 		super();
-		this.ho = ho;
+		
 		this.handler = handler;
 		this.succussCode = succussCode;
+		this.context = context;
+		
+		this.dialogText = dialogText;
+		
 	}
+    
+
+	public ProgressDialog getPd() {
+		return pd;
+	}
+
+
+	public String getStrJSON() {
+		return strJSON;
+	}
+
+
+	protected void onPreExecute() {
+		showProcessDialog();
+        MyLog.i("AsyncTask", "onPreExecute");
+    }
 
 	@Override
 	protected String doInBackground(String... params) {
-		return PostData(params);
+		strJSON = postData(params[0]);
+
+		return strJSON;
+	}
+	
+	protected void onPostExecute(String res) {
+        if (isCancelled()) {
+        	res = null;
+        }
+
+		isPostSuccuess = (strJSON.length()>8)?true:false;
+
+        if (handler != null){
+        	int code = isPostSuccuess?succussCode:SuccessCode.ERROR;
+        	handler.sendEmptyMessage(code);
+        }
+        MyLog.i("AsyncTask", "onPostExecute");
+	}
+	
+	protected ProgressDialog showProcessDialog(){
+		if (LoginActivity.isOnline(context)) {
+			pd = ProgressDialog.show(context, "", dialogText, true,
+			false);
+			
+			MyLog.i("Dialog"," pd = ProgressDialog.show(context,");
+			return pd;
+		}
+		else
+			return null;
 	}
 
-	private String PostData(String... arg0)  {
-		
-		String tmp = "";
-		if (ho == null)
-			return null;
-		try {
-			if (arg0.length==2)
-				tmp = ho.doPost(arg0[0],arg0[1]);
-			else if ((arg0.length==3)&&true)
-					if (arg0[2]=="login")
-						tmp = ho.loginPost(arg0[0], arg0[1], arg0[2]);
-			else
-				tmp= ho.HttpClientPostMethod();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			MyLog.i(e.getMessage());
-		}
-		return tmp;
-		//return ho.HttpClientGetMethod();
+	protected String httpPost(String api,String data) throws Exception{
+		HttpOperation ho = new HttpOperation(PREFIX+api);
+		return ho.doPost(data, CONTENTTYPE);
 	}
+
+	abstract protected String postData(String qcRawdata);
+
 }

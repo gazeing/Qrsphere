@@ -243,8 +243,10 @@ public class HttpOperation {
         HttpClient httpclient = new DefaultHttpClient();
         HttpResponse resp = httpclient.execute(post);  
         String strResp = "";  
-        if (resp.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK)  
-            strResp = EntityUtils.toString(resp.getEntity());  
+        if (resp.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_OK) { 
+            strResp = EntityUtils.toString(resp.getEntity());
+        	MyLog.i("Post Response: "+strResp);
+        }
         else  {
         	strResp += resp.getStatusLine().getStatusCode();
             // if status code is not OK, throw exception

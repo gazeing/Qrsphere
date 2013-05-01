@@ -35,11 +35,12 @@ public class Qrcode {
 
 	
 			JSONObject json = new JSONObject();
-			try {		
+			try {
+				json = ScanDetail.buildUserInfo(context);
 				json.put("CategoryName", "");
 				json.put("ScanContent", url);
 				json.put("IsFav", false);
-				ScanDetail.buildUserInfo(context);
+				
 				
 			} catch (JSONException e) {
 				

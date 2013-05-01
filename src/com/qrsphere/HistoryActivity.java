@@ -9,14 +9,15 @@ import com.google.zxing.BarcodeFormat;
 import com.qrsphere.database.Qrcode;
 import com.qrsphere.database.QrcodeList;
 import com.qrsphere.login.LoginActivity;
-import com.qrsphere.network.AddToFavoriteProcess;
-import com.qrsphere.network.DeleteItemProcess;
-import com.qrsphere.network.GetHistoryListProcess;
+import com.qrsphere.network.AddToFavorite;
+import com.qrsphere.network.DeleteItem;
+import com.qrsphere.network.GetHistoryList;
 import com.qrsphere.network.QPageProcess;
 import com.qrsphere.network.SuccessCode;
 import com.qrsphere.scan.Contents;
 import com.qrsphere.scan.Intents;
-import com.qrsphere.widget.AddToFavorite;
+
+import com.qrsphere.widget.AddToFavoriteDialog;
 import com.qrsphere.widget.ComboBox;
 import com.qrsphere.widget.MyLog;
 import com.qrsphere.widget.ScanDetail;
@@ -69,9 +70,9 @@ public class HistoryActivity extends Activity {
 	ComboBox  cbGlobal = null;
 	
 	 QPageProcess qpGlobal = null;
-	 AddToFavoriteProcess atpGlobal= null;
-	 GetHistoryListProcess ghhGlobal = null;
-	 DeleteItemProcess dipGlobal = null;
+	 AddToFavorite atpGlobal= null;
+	 GetHistoryList ghhGlobal = null;
+	 DeleteItem dipGlobal = null;
 	 ProgressDialog pd;
 	 
 	 QrcodeList qrcodeListGlobal = null;
@@ -104,11 +105,13 @@ public class HistoryActivity extends Activity {
 				        	 classfyListByDate();
 				        	 lView.invalidateViews();
 		        		 }else{
-		        			 pd = ghhGlobal.sentToServer(HistoryActivity.this, null);
+		        				
+		        				pd = ghhGlobal.postData(new Qrcode(""));
 		        		 }
 		        		}
 		        	else{
-		        		pd = ghhGlobal.sentToServer(HistoryActivity.this, null);
+		        	
+		        		pd = ghhGlobal.postData(new Qrcode(""));
 		        	}
 		        		
 		        }
@@ -119,7 +122,8 @@ public class HistoryActivity extends Activity {
 		        	qpGlobal.startQPage(HistoryActivity.this);
 		        	
 		        }else if (msg.what == SuccessCode.ADD_TO_FAVORITE_SUCCESS) {
-		        	pd = ghhGlobal.sentToServer(HistoryActivity.this, null);
+		    		
+		    		pd = ghhGlobal.postData(new Qrcode(""));
 		        }else {
 		            LoginActivity.showNetworkAlert(HistoryActivity.this);
 		        }
@@ -135,9 +139,9 @@ public class HistoryActivity extends Activity {
 		//qdo = new QrcodeDataOperator(this);
 		
 		qpGlobal = new QPageProcess(pd, handler);
-		atpGlobal = new AddToFavoriteProcess(pd, handler);
-		ghhGlobal = new GetHistoryListProcess(pd, handler);
-		dipGlobal = new DeleteItemProcess(pd, handler);
+		atpGlobal = new AddToFavorite(HistoryActivity.this, handler);
+		ghhGlobal = new GetHistoryList(HistoryActivity.this, handler);
+		dipGlobal = new DeleteItem(HistoryActivity.this,  handler);
 		
 		String listString = getIntent().getExtras().getString("ListString");
 		if (listString != null)
@@ -385,11 +389,18 @@ public class HistoryActivity extends Activity {
     	
     	Qrcode qc = qrcodeGlobal;
     	if (qc!=null){
-    		pd = dipGlobal.sentToServer(HistoryActivity.this, qc);
+
+    		pd = dipGlobal.postData(qc);
     	}
     }
 
 	public void addToFavorite(){
+		
+		if (qrcodeGlobal.getQrcodeJSONData().isFavorite()){
+			Toast.makeText(HistoryActivity.this, "This item has already been added to your favorite list.",Toast.LENGTH_SHORT).show(); 
+			jumpToFavorite();// if the item has already been in favorite, just
+								//jump to favorite page.
+		}else{
 
 		DialogInterface.OnClickListener click =new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int arg1) {
@@ -406,8 +417,9 @@ public class HistoryActivity extends Activity {
 				}
 			};
 			
-		AddToFavorite af = new AddToFavorite();
+		AddToFavoriteDialog af = new AddToFavoriteDialog();
 		cbGlobal = af.show(this, qrDataGlobal, click, cancel,qrcodeListGlobal);
+		}
     }
     
 
@@ -420,13 +432,11 @@ public class HistoryActivity extends Activity {
 
 	    	Qrcode qc = qrcodeGlobal;
 	    	if (qc!=null){
-	    		if (qc.getQrcodeJSONData().isFavorite()){
-	    			jumpToFavorite();// if the item has already been in favorite, just
-	    								//jump to favorite page.
-	    		}else{
+
 	    			qc.addCatalogue(cata);
-	    			this.pd =atpGlobal.sentToServer(this, qc);
-	    		}
+	    			
+	        		pd = atpGlobal.postData(qc);
+	    		
 	    		
 	    	}
 		}
