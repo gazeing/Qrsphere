@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import com.qrsphere.MainViewActivity;
 import com.qrsphere.R;
 import com.qrsphere.database.QrcodeDataOperator;
+import com.qrsphere.network.SuccessCode;
 import com.qrsphere.widget.ScanDetail;
 
 import android.annotation.SuppressLint;
@@ -64,15 +65,23 @@ public class LoginActivity extends Activity {
 					Toast.makeText(getBaseContext(), "Account dosen't exist or password is incorrect.", Toast.LENGTH_SHORT).show();
 				}
 	        	
-	        } else if (msg.what == 0) {
+	        } else if (msg.what == SuccessCode.ERROR) {
 	        	btLogin.setClickable(true);
+	        	Toast.makeText(getBaseContext(), "Network error!", Toast.LENGTH_SHORT).show();
 	        } else {
-	        	btLogin.setClickable(true);
+	        	
 	            showNetworkAlert(LoginActivity.this);
 	        }
 	    }
 	};
 	
+	
+	@Override
+	protected void onResume() {
+		btLogin.setClickable(true);
+		super.onResume();
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub

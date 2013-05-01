@@ -15,17 +15,17 @@ public class LoginProcess {
 	public  boolean Login(JSONObject loginfo,JSONObject userinfo, Handler hd){
 		SendDataToServer sd = new SendDataToServer("http://192.168.15.119/api/login");
 		Log.i("LoginPostData",loginfo.toString());
-		//String test = "{\"Latitude\": 1.1,\"Longitude\": 2.1,\"DeviceModel\": \"sample string 3\",\"DateTime\": \"2013-04-24T14:41:21.8987559+10:00}";
+		
 		String acc = null;
 		String passwd = null;
 		try {
 			acc = loginfo.getString("Account");
 			passwd = loginfo.getString("Password");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+			
 			MyLog.i(e.getMessage());
 		}
-		//String res = sd.login("sonal@qrsphere.com", "password", userinfo.toString());
+		
 		String res = "";
 		if ((acc!=null)&&(passwd!=null))
 			res = sd.login(acc, passwd, userinfo.toString(),hd,SuccessCode.DETAIL_SENT_SUCCESS);

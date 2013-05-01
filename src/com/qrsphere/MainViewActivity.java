@@ -285,6 +285,7 @@ public class MainViewActivity extends Activity{
 			}
 		});
 	}
+
 	@SuppressWarnings("deprecation")
 	private void showWindow(View parent) {
 
@@ -494,10 +495,10 @@ public class MainViewActivity extends Activity{
 			if (resultCode == RESULT_OK) {
 				String contents = intent.getStringExtra("Url");
 
-                Toast toast=Toast.makeText(getApplicationContext(),
-                		"you scan: "+contents, Toast.LENGTH_SHORT); 
-                toast.setGravity(Gravity.BOTTOM, 0, 0);  
-                toast.show(); 
+//                Toast toast=Toast.makeText(getApplicationContext(),
+//                		"you scan: "+contents, Toast.LENGTH_SHORT); 
+//                toast.setGravity(Gravity.BOTTOM, 0, 0);  
+//                toast.show(); 
 
                 //TODO be aware of the risk that reading the previous q
 				Qrcode qc = new Qrcode(contents, this);

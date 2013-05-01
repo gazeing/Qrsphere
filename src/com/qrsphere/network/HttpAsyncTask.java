@@ -12,6 +12,7 @@ public class HttpAsyncTask extends AsyncTask<String, Void, String> {
 	HttpOperation ho;
 	Handler  handler = null;
 	int succussCode;
+	String str;
 	@Override
     protected void onPreExecute() {
         Log.i("AsyncTask", "onPreExecute");
@@ -40,6 +41,7 @@ public class HttpAsyncTask extends AsyncTask<String, Void, String> {
 			// TODO Auto-generated catch block
 			MyLog.i(e.getMessage());
 		}
+		str = tmp;
 		return tmp;
 		//return ho.HttpClientGetMethod();
 	}
@@ -60,8 +62,9 @@ public class HttpAsyncTask extends AsyncTask<String, Void, String> {
         if (isCancelled()) {
         	res = null;
         }
+        int code = (str.length()>10)?succussCode:SuccessCode.ERROR;
         if (handler != null)
-        	handler.sendEmptyMessage(succussCode);
+        	handler.sendEmptyMessage(code);
         Log.i("AsyncTask", "onPostExecute");
 	}
 
