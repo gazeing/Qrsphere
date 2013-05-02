@@ -116,7 +116,8 @@ public class HistoryActivity extends Activity {
 		        		
 		        }
 		        else if (msg.what == SuccessCode.ERROR) {
-		        
+					Toast.makeText(HistoryActivity.this, "Network error!",
+							Toast.LENGTH_SHORT).show();
 
 		        } else if (msg.what == SuccessCode.QPAGE_SUCCESS) {
 		        	qpGlobal.startQPage(HistoryActivity.this);

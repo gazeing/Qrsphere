@@ -2,18 +2,20 @@ package com.qrsphere.network;
 
 import org.json.JSONObject;
 
-import com.qrsphere.database.Qrcode;
-import com.qrsphere.widget.MyLog;
 import android.content.Context;
 import android.os.Handler;
 
-public class AddToFavoriteProcess extends AsyncNetworkingProcess {
+import com.qrsphere.database.Qrcode;
+import com.qrsphere.widget.MyLog;
 
+public class DeleteFavoriteProcess extends AsyncNetworkingProcess{
+
+	
 	String API = "UpdateHistoryCategory";
 
-	public AddToFavoriteProcess(Context context, Handler handler) {
-		super(handler, SuccessCode.ADD_TO_FAVORITE_SUCCESS, context,
-				"Sending to Favorite...");
+	public DeleteFavoriteProcess(Context context, Handler handler) {
+		super(handler, SuccessCode.DELETE_FAVORITE_SUCCESS, context,
+				"Deleting from Favorite...");
 
 	}
 
@@ -26,7 +28,7 @@ public class AddToFavoriteProcess extends AsyncNetworkingProcess {
 			JSONObject json = new JSONObject();
 			json.put("QrScanHistoryID", qc.getQrcodeJSONData()
 					.getQrScanHistoryID());
-			json.put("CategoryName", qc.getQrcodeJSONData().getCatalogue());
+			json.put("CategoryName", "");
 
 			String data = json.toString();
 			str = super.httpPost(API, data);
@@ -37,5 +39,4 @@ public class AddToFavoriteProcess extends AsyncNetworkingProcess {
 		}
 		return str;
 	}
-
 }

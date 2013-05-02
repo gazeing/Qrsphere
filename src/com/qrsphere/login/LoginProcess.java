@@ -36,6 +36,12 @@ public class LoginProcess {
 	ProgressDialog pd;
 	Handler handler;
 	
+	public String getResponse(){
+		if (atp != null)
+			return atp.getStrJSON();
+		else
+			return "";
+	}
 	
 	public LoginProcess(Context context, Handler handler) {
 		super();

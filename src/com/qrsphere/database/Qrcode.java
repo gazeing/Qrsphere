@@ -39,7 +39,7 @@ public class Qrcode {
 				json = ScanDetail.buildUserInfo(context);
 				json.put("CategoryName", "");
 				json.put("ScanContent", url);
-				json.put("IsFav", false);
+				//json.put("IsFav", false);
 				
 				
 			} catch (JSONException e) {

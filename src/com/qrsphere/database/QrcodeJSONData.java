@@ -6,18 +6,35 @@ import org.json.JSONObject;
 import com.qrsphere.widget.MyLog;
 
 public class QrcodeJSONData {
-	
+
 	String rawData;
-	
-	boolean isFavorite = false;
+
+	// boolean isFavorite = false;
 	String url = "www.qrsphere.com";
 	String catalogue = "";
 	double longitude;
 	double latitude;
 	String dateTime;
-	int qrScanHistoryID=-1;
-	
-	
+	int qrScanHistoryID = -1;
+
+	public QrcodeJSONData(String rawData) {
+		super();
+		this.rawData = rawData;
+
+	}
+
+	public String getCatalogue() {
+		try {
+			JSONObject json = new JSONObject(rawData);
+			this.catalogue = json.getString("CategoryName");
+			if (catalogue == "null")
+				catalogue = "";
+		} catch (JSONException e) {
+			MyLog.i(e.getMessage());
+		}
+		return catalogue;
+	}
+
 	public String getDateTime() {
 		try {
 			JSONObject json = new JSONObject(rawData);
@@ -28,63 +45,15 @@ public class QrcodeJSONData {
 		return dateTime;
 	}
 
-
-	public int getQrScanHistoryID() {
+	public double getLatitude() {
 		try {
 			JSONObject json = new JSONObject(rawData);
-			this.qrScanHistoryID = json.getInt("QrScanHistoryID");
+			this.latitude = json.getDouble("Latitude");
 		} catch (JSONException e) {
 			MyLog.i(e.getMessage());
 		}
-		return qrScanHistoryID;
+		return latitude;
 	}
-
-
-	public QrcodeJSONData(String rawData) {
-		super();
-		this.rawData = rawData;
-		
-	}
-
-
-	public String getRawData() {
-		
-		return rawData;
-	}
-
-
-	public boolean isFavorite() {
-		try {
-			JSONObject json = new JSONObject(rawData);
-			this.isFavorite = json.getBoolean("IsFav");
-		} catch (JSONException e) {
-			MyLog.i(e.getMessage());
-		}
-		return isFavorite;
-	}
-
-
-	public String getUrl() {
-		try {
-			JSONObject json = new JSONObject(rawData);
-			this.url = json.getString("ScanContent");
-		} catch (JSONException e) {
-			MyLog.i(e.getMessage());
-		}
-		return url;
-	}
-
-
-	public String getCatalogue() {
-		try {
-			JSONObject json = new JSONObject(rawData);
-			this.catalogue = json.getString("CategoryName");
-		} catch (JSONException e) {
-			MyLog.i(e.getMessage());
-		}
-		return catalogue;
-	}
-
 
 	public double getLongitude() {
 		try {
@@ -96,19 +65,41 @@ public class QrcodeJSONData {
 		return longitude;
 	}
 
-
-	public double getLatitude() {
+	public int getQrScanHistoryID() {
 		try {
 			JSONObject json = new JSONObject(rawData);
-			this.latitude = json.getDouble("Latitude");
+			this.qrScanHistoryID = json.getInt("QrScanHistoryID");
 		} catch (JSONException e) {
 			MyLog.i(e.getMessage());
 		}
-		return latitude;
+		return qrScanHistoryID;
 	}
-	
-	
-	
-	
+
+	public String getRawData() {
+
+		return rawData;
+	}
+
+	public String getUrl() {
+		try {
+			JSONObject json = new JSONObject(rawData);
+			this.url = json.getString("ScanContent");
+		} catch (JSONException e) {
+			MyLog.i(e.getMessage());
+		}
+		return url;
+	}
+
+	public boolean isFavorite() {
+		try {
+			JSONObject json = new JSONObject(rawData);
+			this.catalogue = json.getString("CategoryName");
+			if (catalogue == "null")
+				catalogue = "";
+		} catch (JSONException e) {
+			MyLog.i(e.getMessage());
+		}
+		return (catalogue.length() > 0);
+	}
 
 }

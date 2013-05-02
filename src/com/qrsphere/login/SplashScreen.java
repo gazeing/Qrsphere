@@ -58,6 +58,7 @@ public class SplashScreen extends Activity {
 			Bundle b = new Bundle();
 			b.putBoolean("IsOnline", isLoginOK);
 			b.putString("username", getUsernameFromInfo(info));
+			b.putString("Response", lp.getResponse());
 			intent.putExtras(b);
 
 			startActivity(intent);
