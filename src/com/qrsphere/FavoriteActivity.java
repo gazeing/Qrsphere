@@ -182,87 +182,7 @@ public class FavoriteActivity extends Activity {
 		return data;
 	}
 
-	// public List<Qrcode> generateTestQrcode(){
-	// List<Qrcode> qrs = new ArrayList<Qrcode>();
-	// LocationListener ll = new LocationListener(){
-	//
-	// @Override
-	// public void onLocationChanged(Location location) {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// @Override
-	// public void onProviderDisabled(String provider) {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// @Override
-	// public void onProviderEnabled(String provider) {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// @Override
-	// public void onStatusChanged(String provider, int status,
-	// Bundle extras) {
-	// // TODO Auto-generated method stub
-	//
-	// }
-	//
-	// };
-	// CollectLocation cl = new CollectLocation(this,ll);
-	// long now = System.currentTimeMillis();
-	// final long oneDay = 1000*60*60*24;
-	// for (int i =0; i<5;i++){
-	// JSONObject json = new JSONObject();
-	// try {
-	// json.put("CategoryName", "test");
-	// json.put("ScanContent", "www.facebook.com");
-	// json.put("IsFav", true);
-	// json.put("Latitude", cl.getLatitude());
-	// json.put("Longitude", cl.getLongitude());
-	// } catch (JSONException e) {
-	//
-	// MyLog.i(e.toString());
-	// }
-	// Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i,"testHashCode");
-	// qrs.add(q1);
-	// }
-	// for (int i =0; i<5;i++){
-	// JSONObject json = new JSONObject();
-	// try {
-	// json.put("CategoryName", "test2");
-	// json.put("ScanContent", "www.hoopchina.com");
-	// json.put("IsFav", true);
-	// json.put("Latitude", cl.getLatitude());
-	// json.put("Longitude", cl.getLongitude());
-	// } catch (JSONException e) {
-	//
-	// MyLog.i(e.toString());
-	// }
-	// Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i*32,"testHashCode");
-	// qrs.add(q1);
-	// }
-	//
-	// for (int i =0; i<5;i++){
-	// JSONObject json = new JSONObject();
-	// try {
-	// json.put("CategoryName", "My Best Codes");
-	// json.put("ScanContent", "www.weibo.com");
-	// json.put("IsFav", true);
-	// json.put("Latitude", cl.getLatitude());
-	// json.put("Longitude", cl.getLongitude());
-	// } catch (JSONException e) {
-	//
-	// MyLog.i(e.toString());
-	// }
-	// Qrcode q1 = new Qrcode(json.toString(),now-oneDay*i*12,"testHashCode");
-	// qrs.add(q1);
-	// }
-	// return qrs;
-	// }
+
 	protected List<Qrcode> getQrcodeList() {
 
 		List<Qrcode> list = null;
@@ -375,56 +295,7 @@ public class FavoriteActivity extends Activity {
 		classfyListByCatalogue();
 	}
 
-	// private void ScanDetailDialog(Qrcode qc) {
-	// AlertDialog.Builder ad = new AlertDialog.Builder(this);
-	// ad.setIcon(R.drawable.ic_launcher);
-	// ad.setTitle("Scan Detail");
-	// LayoutInflater linf = LayoutInflater.from(this);
-	// final View inflator = linf.inflate(R.layout.scan_detail, null);
-	// ad.setView(inflator);
-	//
-	// ad.setPositiveButton("OK",
-	// new android.content.DialogInterface.OnClickListener() {
-	// public void onClick(DialogInterface dialog, int arg1) {
-	// // OK, go back to Main menu
-	// //sendDataToFavorList();
-	// }
-	//
-	//
-	// }
-	// );
-	//
-	// ad.setOnCancelListener(new DialogInterface.OnCancelListener(){
-	// public void onCancel(DialogInterface dialog) {
-	// // OK, go back to Main menu
-	// }}
-	// );
-	//
-	// //fill the content to scan detail page
-	// TextView tv =(TextView)(inflator.findViewById(R.id.ScanDetailUrl));
-	// if (tv!=null)
-	// tv.setText("URL: ");
-	// TextView tv1 =(TextView)(inflator.findViewById(R.id.ScanDetailUrlText));
-	// if (tv1!=null)
-	// tv1.setText(qc.getQrcodeJSONData().getUrl());
-	// TextView tv2 =(TextView)(inflator.findViewById(R.id.ScanDetailTime));
-	// if (tv2!=null)
-	// tv2.setText("Scan Time: ");
-	// TextView tv3 =(TextView)(inflator.findViewById(R.id.ScanDetailTimeText));
-	// if (tv3!=null)
-	// tv3.setText(TransferTimeFormat(qc.getTimeStamp()));
-	// TextView tv4 =(TextView)(inflator.findViewById(R.id.ScanDetailLocation));
-	// if (tv4!=null)
-	// tv4.setText("Location: ");
-	// TextView tv5
-	// =(TextView)(inflator.findViewById(R.id.ScanDetailLocationText));
-	// if (tv5!=null)
-	// tv5.setText(qc.getQrcodeJSONData().getLatitude()+", "+qc.getQrcodeJSONData().getLongitude());
-	//
-	//
-	// ad.show();
-	//
-	// }
+
 	protected void onResume() {
 
 		super.onResume();
@@ -441,28 +312,23 @@ public class FavoriteActivity extends Activity {
 
 				switch (which) {
 				case 0:
-					Toast.makeText(FavoriteActivity.this, "0",
-							Toast.LENGTH_SHORT).show();
+
 					showQPage();
 					break;
 				case 1:
-					Toast.makeText(FavoriteActivity.this, "1",
-							Toast.LENGTH_SHORT).show();
+
 					share();
 					break;
 				case 2:
-					Toast.makeText(FavoriteActivity.this, "2",
-							Toast.LENGTH_SHORT).show();
+
 					showScanDetails();
 					break;
 				case 3:
-					Toast.makeText(FavoriteActivity.this, "3",
-							Toast.LENGTH_SHORT).show();
+
 					feedback();
 					break;
 				case 4:
-					Toast.makeText(FavoriteActivity.this, "4",
-							Toast.LENGTH_SHORT).show();
+
 					deleteSelectedRecord();
 					break;
 				default:
@@ -571,7 +437,7 @@ public class FavoriteActivity extends Activity {
 		// TODO Auto-generated method stub
 		Qrcode qc = qrcodeGlobal;
 		if (qc != null) {
-			this.pd = qpGlobal.sentToServer(FavoriteActivity.this, qc);
+		//	this.pd = qpGlobal.sentToServer(FavoriteActivity.this, qc);
 		}
 	}
 

@@ -98,6 +98,7 @@ public class QrcodeJSONData {
 				catalogue = "";
 		} catch (JSONException e) {
 			MyLog.i(e.getMessage());
+			return false;
 		}
 		return (catalogue.length() > 0);
 	}

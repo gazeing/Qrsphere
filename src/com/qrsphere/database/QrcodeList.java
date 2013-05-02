@@ -79,6 +79,14 @@ public class QrcodeList {
 		sortList();
 		return false;
 	}
+	public Qrcode addCategoryFromList(Qrcode q){
+		//m_list.
+		for (Qrcode qc:m_list){
+			if (0==q.getHashcode().compareTo(qc.getHashcode()))
+				q.addCatalogue(qc.getQrcodeJSONData().getCatalogue());
+		}
+		return q;
+	}
 	public void sortList(){
 		QrcodeComparator comparator=new QrcodeComparator();
 		Collections.sort(m_list, comparator);//TODO: check its sort algorithm in the future

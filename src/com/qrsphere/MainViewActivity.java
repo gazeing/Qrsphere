@@ -1,6 +1,5 @@
 package com.qrsphere;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -11,24 +10,6 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-import com.qrsphere.scan.Contents;
-import com.qrsphere.scan.Intents;
-import com.google.zxing.BarcodeFormat;
-import com.qrsphere.database.Qrcode;
-import com.qrsphere.database.QrcodeList;
-import com.qrsphere.login.LoginActivity;
-import com.qrsphere.login.LoginAuth;
-import com.qrsphere.network.AddToFavorite;
-import com.qrsphere.network.GetHistoryList;
-import com.qrsphere.network.QPageProcess;
-import com.qrsphere.network.SendDetail;
-import com.qrsphere.network.SuccessCode;
-
-import com.qrsphere.widget.AddToFavoriteDialog;
-import com.qrsphere.widget.ComboBox;
-import com.qrsphere.widget.GroupAdapter;
-import com.qrsphere.widget.MyLog;
-import com.qrsphere.widget.StartBrowser;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -37,18 +18,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -59,6 +41,24 @@ import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.zxing.BarcodeFormat;
+import com.qrsphere.database.Qrcode;
+import com.qrsphere.database.QrcodeList;
+import com.qrsphere.login.LoginActivity;
+import com.qrsphere.login.LoginAuth;
+import com.qrsphere.network.AddToFavorite;
+import com.qrsphere.network.GetHistoryList;
+import com.qrsphere.network.QPageProcess;
+import com.qrsphere.network.SendDetail;
+import com.qrsphere.network.SuccessCode;
+import com.qrsphere.scan.Contents;
+import com.qrsphere.scan.Intents;
+import com.qrsphere.widget.AddToFavoriteDialog;
+import com.qrsphere.widget.ComboBox;
+import com.qrsphere.widget.GroupAdapter;
+import com.qrsphere.widget.MyLog;
+import com.qrsphere.widget.StartBrowser;
 
 @SuppressLint("HandlerLeak")
 public class MainViewActivity extends Activity {
@@ -186,6 +186,7 @@ public class MainViewActivity extends Activity {
 		return content;
 	}
 
+	@SuppressWarnings("deprecation")
 	private Drawable getPortrait() {
 		Drawable drw = null;
 		Bundle b = getIntent().getExtras();
@@ -197,12 +198,13 @@ public class MainViewActivity extends Activity {
 						json.getString("ResponseContent"));
 				String data = jsoncon.getString("Image");
 				byte[] encoded = data.getBytes();
-				ByteArrayInputStream is = new ByteArrayInputStream(encoded);
-				drw = Drawable.createFromStream(is, "articleImage");
+				//ByteArrayInputStream is = new ByteArrayInputStream(encoded);
+				drw = new BitmapDrawable(BitmapFactory.decodeByteArray(encoded, 0, encoded.length));
 			} catch (Exception e) {
 				MyLog.i(e.getMessage());
 			}
 		}
+		MyLog.i((drw == null)?"null":"drw="+drw.isVisible()+drw.getMinimumHeight());
 		if (drw == null)
 			drw = getResources().getDrawable(R.drawable.generic_profile_image);
 		return drw;
@@ -437,7 +439,7 @@ public class MainViewActivity extends Activity {
 	public void sentScanDetailToServer(Qrcode q) {
 
 		if (q != null) {
-
+			q=qrcodeList.addCategoryFromList(q);
 			pd = sdqGlobal.postData(q);
 		}
 
@@ -522,7 +524,7 @@ public class MainViewActivity extends Activity {
 
 	private void showQPage() {
 
-		this.pd = qpGlobal.sentToServer(context, qrcodeGlobal);
+		//this.pd = qpGlobal.sentToServer(context, qrcodeGlobal);
 		MyLog.i("Dialog",
 				"ServerProcessDialog.sentToServer(this, handler, qrcodeGlobal, pd, 22, ");
 	}

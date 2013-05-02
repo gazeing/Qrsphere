@@ -373,7 +373,7 @@ public class HistoryActivity extends Activity {
     public void showQPage(){
     	Qrcode qc = qrcodeGlobal;
     	if (qc!=null){
-    		this.pd = qpGlobal.sentToServer(HistoryActivity.this, qc);
+    		//this.pd = qpGlobal.sentToServer(HistoryActivity.this, qc);
     	}
     }
     

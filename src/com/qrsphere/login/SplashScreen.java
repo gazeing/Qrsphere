@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.qrsphere.R;
 import com.qrsphere.database.QrcodeDataOperator;
@@ -48,7 +49,8 @@ public class SplashScreen extends Activity {
 
 
 	        } else if (msg.what == SuccessCode.ERROR) {
-
+				Toast.makeText(SplashScreen.this, "Automatic login error!",
+						Toast.LENGTH_SHORT).show();
 	        } else {
 	            LoginActivity.showNetworkAlert(SplashScreen.this);
 	        }
@@ -78,6 +80,7 @@ public class SplashScreen extends Activity {
     	final QrcodeDataOperator qdo = new QrcodeDataOperator(this);
     	String mac = new com.qrsphere.userinfo.CollectPhoneInformation(getApplication()).getMacAddress();
     	info = qdo.withdrawUserInfo(mac);
+    	
 
 
                 try {
@@ -103,6 +106,7 @@ public class SplashScreen extends Activity {
                 } catch(Exception e) {
                     
                 	MyLog.i(e.getMessage());
+                	handler.sendEmptyMessage(SuccessCode.ERROR);
                 } 
   }
  

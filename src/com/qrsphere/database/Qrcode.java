@@ -19,7 +19,7 @@ public class Qrcode {
 		
 		
 		
-		this.hashcode = SimpleSHA1.sha1Hash(rawdata);
+		this.hashcode = SimpleSHA1.sha1Hash(new QrcodeJSONData(rawdata).getUrl());
 
 	}
 	public Qrcode(String url, Context context){
@@ -28,7 +28,7 @@ public class Qrcode {
 		
 		
 		
-		this.hashcode = SimpleSHA1.sha1Hash(rawdata);
+		this.hashcode = SimpleSHA1.sha1Hash(url);
 	}
 	String generateRawdataByUrl(String url, Context context){
 
@@ -37,7 +37,7 @@ public class Qrcode {
 			JSONObject json = new JSONObject();
 			try {
 				json = ScanDetail.buildUserInfo(context);
-				json.put("CategoryName", "");
+				//json.put("CategoryName", "");
 				json.put("ScanContent", url);
 				//json.put("IsFav", false);
 				
