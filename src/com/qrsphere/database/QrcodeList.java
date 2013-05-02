@@ -1,6 +1,7 @@
 package com.qrsphere.database;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -12,6 +13,7 @@ import android.content.Context;
 
 import com.qrsphere.network.GetHistoryList;
 import com.qrsphere.widget.MyLog;
+import com.qrsphere.widget.QrcodeComparator;
 
 public class QrcodeList {
 	
@@ -74,7 +76,12 @@ public class QrcodeList {
 		m_list.clear();
 		String contents= ghhGlobal.getStrJSON();
 		m_list=parseJSONString(contents);
+		sortList();
 		return false;
+	}
+	public void sortList(){
+		QrcodeComparator comparator=new QrcodeComparator();
+		Collections.sort(m_list, comparator);//TODO: check its sort algorithm in the future
 	}
 	public List<Qrcode> parseJSONString(String jsonString){
 		JSONObject jObject;

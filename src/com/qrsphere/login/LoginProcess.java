@@ -1,45 +1,59 @@
 package com.qrsphere.login;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
-
-import com.qrsphere.network.SendDataToServer;
-import com.qrsphere.network.SuccessCode;
-import com.qrsphere.widget.MyLog;
+import com.qrsphere.network.AsyncNetworkingProcess;
 
 public class LoginProcess {
 
-	public  boolean Login(JSONObject loginfo,JSONObject userinfo, Handler hd){
-		SendDataToServer sd = new SendDataToServer("http://192.168.15.119/api/login");
-		Log.i("LoginPostData",loginfo.toString());
-		
-		String acc = null;
-		String passwd = null;
-		try {
-			acc = loginfo.getString("Account");
-			passwd = loginfo.getString("Password");
-		} catch (JSONException e) {
-			
-			MyLog.i(e.getMessage());
-		}
-		
-		String res = "";
-		if ((acc!=null)&&(passwd!=null))
-			res = sd.login(acc, passwd, userinfo.toString(),hd,SuccessCode.DETAIL_SENT_SUCCESS);
-		
+//	public  boolean Login(JSONObject loginfo,JSONObject userinfo, Handler hd){
+//		SendDataToServer sd = new SendDataToServer("http://192.168.15.119/api/login");
+//		Log.i("LoginPostData",loginfo.toString());
+//		
+//		String acc = null;
+//		String passwd = null;
+//		try {
+//			acc = loginfo.getString("Account");
+//			passwd = loginfo.getString("Password");
+//		} catch (JSONException e) {
+//			
+//			MyLog.i(e.getMessage());
+//		}
+//		
+//		String res = "";
+//		if ((acc!=null)&&(passwd!=null))
+//			res = sd.login(acc, passwd, userinfo.toString(),hd,SuccessCode.DETAIL_SENT_SUCCESS);
+//		
+//
+////		if (hd != null)
+////			hd.sendEmptyMessage(SuccessCode.DETAIL_SENT_SUCCESS);
+//		return judgeLoginResponse(res);
+//		
+//	}
+	AsyncNetworkingProcess atp;
+	Context context;
+	ProgressDialog pd;
+	Handler handler;
+	
+	
+	public LoginProcess(Context context, Handler handler) {
+		super();
+		this.context = context;
+		this.handler = handler;
+	}
 
-//		if (hd != null)
-//			hd.sendEmptyMessage(SuccessCode.DETAIL_SENT_SUCCESS);
-		return judgeLoginResponse(res);
-		
+
+	public ProgressDialog Login(String jsonStr,boolean isShowPd){
+		atp = new LoginAsyncProcess( context,handler);
+		atp.setShowPd(isShowPd);
+		atp.execute(jsonStr);
+		return pd = atp.getPd();
 	}
 	
-	private static boolean judgeLoginResponse(String response){
+	public boolean judgeLoginResponse(){
 		
-		if (response.length()>10)
+		if (atp.getStrJSON().length()>10)
 			return true;
 		
 		

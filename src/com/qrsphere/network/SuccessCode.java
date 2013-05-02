@@ -8,6 +8,7 @@ public class SuccessCode {
 	public final static int ADD_TO_FAVORITE_SUCCESS = 33;
 	public final static int GET_LIST_SUCCESS = 44;
 	public final static int DELETE_SUCCESS = 55;
+	public final static int LOGIN_SUCCESS = 66;
 	
 //	SuccessCode(int value) {
 //    this.value = value;

@@ -24,14 +24,14 @@ import com.qrsphere.widget.ScanDetail;
 public class SplashScreen extends Activity {
 
 	protected boolean _active = true;
-    protected int _splashTime = 1000;//TODO: consider its length when published
+    protected int _splashTime = 3000;//TODO: consider its length when published
     
    // TextView tv;
     String strIntent;
     boolean isLoginOK = false;
     String info;
     ProgressBar pd;
-    
+    LoginProcess lp;
     private Handler handler = new Handler() {
  	   
 		public void handleMessage(Message msg) {
@@ -42,29 +42,27 @@ public class SplashScreen extends Activity {
 	    		//MyLog.i("Dialog","pd.dismiss(); pd.getProgress() = "+pd.getProgress());
 
 	    	}
-	        if (msg.what == SuccessCode.DETAIL_SENT_SUCCESS) {
+	    	isLoginOK = judgeAccountInfo(info);
+	        if (msg.what == SuccessCode.LOGIN_SUCCESS) {
 	        	
-                finish();
-                // start mainActivity
-				Intent intent = new Intent(new Intent(getIntentStr()));
-				Bundle b = new Bundle();
-				b.putBoolean("IsOnline", isLoginOK);
-				b.putString("username", getUsernameFromInfo(info));
-				intent.putExtras(b);
 
-				startActivity(intent);
 
 	        } else if (msg.what == SuccessCode.ERROR) {
 
-	        } else if (msg.what == SuccessCode.QPAGE_SUCCESS) {
-	        	//qpGlobal.startQPage(MainViewActivity.this);
-	        	
-	        }else if (msg.what == SuccessCode.ADD_TO_FAVORITE_SUCCESS) {
-	        	
-	        }else {
+	        } else {
 	            LoginActivity.showNetworkAlert(SplashScreen.this);
 	        }
+            finish();
+            // start mainActivity
+			Intent intent = new Intent(new Intent(getIntentStr()));
+			Bundle b = new Bundle();
+			b.putBoolean("IsOnline", isLoginOK);
+			b.putString("username", getUsernameFromInfo(info));
+			intent.putExtras(b);
+
+			startActivity(intent);
 	    }
+		
 	};
    
     @Override
@@ -75,7 +73,7 @@ public class SplashScreen extends Activity {
         setContentView(R.layout.splash);
 
         pd = (ProgressBar) findViewById(R.id.progressBar1);
-        
+        lp = new LoginProcess(SplashScreen.this, handler);
     	final QrcodeDataOperator qdo = new QrcodeDataOperator(this);
     	String mac = new com.qrsphere.userinfo.CollectPhoneInformation(getApplication()).getMacAddress();
     	info = qdo.withdrawUserInfo(mac);
@@ -92,20 +90,19 @@ public class SplashScreen extends Activity {
                     
                 	
                }
-                	
-                   isLoginOK = judgeAccountInfo(info);
+                    JSONObject json = ScanDetail.buildUserInfo(SplashScreen.this);
+                    JSONObject jsonInfo = new JSONObject(info);
+                    json.put("Name", jsonInfo.get("Name"));
+                    json.put("Account", jsonInfo.get("Account"));
+                    json.put("Password", jsonInfo.get("Password"));
+                   //isLoginOK = judgeAccountInfo(info);
+                    lp.Login(json.toString(),false);
                    
                 	   
                 } catch(Exception e) {
-                    // do nothing
+                    
                 	MyLog.i(e.getMessage());
-                } finally {
-
-                	handler.sendEmptyMessage(SuccessCode.DETAIL_SENT_SUCCESS);
-
-
-              }
-
+                } 
   }
  
   
@@ -145,7 +142,7 @@ public static String getUsernameFromInfo(String jsonStr){
 			}
 		} catch (JSONException e) {
 			
-			e.printStackTrace();
+			MyLog.i(e.getMessage());
 			return null;
 		}
 }
@@ -160,8 +157,8 @@ public boolean judgeAccountInfo(String jsonStr){
 			if (json!=null){
 				String password = json.getString("Password");
 				if (password.length()>0){
-					LoginProcess lp = new LoginProcess();
-					if (lp.Login(json,ScanDetail.buildUserInfo(SplashScreen.this),null))
+					//LoginProcess lp = new LoginProcess();
+					if (lp.judgeLoginResponse())
 						return true;
 					else{
 						
@@ -178,7 +175,7 @@ public boolean judgeAccountInfo(String jsonStr){
 		}
 	} catch (JSONException e) {
 		
-		e.printStackTrace();
+		MyLog.i(e.getMessage());
 	}
 	  
 	

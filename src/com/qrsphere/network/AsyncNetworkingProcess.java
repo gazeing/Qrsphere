@@ -18,15 +18,23 @@ public abstract class AsyncNetworkingProcess extends AsyncTask<String, Void, Str
 	String strJSON = null;
 	String dialogText = "Loading...";
 	//Qrcode qrcode=null;
-	final protected String PREFIX = "http://192.168.15.119/api/";
+	final protected String PREFIX = "http://192.168.15.110/api/";
 	final protected String CONTENTTYPE ="application/json";
 	boolean isPostSuccuess = false;
+	
+	boolean isShowPd = true;//some activities doesn't want to show progress dialog
+							//will set it to "false", eg. SplashScreen
 	
 	
 	
 
 	
-    public AsyncNetworkingProcess( Handler handler,
+    public void setShowPd(boolean isShowPd) {
+		this.isShowPd = isShowPd;
+	}
+
+
+	public AsyncNetworkingProcess( Handler handler,
 			int succussCode, Context context,String dialogText) {
 		super();
 		
@@ -77,8 +85,9 @@ public abstract class AsyncNetworkingProcess extends AsyncTask<String, Void, Str
 	
 	protected ProgressDialog showProcessDialog(){
 		if (LoginActivity.isOnline(context)) {
-			pd = ProgressDialog.show(context, "", dialogText, true,
-			false);
+			if (isShowPd)//some activities doesn't want to show progress dialog
+				pd = ProgressDialog.show(context, "", dialogText, true,
+				false);
 			
 			MyLog.i("Dialog"," pd = ProgressDialog.show(context,");
 			return pd;

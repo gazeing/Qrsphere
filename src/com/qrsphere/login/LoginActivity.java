@@ -9,6 +9,7 @@ import com.qrsphere.MainViewActivity;
 import com.qrsphere.R;
 import com.qrsphere.database.QrcodeDataOperator;
 import com.qrsphere.network.SuccessCode;
+import com.qrsphere.widget.MyLog;
 import com.qrsphere.widget.ScanDetail;
 
 import android.annotation.SuppressLint;
@@ -23,7 +24,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -44,12 +44,14 @@ public class LoginActivity extends Activity {
 	String nameGlobal = "";
 	
 	private ProgressDialog pd;
+	LoginProcess lp;
 	Thread thread = null;
 	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {
 	    public void handleMessage(Message msg) {
 	        pd.dismiss();
-	        if (msg.what == 11) {
+	        if (msg.what == SuccessCode.LOGIN_SUCCESS) {
+	        	isLoginOK = lp.judgeLoginResponse();
 				if (isLoginOK){
 					LoginActivity.this.finish();
 					Intent intent = new Intent(LoginActivity.this,MainViewActivity.class);
@@ -84,12 +86,13 @@ public class LoginActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+		
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.login);
 		
 
+		lp = new LoginProcess(LoginActivity.this, handler);
 		checkbox = (CheckBox) findViewById(R.id.checkBox1);
 		etName = (EditText) findViewById(R.id.nameEdit);
 		etAccount = (EditText) findViewById(R.id.accountEdit);
@@ -115,8 +118,7 @@ public class LoginActivity extends Activity {
 						etAccount.setText(account);
 					}
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					MyLog.i(e.getMessage());
 				}
 				
 			}
@@ -127,8 +129,7 @@ public class LoginActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				//startActivity(new Intent("com.example.clienttest.login.RegisterActivity"));
+
 				LoginAuth.setAuth(null);
 				
 				Intent intent = new Intent(LoginActivity.this,MainViewActivity.class);
@@ -151,7 +152,7 @@ public class LoginActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				
 			try {	
 				String name = etName.getText().toString();
 				String account = etAccount.getText().toString();
@@ -167,14 +168,13 @@ public class LoginActivity extends Activity {
 				
 			    if (isOnline(LoginActivity.this)) {
 			    	btLogin.setClickable(false);//avoid user click twice or more
-			        pd = ProgressDialog.show(LoginActivity.this, "", "Login to server...", true,
-			                false);
-
-			                    LoginProcess lp = new LoginProcess();
-			    				isLoginOK = lp.Login(json,ScanDetail.buildUserInfo(LoginActivity.this),handler);
-			    				Log.i("LoginPostResult",isLoginOK+"");
-			    				
-			    				checkLoginTickBox(json);
+			    	JSONObject jsonLogin = ScanDetail.buildUserInfo(LoginActivity.this);
+			    	jsonLogin.put("Name", name); 
+			    	jsonLogin.put("Account", account);  
+			    	jsonLogin.put("Password", password);
+			    	pd = lp.Login(jsonLogin.toString(),true);
+			    	MyLog.i("LoginPostResult",isLoginOK+"");
+			    	checkLoginTickBox(json);
 			    				
 
 			    } else {
@@ -184,7 +184,7 @@ public class LoginActivity extends Activity {
 			}
 			catch(Exception e)
 			{
-				Log.i("LoginPost",e.toString());
+				MyLog.i("LoginPost",e.getMessage());
 			}
 				
 			}
@@ -234,8 +234,7 @@ public class LoginActivity extends Activity {
     	    	qdo.storeUserInfo(mac,json.toString());
 				
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				MyLog.i(e.getMessage());
 			}
 		}
 		
